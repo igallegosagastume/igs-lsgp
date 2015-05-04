@@ -33,14 +33,11 @@ import jacomatt.utils.OrderedTriple;
 import java.awt.Frame;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.BufferedWriter;
-import java.io.FileWriter;
 
 import javax.media.opengl.awt.GLCanvas;
 import javax.swing.JFrame;
 
 import com.jogamp.opengl.util.FPSAnimator;
-
 import commons.ILatinSquare;
 
 /**

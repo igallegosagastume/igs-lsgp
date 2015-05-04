@@ -25,12 +25,8 @@
  */
 package basicImpl.main;
 
-import java.io.UnsupportedEncodingException;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.HashSet;
-
-import commons.FileUtils;
 
 import basicImpl.koscielnyProd.ProductImpl;
 import basicImpl.model.LatinSquare;
@@ -38,6 +34,8 @@ import basicImpl.model.SimpleGen;
 import basicImpl.model.SimpleGenWithCycleSwapping;
 import basicImpl.model.SimpleGenWithRandomSwapping;
 import basicImpl.model.SimpleGenWithSwapping;
+
+import commons.FileUtils;
 
 /**
  * @author Ignacio Gallego Sagastume

@@ -25,7 +25,6 @@
  */
 package commons;
 
-import java.util.ArrayList;
 
 /**
  * @author Ignacio Gallego Sagastume
