@@ -49,11 +49,9 @@ public class Main {
 	 */
 	public static void main(String[] args) throws Exception {
 
-//		computeTimeForSimpleGenerationWithStartOverRow(30, "c:\\ls.txt");
-		if (true) return ;
 		if (args.length<2) {
 			System.out.println("Usage: <method> <LS order> [write <path>]");
-			System.out.println("Where <method> ::= simple | product | swapping");
+			System.out.println("Where <method> ::= simple | product | swapping | restart");
 			return;
 		}
 		
@@ -85,6 +83,11 @@ public class Main {
 
 		if (args[0].equalsIgnoreCase("swapping")) {
 			simpleGenWithRandomSwapping(new Integer(args[1]), path);  // the most acceptable simple method
+			return;
+		}
+		
+		if (args[0].equalsIgnoreCase("restart")) {
+			computeTimeForSimpleGenerationWithStartOverRow(new Integer(args[1]), path);//improvements to simple method?
 			return;
 		}
 		

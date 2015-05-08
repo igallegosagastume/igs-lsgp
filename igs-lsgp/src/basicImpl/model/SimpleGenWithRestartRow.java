@@ -41,14 +41,14 @@ public class SimpleGenWithRestartRow extends SimpleGen {
 	    
 	    int colcount = 0;
 	    
-	    //resultado del algoritmo
+	    //result of this method
 	    ArrayList<Integer> row = new ArrayList<Integer>();
 	    int i_col = 0;
 	    
 	    ArrayList<Integer> beginWith = new ArrayList<Integer>();
 	    
-	    while (i_col < n) {//cuando llega a n, elegi n numeros
-	        //conjunto de disponibles es:
+	    while (i_col < n) {//when i_col is n, there are n chosen numbers
+	        //available is:
 	        HashSet<Integer> available = new HashSet<Integer>();
 	        available.addAll(availableInCol[i_col]);
 	    	available.retainAll(availableInRow);
@@ -60,7 +60,7 @@ public class SimpleGenWithRestartRow extends SimpleGen {
 	    		}
 	    	}
 	    	
-	        if (!available.isEmpty()) { //si me quedan disponibles
+	        if (!available.isEmpty()) { //if there are available
 	            //choose a symbol at random
 	            Integer symbol = RandomUtils.randomChoice(available);
 	            
