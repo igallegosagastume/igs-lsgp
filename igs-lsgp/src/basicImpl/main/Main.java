@@ -33,8 +33,8 @@ import basicImpl.model.LatinSquare;
 import basicImpl.model.SimpleGen;
 import basicImpl.model.SimpleGenWithCycleSwapping;
 import basicImpl.model.SimpleGenWithRandomSwapping;
+import basicImpl.model.SimpleGenWithRestartRow;
 import basicImpl.model.SimpleGenWithSwapping;
-
 import commons.FileUtils;
 
 /**
@@ -49,6 +49,8 @@ public class Main {
 	 */
 	public static void main(String[] args) throws Exception {
 
+//		computeTimeForSimpleGenerationWithStartOverRow(30, "c:\\ls.txt");
+		if (true) return ;
 		if (args.length<2) {
 			System.out.println("Usage: <method> <LS order> [write <path>]");
 			System.out.println("Where <method> ::= simple | product | swapping");
@@ -163,6 +165,21 @@ public class Main {
 		
 	}
 	
+	
+	public static void computeTimeForSimpleGenerationWithStartOverRow(int n, String path) {
+		long startTime = System.nanoTime();
+		LatinSquare ls = new SimpleGenWithRestartRow(n).genLS();
+		long endTime = System.nanoTime();
+
+		long duration = endTime - startTime;
+		double secs = duration/1000000000d;
+		
+		System.out.println(ls);
+		
+		FileUtils.writeLS(ls, path);
+		
+		System.out.println("LS generated in: "+secs+" seconds. Generation method: Simple generation with restart row.");
+	}
 	
 	public static void debugRandomSwapping() throws Exception {
 		LatinSquare ls = new LatinSquare(5);
