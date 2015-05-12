@@ -45,7 +45,7 @@ public class SimpleGenWithRestartRow extends SimpleGen {
 	    ArrayList<Integer> row = new ArrayList<Integer>();
 	    int i_col = 0;
 	    
-	    ArrayList<Integer> beginWith = new ArrayList<Integer>();
+//	    ArrayList<Integer> beginWith = new ArrayList<Integer>();
 	    
 	    while (i_col < n) {//when i_col is n, there are n chosen numbers
 	        //available is:
@@ -53,20 +53,20 @@ public class SimpleGenWithRestartRow extends SimpleGen {
 	        available.addAll(availableInCol[i_col]);
 	    	available.retainAll(availableInRow);
 	    	
-	    	if (i_col==0) {
-	    		available.removeAll(beginWith);
-	    		if (available.isEmpty()) {
-	    			available.addAll(beginWith);
-	    		}
-	    	}
+//	    	if (i_col==0) {
+//	    		available.removeAll(beginWith);
+//	    		if (available.isEmpty()) {
+//	    			available.addAll(beginWith);
+//	    		}
+//	    	}
 	    	
 	        if (!available.isEmpty()) { //if there are available
 	            //choose a symbol at random
 	            Integer symbol = RandomUtils.randomChoice(available);
 	            
-	            if (i_col==0) {
-	            	beginWith.add(symbol);
-	            }
+//	            if (i_col==0) {
+//	            	beginWith.add(symbol);
+//	            }
 	            
 	            //count the chosen symbol
 	            availableInCol[i_col].remove(symbol);

@@ -33,6 +33,7 @@ import basicImpl.model.LatinSquare;
 import basicImpl.model.SimpleGen;
 import basicImpl.model.SimpleGenWithCycleSwapping;
 import basicImpl.model.SimpleGenWithRandomSwapping;
+import basicImpl.model.SimpleGenWithReplGraph;
 import basicImpl.model.SimpleGenWithRestartRow;
 import basicImpl.model.SimpleGenWithSwapping;
 import commons.FileUtils;
@@ -48,7 +49,12 @@ public class Main {
 	 * @param args
 	 */
 	public static void main(String[] args) throws Exception {
+		
+		SimpleGenWithReplGraph s = new SimpleGenWithReplGraph(4);
+		System.out.println(s.genLS());
 
+		if (true) return;
+		
 		if (args.length<2) {
 			System.out.println("Usage: <method> <LS order> [write <path>]");
 			System.out.println("Where <method> ::= simple | product | swapping | restart");
