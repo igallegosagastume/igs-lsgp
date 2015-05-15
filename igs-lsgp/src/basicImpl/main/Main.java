@@ -49,15 +49,10 @@ public class Main {
 	 * @param args
 	 */
 	public static void main(String[] args) throws Exception {
-		
-		SimpleGenWithReplGraph s = new SimpleGenWithReplGraph(4);
-		System.out.println(s.genLS());
-
-		if (true) return;
-		
+				
 		if (args.length<2) {
 			System.out.println("Usage: <method> <LS order> [write <path>]");
-			System.out.println("Where <method> ::= simple | product | swapping | restart");
+			System.out.println("Where <method> ::= simple | product | swapping | restart | graph ");
 			return;
 		}
 		
@@ -94,6 +89,11 @@ public class Main {
 		
 		if (args[0].equalsIgnoreCase("restart")) {
 			computeTimeForSimpleGenerationWithStartOverRow(new Integer(args[1]), path);//improvements to simple method?
+			return;
+		}
+		
+		if (args[0].equalsIgnoreCase("graph")) {
+			computeTimeForSimpleGenerationWithReplGraph(new Integer(args[1]), path);//improvements to simple method?
 			return;
 		}
 		
@@ -174,7 +174,6 @@ public class Main {
 		
 	}
 	
-	
 	public static void computeTimeForSimpleGenerationWithStartOverRow(int n, String path) {
 		long startTime = System.nanoTime();
 		LatinSquare ls = new SimpleGenWithRestartRow(n).genLS();
@@ -188,6 +187,21 @@ public class Main {
 		FileUtils.writeLS(ls, path);
 		
 		System.out.println("LS generated in: "+secs+" seconds. Generation method: Simple generation with restart row.");
+	}
+
+	public static void computeTimeForSimpleGenerationWithReplGraph(int n, String path) {
+		long startTime = System.nanoTime();
+		LatinSquare ls = new SimpleGenWithReplGraph(n).genLS();
+		long endTime = System.nanoTime();
+
+		long duration = endTime - startTime;
+		double secs = duration/1000000000d;
+		
+		System.out.println(ls);
+		
+		FileUtils.writeLS(ls, path);
+		
+		System.out.println("LS generated in: "+secs+" seconds. Generation method: Simple generation with replacement graph.");
 	}
 	
 	public static void debugRandomSwapping() throws Exception {

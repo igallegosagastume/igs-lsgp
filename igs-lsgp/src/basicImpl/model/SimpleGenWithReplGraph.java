@@ -66,7 +66,7 @@ public class SimpleGenWithReplGraph extends SimpleGen {
 
 
 	protected HashMap<Integer, HashSet<Integer>> constructReplGraph(ArrayList<Integer> row, 
-																	int col, 
+																	Integer col, 
 																	HashSet<Integer>[] initialAvailInCol, 
 																	HashSet<Integer>[] availInCol) {
 		
@@ -85,33 +85,38 @@ public class SimpleGenWithReplGraph extends SimpleGen {
 		return map;
 	}
 	
-	protected void fixRowWithGraph(HashMap<Integer, HashSet<Integer>> map, ArrayList<Integer> row, int col, HashSet<Integer>[] availInCol, HashSet<Integer> availableInRow) {
+	protected void fixRowWithGraph(HashMap<Integer, HashSet<Integer>> map, ArrayList<Integer> row, Integer col, HashSet<Integer>[] availInCol, HashSet<Integer> availableInRow) {
 		boolean finished = false;
-		int elemToFind = RandomUtils.randomChoice(availInCol[col]);
-		int index;
-		int nextIndex = row.indexOf(elemToFind);
+//		HashSet<Integer> avail = new HashSet<Integer>();
+//		avail.addAll(availInCol[col]);
+//		avail.addAll(availableInRow);
+		int old = RandomUtils.randomChoice(availInCol[col]);
+		int idx_old = row.indexOf(old);
+		int idx_new;
+		
 		
 		while (!finished) {
-			index = nextIndex;
-			int newElem = RandomUtils.randomChoice(map.get(elemToFind));
 			
-			nextIndex = row.indexOf(newElem);
-			
-			//before replacement
-			elemToFind = row.get(index);
-			
+			int newElem = RandomUtils.randomChoice(map.get(old));
+			idx_new = row.indexOf(newElem);//index of this elem before replacement
+						
 			//replace 
-			row.set(index, newElem);
+			row.set(idx_old, newElem);
 			
 			//return to available
-			availableInRow.add(elemToFind);
-			availInCol[index].add(elemToFind);
+			if (row.indexOf(old)==-1)
+				availableInRow.add(old);
+			if (!availInCol[idx_old].contains(old))
+				availInCol[idx_old].add(old);
 			
-			//substract from available
-			availableInRow.remove(newElem);
-			availInCol[index].remove(newElem);
+			//subtract from available
+			availableInRow.remove(newElem);//at most does not erase
+			availInCol[idx_old].remove(newElem);
 			
-			finished = (map.get(elemToFind)==null);
+			finished = (map.get(newElem)==null || idx_new==-1);//there's not another element in graph
+			
+			idx_old = idx_new;
+			old = newElem;
 		}
 	}
 }
