@@ -56,7 +56,10 @@ public class SimpleGenWithReplGraph extends SimpleGen {
 	            i_col++;
 	        } else {//collision
 	        	HashMap<Integer, HashSet<Integer>> map = this.constructReplGraph(row, i_col, initialAvailableInCol, availableInCol);
-	        	
+	        	System.out.println(ls);
+	        	System.out.println("Map:"+map);
+//	        	System.out.println("Avail:"+availableInCol);
+	        	System.out.println("Row:"+row);
 	        	this.fixRowWithGraph(map, row, i_col, availableInCol, availableInRow);
 	        }
 	    }
@@ -65,7 +68,7 @@ public class SimpleGenWithReplGraph extends SimpleGen {
 	}
 
 
-	protected HashMap<Integer, HashSet<Integer>> constructReplGraph(ArrayList<Integer> row, 
+	public HashMap<Integer, HashSet<Integer>> constructReplGraph(ArrayList<Integer> row, 
 																	Integer col, 
 																	HashSet<Integer>[] initialAvailInCol, 
 																	HashSet<Integer>[] availInCol) {
@@ -79,13 +82,13 @@ public class SimpleGenWithReplGraph extends SimpleGen {
 //			set.removeAll(row);
 			set.remove(elem);
 			if (set.size()>0)
-				map.put(elem, set);
+				map.put(elem, set);//elem could potencially be changed for one in set
 		}
 		
 		return map;
 	}
 	
-	protected void fixRowWithGraph(HashMap<Integer, HashSet<Integer>> map, ArrayList<Integer> row, Integer col, HashSet<Integer>[] availInCol, HashSet<Integer> availableInRow) {
+	public void fixRowWithGraph(HashMap<Integer, HashSet<Integer>> map, ArrayList<Integer> row, Integer col, HashSet<Integer>[] availInCol, HashSet<Integer> availableInRow) {
 		boolean finished = false;
 //		HashSet<Integer> avail = new HashSet<Integer>();
 //		avail.addAll(availInCol[col]);
@@ -98,20 +101,20 @@ public class SimpleGenWithReplGraph extends SimpleGen {
 		while (!finished) {
 			
 			int newElem = RandomUtils.randomChoice(map.get(old));
-			idx_new = row.indexOf(newElem);//index of this elem before replacement
+			idx_new = row.indexOf(newElem);//index of this elem before replacement because it will be repeated
 						
 			//replace 
 			row.set(idx_old, newElem);
 			
 			//return to available
-			if (row.indexOf(old)==-1)
-				availableInRow.add(old);
-			if (!availInCol[idx_old].contains(old))
-				availInCol[idx_old].add(old);
-			
-			//subtract from available
-			availableInRow.remove(newElem);//at most does not erase
+			//if (row.indexOf(old)==-1) {
+			availableInRow.add(old);
+			availableInRow.remove(newElem);
+			//}
+//			if (!availInCol[idx_old].contains(old)) {
+			availInCol[idx_old].add(old);
 			availInCol[idx_old].remove(newElem);
+//			}
 			
 			finished = (map.get(newElem)==null || idx_new==-1);//there's not another element in graph
 			

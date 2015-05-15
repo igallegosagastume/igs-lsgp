@@ -258,4 +258,59 @@ public class Main {
 		System.out.println(row);
 	}
 	
+	
+	public static void debugReplGraph() throws Exception {
+		LatinSquare ls = new LatinSquare(6);
+		SimpleGenWithReplGraph rg = new SimpleGenWithReplGraph(6);
+		
+		ls.setValueAt(0, 0, 3);
+		ls.setValueAt(0, 1, 1);
+		ls.setValueAt(0, 2, 5);
+		ls.setValueAt(0, 3, 2);
+		ls.setValueAt(0, 4, 0);
+		ls.setValueAt(0, 5, 4);
+		
+		ls.setValueAt(1, 0, 2);
+		ls.setValueAt(1, 1, 3);
+		ls.setValueAt(1, 2, 4);
+		ls.setValueAt(1, 3, 1);
+		ls.setValueAt(1, 4, 5);
+		ls.setValueAt(1, 5, 0);
+		
+//		ls.setValueAt(2, 0, 4);
+//		ls.setValueAt(2, 1, 5);
+//		ls.setValueAt(2, 2, 2);
+//		ls.setValueAt(2, 3, 3);
+//		ls.setValueAt(2, 4, 1);
+//		ls.setValueAt(2, 5, 4);
+		
+		ArrayList<Integer> row = new ArrayList<Integer>();
+		row.add(4);
+		row.add(5);
+		row.add(2);
+		row.add(3);
+		row.add(1);
+		
+		HashSet<Integer>[] availableInCol = new HashSet[5];
+		
+		availableInCol[0] = new HashSet<Integer>();
+		availableInCol[0].add(3);
+		
+		availableInCol[1] = new HashSet<Integer>();
+		availableInCol[1].add(4);
+		
+		availableInCol[2] = new HashSet<Integer>();
+		availableInCol[2].add(4);
+		
+		availableInCol[3] = new HashSet<Integer>();
+		availableInCol[3].add(0);
+		
+		availableInCol[4] = new HashSet<Integer>();
+		availableInCol[4].add(1);availableInCol[4].add(2);
+		
+//		rg.fixRow(3, 5, ls, row, columnsWithRepetitions, availableInCol);
+		
+		System.out.println(ls);
+		System.out.println(row);
+	}
 }
