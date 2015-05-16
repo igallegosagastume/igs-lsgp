@@ -26,6 +26,7 @@
 package basicImpl.main;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 
 import basicImpl.koscielnyProd.ProductImpl;
@@ -49,7 +50,10 @@ public class Main {
 	 * @param args
 	 */
 	public static void main(String[] args) throws Exception {
-				
+//		debugReplGraph();
+//		debugRandomSwapping();
+//		computeTimeForSimpleGenerationWithCycleSwapping(7);//there are cases that enter into an infinite Loop
+		
 		if (args.length<2) {
 			System.out.println("Usage: <method> <LS order> [write <path>]");
 			System.out.println("Where <method> ::= simple | product | swapping | restart | graph ");
@@ -80,8 +84,6 @@ public class Main {
 			return;
 		}
 
-//		computeTimeForSimpleGenerationWithCycleSwapping(7);//there are cases that enter into an infinite Loop
-
 		if (args[0].equalsIgnoreCase("swapping")) {
 			simpleGenWithRandomSwapping(new Integer(args[1]), path);  // the most acceptable simple method
 			return;
@@ -98,7 +100,7 @@ public class Main {
 		}
 		
 		System.out.println("Option not supported.");
-//		debugRandomSwapping();
+
 	}
 
 	public static void computeTimeForSimpleGeneration(int n, String path) {
@@ -276,14 +278,7 @@ public class Main {
 		ls.setValueAt(1, 3, 1);
 		ls.setValueAt(1, 4, 5);
 		ls.setValueAt(1, 5, 0);
-		
-//		ls.setValueAt(2, 0, 4);
-//		ls.setValueAt(2, 1, 5);
-//		ls.setValueAt(2, 2, 2);
-//		ls.setValueAt(2, 3, 3);
-//		ls.setValueAt(2, 4, 1);
-//		ls.setValueAt(2, 5, 4);
-		
+
 		ArrayList<Integer> row = new ArrayList<Integer>();
 		row.add(4);
 		row.add(5);
@@ -291,26 +286,79 @@ public class Main {
 		row.add(3);
 		row.add(1);
 		
-		HashSet<Integer>[] availableInCol = new HashSet[5];
+		HashSet<Integer>[] availableInCol = new HashSet[6];
 		
 		availableInCol[0] = new HashSet<Integer>();
-		availableInCol[0].add(3);
+		availableInCol[0].add(0);
+		availableInCol[0].add(1);
+		availableInCol[0].add(5);
 		
 		availableInCol[1] = new HashSet<Integer>();
+		availableInCol[1].add(0);
+		availableInCol[1].add(2);
 		availableInCol[1].add(4);
 		
 		availableInCol[2] = new HashSet<Integer>();
-		availableInCol[2].add(4);
+		availableInCol[2].add(0);
+		availableInCol[2].add(1);
+		availableInCol[2].add(3);
 		
 		availableInCol[3] = new HashSet<Integer>();
 		availableInCol[3].add(0);
+		availableInCol[3].add(4);
+		availableInCol[3].add(5);
 		
 		availableInCol[4] = new HashSet<Integer>();
-		availableInCol[4].add(1);availableInCol[4].add(2);
+		availableInCol[4].add(2);
+		availableInCol[4].add(3);
+		availableInCol[4].add(4);
 		
-//		rg.fixRow(3, 5, ls, row, columnsWithRepetitions, availableInCol);
+		availableInCol[5] = new HashSet<Integer>();
+		availableInCol[5].add(1);
+		availableInCol[5].add(2);
+		availableInCol[5].add(3);
+		availableInCol[5].add(5);
 		
-		System.out.println(ls);
+		HashSet<Integer>[] availInitial = new HashSet[6];
+		
+		availInitial[0] = new HashSet<Integer>();
+		availInitial[0].add(0);
+		availInitial[0].add(1);
+		availInitial[0].add(5);
+		
+		availInitial[1] = new HashSet<Integer>();
+		availInitial[1].add(0);
+		availInitial[1].add(2);
+		availInitial[1].add(4);
+		
+		availInitial[2] = new HashSet<Integer>();
+		availInitial[2].add(0);
+		availInitial[2].add(1);
+		availInitial[2].add(3);
+		
+		availInitial[3] = new HashSet<Integer>();
+		availInitial[3].add(0);
+		availInitial[3].add(4);
+		availInitial[3].add(5);
+		
+		availInitial[4] = new HashSet<Integer>();
+		availInitial[4].add(2);
+		availInitial[4].add(3);
+		availInitial[4].add(4);
+		
+		Integer col = 4;
+		HashMap<Integer, HashSet<Integer>> map = rg.constructReplGraph(row, col, availInitial, availableInCol);
+		
+//		System.out.println(map);
+		
+		
+		HashSet<Integer> availableInRow = new HashSet<Integer>();
+		availableInRow.add(0);
+		availableInRow.add(0);
+		
+		rg.fixRowWithGraph(map, row, col, availableInCol, availableInRow);
 		System.out.println(row);
+		
+		System.exit(0);
 	}
 }
