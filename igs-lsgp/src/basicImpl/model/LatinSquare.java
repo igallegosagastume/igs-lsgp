@@ -86,12 +86,12 @@ public class LatinSquare implements ILatinSquare {
 	}
 
 	@Override
-	public Integer getValueAt(int row, int col) throws Exception {
+	public Integer getValueAt(int row, int col) {
 		return ls[row].get(col);
 	}
 
 	@Override
-	public void setValueAt(int row, int col, int value) throws Exception {
+	public void setValueAt(int row, int col, int value) {
 		ls[row].add(col, value);
 	}
 

@@ -105,5 +105,8 @@ public class SimpleGenWithRestartRow extends SimpleGen {
 	    return row;
 	}
 
+	public String getMethodName() {
+		return "Generation row by row with restarting row.";
+	}
 
 }

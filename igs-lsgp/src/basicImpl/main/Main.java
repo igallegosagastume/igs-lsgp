@@ -32,11 +32,10 @@ import java.util.HashSet;
 import basicImpl.koscielnyProd.ProductImpl;
 import basicImpl.model.LatinSquare;
 import basicImpl.model.SimpleGen;
-import basicImpl.model.SimpleGenWithCycleSwapping;
 import basicImpl.model.SimpleGenWithRandomSwapping;
 import basicImpl.model.SimpleGenWithReplGraph;
 import basicImpl.model.SimpleGenWithRestartRow;
-import basicImpl.model.SimpleGenWithSwapping;
+
 import commons.FileUtils;
 
 /**
@@ -53,13 +52,17 @@ public class Main {
 //		debugReplGraph();
 //		debugRandomSwapping();
 //		computeTimeForSimpleGenerationWithCycleSwapping(7);//there are cases that enter into an infinite Loop
-		
+
+
+		/** This class is prepared to be called from a runnable jar in a system console **/
+				
 		if (args.length<2) {
 			System.out.println("Usage: <method> <LS order> [write <path>]");
 			System.out.println("Where <method> ::= simple | product | swapping | restart | graph ");
 			return;
 		}
 		
+		int n = new Integer(args[1]);
 		String path = null;
 		if (args.length>2) {
 			if (args[2]!=null && args[2].equalsIgnoreCase("write")) {
@@ -74,38 +77,44 @@ public class Main {
 				return;
 			}
 		}
-		if (args[0].equalsIgnoreCase("product")) {
-			computeTimeForKoscielnyProduct(new Integer(args[1]), path);  //does not generate LS uniformly distributed
+		
+		if (args[0].equalsIgnoreCase("simple")) {
+			SimpleGen generator = new SimpleGen(n);
+			computeTimeFor(n, generator, path);
 			return;
 		}
 		
-		if (args[0].equalsIgnoreCase("simple")) {
-			computeTimeForSimpleGeneration(new Integer(args[1]), path);
+		if (args[0].equalsIgnoreCase("product")) {
+			ProductImpl generator = new ProductImpl(n);
+			computeTimeFor(n, generator, path);  //does not generate LS uniformly distributed
 			return;
 		}
 
 		if (args[0].equalsIgnoreCase("swapping")) {
-			simpleGenWithRandomSwapping(new Integer(args[1]), path);  // the most acceptable simple method
+			SimpleGen generator = new SimpleGenWithRandomSwapping(n);
+			computeTimeFor(n, generator, path);  // the most acceptable simple method
 			return;
 		}
 		
 		if (args[0].equalsIgnoreCase("restart")) {
-			computeTimeForSimpleGenerationWithStartOverRow(new Integer(args[1]), path);//improvements to simple method?
+			SimpleGen generator = new SimpleGenWithRestartRow(n);
+			computeTimeFor(n, generator, path);//improvements to simple method?
 			return;
 		}
 		
 		if (args[0].equalsIgnoreCase("graph")) {
-			computeTimeForSimpleGenerationWithReplGraph(new Integer(args[1]), path);//improvements to simple method?
+			SimpleGen generator = new SimpleGenWithReplGraph(n);
+			computeTimeFor(n, generator, path);
 			return;
 		}
 		
 		System.out.println("Option not supported.");
 
 	}
-
-	public static void computeTimeForSimpleGeneration(int n, String path) {
+	
+	public static void computeTimeFor(int n, SimpleGen generator, String path) {
 		long startTime = System.nanoTime();
-		LatinSquare ls = new SimpleGen(n).genLS();
+		LatinSquare ls = generator.genLS();
 		long endTime = System.nanoTime();
 
 		long duration = endTime - startTime;
@@ -115,95 +124,7 @@ public class Main {
 		
 		FileUtils.writeLS(ls, path);
 		
-		System.out.println("LS generated in: "+secs+" seconds. Generation method: Simple generation with backtracking.");
-	}
-	
-	public static void computeTimeForKoscielnyProduct(int n, String path) throws Exception {
-		long startTime = System.nanoTime();
-		LatinSquare ls = new ProductImpl(n).genLSMult();
-		long endTime = System.nanoTime();
-
-		long duration = endTime - startTime;
-		double secs = duration/1000000000d;
-		
-		System.out.println(ls);
-		
-		FileUtils.writeLS(ls, path);
-		
-		System.out.println("LS generated in: "+secs+" seconds. Generation method: Koscielny product.");
-	}
-	
-	@Deprecated
-	public static void computeTimeForSimpleGenerationWithSwapping(int n) {
-		long startTime = System.nanoTime();
-		LatinSquare ls = new SimpleGenWithSwapping(n).genLS();
-		long endTime = System.nanoTime();
-
-		long duration = endTime - startTime;
-		double secs = duration/1000000000d;
-		
-		System.out.println(ls);
-		System.out.println("LS generated in: "+secs+" seconds.");
-	}
-	
-	@Deprecated
-	public static void computeTimeForSimpleGenerationWithCycleSwapping(int n) {
-		long startTime = System.nanoTime();
-		LatinSquare ls = new SimpleGenWithCycleSwapping(n).genLS();
-		long endTime = System.nanoTime();
-
-		long duration = endTime - startTime;
-		double secs = duration/1000000000d;
-		
-		System.out.println(ls);
-		System.out.println("LS generated in: "+secs+" seconds.");
-	}
-	
-	public static void simpleGenWithRandomSwapping(int n, String path) {
-		long startTime = System.nanoTime();
-		LatinSquare ls = new SimpleGenWithRandomSwapping(n).genLS();
-		long endTime = System.nanoTime();
-
-		long duration = endTime - startTime;
-		double secs = duration/1000000000d;
-		
-		System.out.println(ls);
-		
-		FileUtils.writeLS(ls, path);
-		
-		System.out.println("LS generated in: "+secs+" seconds. Generation method: Random swapping.");
-		
-		
-	}
-	
-	public static void computeTimeForSimpleGenerationWithStartOverRow(int n, String path) {
-		long startTime = System.nanoTime();
-		LatinSquare ls = new SimpleGenWithRestartRow(n).genLS();
-		long endTime = System.nanoTime();
-
-		long duration = endTime - startTime;
-		double secs = duration/1000000000d;
-		
-		System.out.println(ls);
-		
-		FileUtils.writeLS(ls, path);
-		
-		System.out.println("LS generated in: "+secs+" seconds. Generation method: Simple generation with restart row.");
-	}
-
-	public static void computeTimeForSimpleGenerationWithReplGraph(int n, String path) {
-		long startTime = System.nanoTime();
-		LatinSquare ls = new SimpleGenWithReplGraph(n).genLS();
-		long endTime = System.nanoTime();
-
-		long duration = endTime - startTime;
-		double secs = duration/1000000000d;
-		
-		System.out.println(ls);
-		
-		FileUtils.writeLS(ls, path);
-		
-		System.out.println("LS generated in: "+secs+" seconds. Generation method: Simple generation with replacement graph.");
+		System.out.println("LS generated in: "+secs+" seconds. Generation method: "+generator.getMethodName());		
 	}
 	
 	public static void debugRandomSwapping() throws Exception {
@@ -349,14 +270,11 @@ public class Main {
 		Integer col = 4;
 		HashMap<Integer, HashSet<Integer>> map = rg.constructReplGraph(row, col, availInitial, availableInCol);
 		
-//		System.out.println(map);
-		
-		
 		HashSet<Integer> availableInRow = new HashSet<Integer>();
 		availableInRow.add(0);
 		availableInRow.add(0);
 		
-		rg.fixRowWithGraph(map, row, col, availableInCol, availableInRow);
+		rg.makeElemAvailable(map, row, col, availableInCol, availableInRow);
 		System.out.println(row);
 		
 		System.exit(0);

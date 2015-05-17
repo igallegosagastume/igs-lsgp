@@ -36,14 +36,17 @@ import basicImpl.utils.OrderedPair;
  * @email ignaciogallego@gmail.com
  * @tags Java Latin Square generation
  */
-public class ProductImpl {
+public class ProductImpl extends SimpleGen {
 
 	private int n = 0;
+	
+	
 	public ProductImpl(int n) {
+		super(n);
 		this.n = n;
 	}
 	
-	protected LatinSquare product(LatinSquare ls1, LatinSquare ls2) throws Exception {
+	protected LatinSquare product(LatinSquare ls1, LatinSquare ls2) {
 		int n1 = ls1.size();
 		int n2 = ls2.size();
 		
@@ -69,7 +72,7 @@ public class ProductImpl {
 	    return list.get(list.size()/2);//median
 	}
 
-	public  LatinSquare genLSMult() throws Exception {
+	public  LatinSquare genLS() {
 		OrderedPair pair = this.factors(n);
 		int n1 = pair.x;
 		int n2 = pair.y;
@@ -88,5 +91,9 @@ public class ProductImpl {
 		LatinSquare ls = this.product(ls1, ls2);
 		//write.writeMatrixToFile(ls, 'producto.txt')
 		return ls;
+	}
+	
+	public String getMethodName() {
+		return "Koscielny product of two Latin Squares.";
 	}
 }

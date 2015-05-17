@@ -60,7 +60,7 @@ public class SimpleGenWithReplGraph extends SimpleGen {
 //	        	System.out.println("Map:"+map);
 //	        	System.out.println("Avail:"+availableInCol);
 //	        	System.out.println("Row:"+row);
-	        	this.fixRowWithGraph(map, row, i_col, availableInCol, availableInRow);
+	        	this.makeElemAvailable(map, row, i_col, availableInCol, availableInRow);
 	        }
 	    }
 	    
@@ -88,7 +88,7 @@ public class SimpleGenWithReplGraph extends SimpleGen {
 		return map;
 	}
 	
-	public void fixRowWithGraph(HashMap<Integer, HashSet<Integer>> map, ArrayList<Integer> row, Integer col, HashSet<Integer>[] availInCol, HashSet<Integer> availableInRow) {
+	public void makeElemAvailable(HashMap<Integer, HashSet<Integer>> map, ArrayList<Integer> row, Integer col, HashSet<Integer>[] availInCol, HashSet<Integer> availableInRow) {
 		boolean finished = false;
 
 		int old = RandomUtils.randomChoice(availInCol[col]);
@@ -103,7 +103,7 @@ public class SimpleGenWithReplGraph extends SimpleGen {
 		while (!finished) {
 			
 			int newElem;
-			if (idx_old==-1) {//there are no repetitions
+			if (idx_old==-1) {//there are no repetitions, but the element is not yet available
 				idx_old = row.indexOf(firstElem);
 				old = firstElem;
 			}
@@ -114,17 +114,25 @@ public class SimpleGenWithReplGraph extends SimpleGen {
 			//replace 
 			row.set(idx_old, newElem);
 			
-			if (row.indexOf(old)==-1)
+			if (row.indexOf(old)==-1) //if the old element is not in the row 
 				availableInRow.add(old);
 			availableInRow.remove(newElem);
 
 			availInCol[idx_old].add(old);
 			availInCol[idx_old].remove(newElem);
 			
-			finished = (availableInRow.contains(firstElem) && idx_new==-1);//there's not another element in graph
+			finished = (availableInRow.contains(firstElem) && idx_new==-1);//the element is now available in row and there are no repetitions
 			
 			idx_old = idx_new;
 			old = newElem;
 		}
 	}
+
+
+	@Override
+	public String getMethodName() {
+		return "Generation row by row with replacement graph.";
+	}
+	
+	
 }

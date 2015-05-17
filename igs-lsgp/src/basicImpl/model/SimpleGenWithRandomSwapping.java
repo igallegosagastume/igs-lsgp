@@ -174,5 +174,8 @@ public class SimpleGenWithRandomSwapping extends SimpleGen {
 
 	}
 	
+	public String getMethodName() {
+		return "Generation row by row with random swapping.";
+	}
 	
 }

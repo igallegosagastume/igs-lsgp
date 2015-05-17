@@ -151,9 +151,11 @@ public class SimpleGen {
 	    }
 	    failedAttemptsPerRow[i_row] = failedInRowCount;
 	    return row;
-}
-	        
-
-
 	}
+	        
+	public String getMethodName() {
+		return "Generation row by row with backtracking.";
+	}
+
+}
 	        
