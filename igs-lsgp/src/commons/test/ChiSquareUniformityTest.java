@@ -107,7 +107,7 @@ public class ChiSquareUniformityTest {
 		long duration = endTime - startTime;
 		double secs = duration/1000000000d;
 		double mins = secs / 60;
-		
+		System.out.println("Different LSs generated:"+counts.size());
 		printMaxMin(counts);
 		System.out.println("Uniformity test concluded after "+mins+" minutes.  Generation method: "+option);
 	}
