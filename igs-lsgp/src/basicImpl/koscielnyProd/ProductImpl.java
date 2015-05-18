@@ -27,9 +27,10 @@ package basicImpl.koscielnyProd;
 
 import java.util.ArrayList;
 
+import commons.OrderedPair;
+
 import basicImpl.model.SimpleGen;
 import basicImpl.model.LatinSquare;
-import basicImpl.utils.OrderedPair;
 
 /**
  * @author Ignacio Gallego Sagastume

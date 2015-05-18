@@ -27,7 +27,6 @@ package jacomatt.model;
 
 import jacomatt.opengl.DrawIncidenceCube;
 import jacomatt.utils.DrawingOptions;
-import jacomatt.utils.OrderedTriple;
 
 import java.awt.Frame;
 import java.awt.event.WindowAdapter;
@@ -42,6 +41,7 @@ import javax.swing.JFrame;
 import com.jogamp.opengl.util.FPSAnimator;
 
 import commons.ILatinSquare;
+import commons.OrderedTriple;
 
 /**
  * @author Ignacio Gallego Sagastume

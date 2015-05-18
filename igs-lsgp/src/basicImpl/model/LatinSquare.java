@@ -92,7 +92,7 @@ public class LatinSquare implements ILatinSquare {
 
 	@Override
 	public void setValueAt(int row, int col, int value) {
-		ls[row].add(col, value);
+		ls[row].set(col, value);
 	}
 
 	@Override

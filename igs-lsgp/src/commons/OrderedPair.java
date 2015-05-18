@@ -5,7 +5,6 @@
  * 
  */
 
-
 /**
  * © Copyright 2012-2014 Ignacio Gallego Sagastume
  * 
@@ -24,25 +23,24 @@
  * 
  * 
  */
-package jacomatt.utils;
+package commons;
 
 /**
  * @author Ignacio Gallego Sagastume
  * @email ignaciogallego@gmail.com
  * @tags Java Latin Square generation
  */
-public class OrderedTriple {
-	public int x;
-	public int y;
-	public int z;
+
+public class OrderedPair {
+	public Integer x;
+	public Integer y;
 	
-	public OrderedTriple(int x, int y, int z) {
+	public OrderedPair(Integer x, Integer y) {
 		this.x = x;
 		this.y = y;
-		this.z = z;
 	}
 	
 	public String toString() {
-		return "("+x+", "+y+", "+z+")";
+		return "("+x+", "+y+")";
 	}
 }

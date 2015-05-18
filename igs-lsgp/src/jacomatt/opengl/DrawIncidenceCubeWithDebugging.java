@@ -36,12 +36,13 @@ import static java.awt.event.KeyEvent.VK_SPACE;
 import static java.awt.event.KeyEvent.VK_UP;
 import jacomatt.model.IncidenceCubeWithDebugging;
 import jacomatt.utils.DrawingOptions;
-import jacomatt.utils.OrderedTriple;
 
 import java.awt.event.KeyEvent;
 import java.util.Iterator;
 
 import javax.media.opengl.GL2;
+
+import commons.OrderedTriple;
 
 /**
  * @author Ignacio Gallego Sagastume

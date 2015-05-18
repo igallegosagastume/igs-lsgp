@@ -5,6 +5,7 @@
  * 
  */
 
+
 /**
  * © Copyright 2012-2014 Ignacio Gallego Sagastume
  * 
@@ -23,24 +24,25 @@
  * 
  * 
  */
-package basicImpl.utils;
+package commons;
 
 /**
  * @author Ignacio Gallego Sagastume
  * @email ignaciogallego@gmail.com
  * @tags Java Latin Square generation
  */
-
-public class OrderedPair {
+public class OrderedTriple {
 	public int x;
 	public int y;
+	public int z;
 	
-	public OrderedPair(int x, int y) {
+	public OrderedTriple(int x, int y, int z) {
 		this.x = x;
 		this.y = y;
+		this.z = z;
 	}
 	
 	public String toString() {
-		return "("+x+", "+y+")";
+		return "("+x+", "+y+", "+z+")";
 	}
 }
