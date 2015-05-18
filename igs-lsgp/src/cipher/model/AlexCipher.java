@@ -6,8 +6,8 @@ package cipher.model;
 
 import java.util.Scanner;
 
-import jogamp.opengl.glu.mipmap.ExtractUShort;
 import basicImpl.model.SimpleGenWithReplGraph;
+
 import commons.ILatinSquare;
 import commons.OrderedPair;
 
@@ -187,21 +187,21 @@ public class AlexCipher {
 		}
 	}
 	
-	private void printConsole () throws Exception {
-		for (int i=0; i<ls.size(); i++) {
-			for(int j=0; j<ls.size(); j++) {
-				System.out.print(Character.toString((char)(ls.getValueAt(i, j).intValue()))+" ");
-			}
-			System.out.println("");
-		}
-	}
-	
-	private void add(int n) throws Exception {
-		for (int i=0; i<ls.size(); i++) {
-			for(int j=0; j<ls.size(); j++) {
-				int k = ls.getValueAt(i, j)+n;
-				ls.setValueAt(i, j, k);
-			}
-		}
-	}
+//	private void printConsole () throws Exception {
+//		for (int i=0; i<ls.size(); i++) {
+//			for(int j=0; j<ls.size(); j++) {
+//				System.out.print(Character.toString((char)(ls.getValueAt(i, j).intValue()))+" ");
+//			}
+//			System.out.println("");
+//		}
+//	}
+//	
+//	private void add(int n) throws Exception {
+//		for (int i=0; i<ls.size(); i++) {
+//			for(int j=0; j<ls.size(); j++) {
+//				int k = ls.getValueAt(i, j)+n;
+//				ls.setValueAt(i, j, k);
+//			}
+//		}
+//	}
 }
