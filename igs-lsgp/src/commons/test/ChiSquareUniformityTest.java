@@ -32,8 +32,9 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import basicImpl.model.SimpleGen;
 import basicImpl.model.SimpleGenWithRandomSwapping;
-
+import basicImpl.model.SimpleGenWithReplGraph;
 import commons.ILatinSquare;
 
 public class ChiSquareUniformityTest {
@@ -42,20 +43,23 @@ public class ChiSquareUniformityTest {
 		long startTime = System.nanoTime();
 
 		if (args.length<3) {
-			System.out.println("Usage: [ RS | JM ] <generations> <LS order>");
-			System.out.println("Example 1: RS 1000000 4");
-			System.out.println("Example 2: JM 10000000 5");
+			System.out.println("Usage: [ jacomatt | swapping | graph ] <generations> <LS order>");
+			System.out.println("Example 1: swapping 1000000 4");
+			System.out.println("Example 2: jacomatt 10000000 5");
 			return;
 		}
 		String option = args[0]; 
-		boolean random = option.equalsIgnoreCase("RS");
 		
 		int cantExperim = new Integer(args[1]);//1000000;
 		int order = new Integer(args[2]);
 
-		//creates a Random Swapping generator
-		SimpleGenWithRandomSwapping generator = new SimpleGenWithRandomSwapping(order);
-
+		SimpleGen generator = new SimpleGen(4); //default
+		//creates the generator
+		if (option.equalsIgnoreCase("swapping")) 
+			generator = new SimpleGenWithRandomSwapping(order);
+		if (option.equalsIgnoreCase("graph"))
+			generator = new SimpleGenWithReplGraph(order);
+			
 		ILatinSquare ls;
 
 		HashMap<Integer, ILatinSquare> cuads = new HashMap<Integer, ILatinSquare>();
@@ -63,11 +67,12 @@ public class ChiSquareUniformityTest {
 		
 		for (int i=0; i<cantExperim ; i++) {
 			
-			if (random) {
+			if (option.equalsIgnoreCase("swapping")
+				|| option.equalsIgnoreCase("graph")) {
 				ls = generator.genLS();
 			} else {
 				ls = new EfficientIncidenceCube(order);//creates cyclic IC
-				((EfficientIncidenceCube)ls).shuffle();//shuffles IC
+				((EfficientIncidenceCube)ls).shuffle();//shuffles IC = n^3 ops
 			}
 			
 			boolean found = false;
@@ -104,7 +109,7 @@ public class ChiSquareUniformityTest {
 		double mins = secs / 60;
 		
 		printMaxMin(counts);
-		System.out.println("Uniformity test concluded after "+mins+" minutes.  Generation method: "+(random?"Random swapping":"Jacobson & Matthews"));
+		System.out.println("Uniformity test concluded after "+mins+" minutes.  Generation method: "+option);
 	}
 	
 	private static void printCounts(HashMap<Integer, Integer> counts) {

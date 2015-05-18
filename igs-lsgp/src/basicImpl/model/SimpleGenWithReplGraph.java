@@ -7,6 +7,7 @@ package basicImpl.model;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 
 import basicImpl.utils.RandomUtils;
 
@@ -63,7 +64,7 @@ public class SimpleGenWithReplGraph extends SimpleGen {
 	        	this.makeElemAvailable(map, row, i_col, availableInCol, availableInRow);
 	        }
 	    }
-	    
+//	    System.out.println("Row "+i_row);//: "+row+".");
 	    return row;
 	}
 
@@ -76,15 +77,14 @@ public class SimpleGenWithReplGraph extends SimpleGen {
 		HashMap<Integer, HashSet<Integer>> map = new HashMap<Integer, HashSet<Integer>>();
 		
 		for(int j=col; j>=0; j--) {
-//			int elem = row.get(j);
+
 			HashSet<Integer> set = new HashSet<Integer>();
 			set.addAll(initialAvailInCol[j]);
-//			set.remove(elem);//the initial element in the row is removed from set
-			
+
 			if (set.size()>0)
 				map.put(j, set);//the element in position j could potentially be changed for one in the set
 		}
-		
+//		System.out.println(map);
 		return map;
 	}
 	
@@ -94,37 +94,74 @@ public class SimpleGenWithReplGraph extends SimpleGen {
 		int old = RandomUtils.randomChoice(availInCol[col]);
 		
 		int firstElem = new Integer(old);
+		
+		this.eraseFirstElemFromGraph(map, firstElem);
+		
 //		System.out.println(firstElem);
+//		System.out.println("Collision at: "+row);
+//
+//		System.out.println(map);
 		
 		int idx_old = row.indexOf(old);
 		int idx_new;
+
+		int i=0;
 		
+		HashSet<Integer> path = new HashSet<Integer>();
 		
 		while (!finished) {
 			
 			int newElem;
-			if (idx_old==-1) {//there are no repetitions, but the element is not yet available
+			if (idx_old==-1) {//there are no repetitions, but the element is still in the row
 				idx_old = row.indexOf(firstElem);
 				old = firstElem;
 			}
 			
-			newElem = RandomUtils.randomChoice(map.get(idx_old));
+			HashSet<Integer> avail = new HashSet<Integer>();
+			avail.addAll(map.get(idx_old));
+			avail.removeAll(path);
+			
+			if (avail.isEmpty()) {
+//				System.out.println("Path no good, begin again: "+path);
+//				System.out.println("Map: "+map);
+//				System.out.println("Row: "+row);
+				
+				path = new HashSet<Integer>();
+				avail.addAll(map.get(idx_old));
+			}
+			
+			newElem = RandomUtils.randomChoice(avail);
 			idx_new = row.indexOf(newElem);//index of this elem before replacement because it will be repeated
 						
 			//replace 
 			row.set(idx_old, newElem);
+		
+			//store in path 
+			path.add(newElem);
 			
-			if (row.indexOf(old)==-1) //if the old element is not in the row 
+			if (row.indexOf(old)==-1) //if the old element is not in the row
 				availableInRow.add(old);
 			availableInRow.remove(newElem);
 
 			availInCol[idx_old].add(old);
 			availInCol[idx_old].remove(newElem);
 			
-			finished = (availableInRow.contains(firstElem) && idx_new==-1);//the element is now available in row and there are no repetitions
+			finished = (availableInRow.contains(firstElem) && idx_new==-1);// || (path.size()==n);//the element is now available in row and there are no repetitions
 			
 			idx_old = idx_new;
 			old = newElem;
+			
+			i++;
+			if (i%100000==0) {
+				System.out.println(i);
+				if (i%1000000==0) {
+					System.out.println("Is this an infinite loop?");
+					System.out.println(firstElem);
+					System.out.println(idx_old);
+					System.out.println(map);
+					System.out.println(row);
+				}
+			}
 		}
 	}
 
@@ -134,5 +171,15 @@ public class SimpleGenWithReplGraph extends SimpleGen {
 		return "Generation row by row with replacement graph.";
 	}
 	
-	
+
+	private void eraseFirstElemFromGraph(HashMap<Integer, HashSet<Integer>> map, Integer firstElem) {
+		Iterator<Integer> iter = map.keySet().iterator();
+		
+		while (iter.hasNext()) {
+			Integer elem = iter.next();
+			HashSet<Integer> set = map.get(elem);
+			set.remove(firstElem);
+			map.put(elem, set);
+		}
+	}
 }
