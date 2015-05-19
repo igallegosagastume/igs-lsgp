@@ -45,10 +45,8 @@ public class RandomUtils {
 	}
 
 	public static Integer randomChoice(HashSet<Integer> set) {
-		int size = set.size();
-		
-		//For cryptography, the Random object should be truly Random
-		int item = rand.nextInt(size);
+		//For cryptography, the Random object should return truly random numbers
+		int item = rand.nextInt(set.size());
 		int i = 0;
 		for(Integer obj : set)
 		{
