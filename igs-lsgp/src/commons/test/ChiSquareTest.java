@@ -103,9 +103,10 @@ public class ChiSquareTest {
     private double chiSquare(int[] expected, int[] observed) {
         double sumSq = 0.0d;
         double dev = 0.0d;
-        for (int i = 0; i< observed.length; i++) {
-            dev = (double)(observed[i] - expected[i]);
-            sumSq += (dev*dev)/(double)expected[i];
+        double n = observed.length;
+        for (int i = 0; i< n; i++) {
+            dev = (double)(observed[i] - ( expected[i]));
+            sumSq += (dev*dev)/( (double)expected[i]);
         }
         return sumSq;
     } 
