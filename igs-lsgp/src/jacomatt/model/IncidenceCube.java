@@ -359,7 +359,7 @@ public class IncidenceCube implements ILatinSquare {
 
 	public int shuffle() {
 		int iterations;
-		for (iterations=0; (iterations<Math.pow((double)this.size(), (double)3))
+		for (iterations=0; (iterations<Math.pow((double)this.size(), (double)3)/8)
 							|| !this.proper(); 
 			iterations++) {
 			if (this.proper()) {

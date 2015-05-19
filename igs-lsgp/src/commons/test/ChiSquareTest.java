@@ -18,7 +18,7 @@ public class ChiSquareTest {
 
 	
 	
-	public void doTest(HashMap<Integer, Integer> cantidades, int cantExperim, int order) {
+	public void doTest(HashMap<Integer, Integer> counts, int cantExperim, int order) {
 		
 		int border1 = cantExperim/10;
 		
@@ -26,7 +26,7 @@ public class ChiSquareTest {
 		
 		int[] observed = new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 		
-		Iterator<Integer> idx = cantidades.keySet().iterator();
+		Iterator<Integer> idx = counts.keySet().iterator();
 		
 		int i = 0; 
 		int cantCLs=0;
@@ -51,34 +51,34 @@ public class ChiSquareTest {
 			i = idx.next();
 			
 			if (i < border) {
-				observed[0] += cantidades.get(i); 
+				observed[0] += counts.get(i); 
 				
 			} else if ((border <= i) && (i < (2*border))) {
-				observed[1] += cantidades.get(i);
+				observed[1] += counts.get(i);
 				
 			} else if (((2*border) <= i) && (i < (3*border))) {
-				observed[2] += cantidades.get(i);
+				observed[2] += counts.get(i);
 				
 			} else if (((3*border) <= i) && (i < (4*border))) {
-				observed[3] += cantidades.get(i);
+				observed[3] += counts.get(i);
 				
 			} else if (((4*border) <= i) && (i < (5*border))) {
-				observed[4] += cantidades.get(i);
+				observed[4] += counts.get(i);
 				
 			} else if (((5*border) <= i) && (i < (6*border))) {
-				observed[5] += cantidades.get(i);
+				observed[5] += counts.get(i);
 				
 			} else if (((6*border) <= i) && (i < (7*border))) {
-				observed[6] += cantidades.get(i);
+				observed[6] += counts.get(i);
 				
 			} else if (((7*border) <= i) && (i < (8*border))) {
-				observed[7] += cantidades.get(i);
+				observed[7] += counts.get(i);
 				
 			} else if (((8*border) <= i) && (i < (9*border))) {
-				observed[8] += cantidades.get(i);
+				observed[8] += counts.get(i);
 				
 			} else if (((9*border) <= i) && (i <= cantCLs)) {
-				observed[9] += cantidades.get(i);
+				observed[9] += counts.get(i);
 				
 			}
 		}
@@ -90,6 +90,8 @@ public class ChiSquareTest {
 		double chi = this.chiSquare(expected, observed);
 		System.out.println("");
 		System.out.println("Chi-Square statistic: "+chi+". Must be < 29.67 for the data to be uniformly distributed (false positive in 0.005% of cases).");
+//		System.out.println("");
+		System.out.println("Different LSs generated: "+counts.size()+" over a total of "+cantCLs+" possible.");
 	}
 	
 	
