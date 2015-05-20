@@ -91,6 +91,7 @@ public class ChiSquareTest {
 		System.out.println("");
 		System.out.println("Chi-Square statistic: "+chi+". Must be < 29.67 for the data to be uniformly distributed (false positive in 0.005% of cases).");
 //		System.out.println("");
+		System.out.println("Total count of LSs generated: "+cantExperim);
 		System.out.println("Different LSs generated: "+counts.size()+" over a total of "+cantCLs+" possible.");
 	}
 	

@@ -5,7 +5,7 @@ import java.security.SecureRandom;
 public class TestSecureRandom {
 
 	public static void main(String[] args) {
-		Long exps = 10000000001L;
+		Long exps = 100000000001L;
 		SecureRandom rand = new SecureRandom();
 		double sum = 0;
 		for (long i=0; i<exps; i++) {
