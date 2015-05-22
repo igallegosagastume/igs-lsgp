@@ -82,6 +82,7 @@ public class ChiSquareTest {
 				
 			}
 		}
+		System.out.println("");
 		System.out.println("Observed[i]=");
 		for (int k=0; k<10; k++) {
 			System.out.print(observed[k]+",");
