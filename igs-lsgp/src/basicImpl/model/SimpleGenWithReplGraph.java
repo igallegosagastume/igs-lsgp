@@ -61,7 +61,9 @@ public class SimpleGenWithReplGraph extends SimpleGen {
 //	        	System.out.println("Map:"+map);
 //	        	System.out.println("Avail:"+availableInCol);
 //	        	System.out.println("Row:"+row);
-	        	this.makeElemAvailable(map, row, i_col, availableInCol, availableInRow);
+	        	
+	        	int elem = RandomUtils.randomChoice(availableInCol[i_col]);
+	        	this.makeElemAvailable(elem, map, row, i_col, availableInCol, availableInRow);
 	        }
 	    }
 //	    System.out.println("Row "+i_row);//: "+row+".");
@@ -88,10 +90,8 @@ public class SimpleGenWithReplGraph extends SimpleGen {
 		return map;
 	}
 	
-	public void makeElemAvailable(HashMap<Integer, HashSet<Integer>> map, ArrayList<Integer> row, Integer col, HashSet<Integer>[] availInCol, HashSet<Integer> availableInRow) {
+	public void makeElemAvailable(Integer old, HashMap<Integer, HashSet<Integer>> map, ArrayList<Integer> row, Integer col, HashSet<Integer>[] availInCol, HashSet<Integer> availableInRow) {
 		boolean finished = false;
-
-		int old = RandomUtils.randomChoice(availInCol[col]);
 		
 		int firstElem = new Integer(old);
 		
@@ -110,12 +110,10 @@ public class SimpleGenWithReplGraph extends SimpleGen {
 		HashSet<Integer> path = new HashSet<Integer>();
 		
 		while (!finished) {
-			
-			int newElem;
-			if (idx_old==-1) {//there are no repetitions, but the element is still in the row
-				idx_old = row.indexOf(firstElem);
-				old = firstElem;
-			}
+//			if (idx_old==-1) {//there are no repetitions, but the element is still in the row
+//				idx_old = row.indexOf(firstElem);
+//				old = firstElem;
+//			}
 			
 			HashSet<Integer> avail = new HashSet<Integer>();
 			avail.addAll(map.get(idx_old));
@@ -130,7 +128,7 @@ public class SimpleGenWithReplGraph extends SimpleGen {
 				avail.addAll(map.get(idx_old));
 			}
 			
-			newElem = RandomUtils.randomChoice(avail);
+			int newElem = RandomUtils.randomChoice(avail);
 			idx_new = row.indexOf(newElem);//index of this elem before replacement because it will be repeated
 						
 			//replace 

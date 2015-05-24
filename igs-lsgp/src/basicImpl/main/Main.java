@@ -273,8 +273,8 @@ public class Main {
 		HashSet<Integer> availableInRow = new HashSet<Integer>();
 		availableInRow.add(0);
 		availableInRow.add(0);
-		
-		rg.makeElemAvailable(map, row, col, availableInCol, availableInRow);
+		int elem = 2;
+		rg.makeElemAvailable(elem, map, row, col, availableInCol, availableInRow);
 		System.out.println(row);
 		
 		System.exit(0);
