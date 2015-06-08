@@ -1,49 +1,59 @@
-package commons.test.replGraph256test;
+package commons.test.concurrentTest;
 
+import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 
 import commons.ILatinSquare;
-
 import basicImpl.model.SimpleGen;
 import basicImpl.model.SimpleGenWithReplGraph;
 
-public class ATester implements Runnable {
+public class CountLSsTester implements Runnable {
 
-	private void printCounts(HashMap<Integer, Integer> counts) {
-		ArrayList<Integer> lsi = new ArrayList<Integer>();
-		lsi.addAll(counts.keySet());
-		Collections.sort(lsi);
+	private int order = 5;
+	
+	
+	public CountLSsTester(int n) {
 		
-		Iterator<Integer> idx = lsi.iterator();
-		
-		System.out.println("The following is a list with the count of each LS i:");
-		while (idx.hasNext()) {
-			Integer i = (Integer) idx.next();
-			System.out.print(counts.get(i)+",");			
-		}
+		this.order = n;
 	}
+	
+	
+//	private void printCounts(HashMap<Integer, Integer> counts) {
+//		ArrayList<Integer> lsi = new ArrayList<Integer>();
+//		lsi.addAll(counts.keySet());
+//		Collections.sort(lsi);
+//		
+//		Iterator<Integer> idx = lsi.iterator();
+//		
+//		System.out.println("The following is a list with the count of each LS i:");
+//		while (idx.hasNext()) {
+//			Integer i = (Integer) idx.next();
+//			System.out.print(counts.get(i)+",");			
+//		}
+//	}
 	
 	public boolean finish = false;
 	
 	@Override
 	public void run() {
-		int order = 256;
+		
 		long startTime = System.nanoTime();	
 		
 		//create the generator
-		SimpleGen generator = new SimpleGenWithReplGraph(order);
+		SimpleGen generator = new SimpleGenWithReplGraph(this.order);
 			
 		ILatinSquare ls;
 
-		HashMap<Integer, ILatinSquare> cuads = new HashMap<Integer, ILatinSquare>();
+		HashMap<Integer, byte[]> cuads = new HashMap<Integer, byte[]>();
 		HashMap<Integer, Integer> counts = new HashMap<Integer, Integer>();
 	
 		for (int i=0; !finish ; i++) {
 			
 			ls = generator.genLS();
+			byte[] dig1 = ls.hashCodeOfLS();
 			
 			boolean found = false;
 			Iterator<Integer> cuadrados = cuads.keySet().iterator();
@@ -51,7 +61,9 @@ public class ATester implements Runnable {
 			for (; cuadrados.hasNext() && !found;) {
 				Integer index = cuadrados.next();
 				try {
-					if (ls.equals(cuads.get(index))) {
+					if (MessageDigest.isEqual(dig1, cuads.get(index))) {
+					
+//					if (ls.equals(cuads.get(index))) {
 						found = true;
 						counts.put(index, counts.get(index)+1);
 					}
@@ -59,21 +71,27 @@ public class ATester implements Runnable {
 			}
 			if (!found) {
 				Integer index2 = cuads.keySet().size(); 
-				cuads.put(index2, ls);
+//				cuads.put(index2, ls);
+				cuads.put(index2, dig1);
 				counts.put(index2, 1);
 			}
 			System.out.println(i);
 		}
 		
-		printCounts(counts);
+//		printCounts(counts);
 		
 		long endTime = System.nanoTime();
 		long duration = endTime - startTime;
 		double secs = duration/1000000000d;
 		double mins = secs / 60;
+		double hours = mins/60;
 		
 		printMaxMin(counts);
-		System.out.println("Test concluded after "+mins+" minutes.  Generation method: Replacement graph...");
+		
+		if (mins>60)
+			System.out.println("Test concluded after "+hours+" hours.  Generation method: Replacement graph.");
+		else
+			System.out.println("Test concluded after "+mins+" minutes.  Generation method: Replacement graph.");
 		 
 	}
 
@@ -96,6 +114,7 @@ public class ATester implements Runnable {
 			if (cant != 0 && cant < min)
 				min = cant;
 		}
+		System.out.println("");
 		System.out.println("Max count.:" + max + ". Min count.:" + min);
 	}
 

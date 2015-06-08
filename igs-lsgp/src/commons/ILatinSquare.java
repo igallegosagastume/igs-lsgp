@@ -45,4 +45,11 @@ public interface ILatinSquare {
 	public int size();
 	
 	public boolean equals(ILatinSquare ls) throws Exception; 
+	
+//	public boolean equalHash(ILatinSquare ls);
+	
+	public byte[] hashCodeOfLS();
+	
+	public String serializeLS();
+	
 }
