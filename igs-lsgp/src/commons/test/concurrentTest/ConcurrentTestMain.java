@@ -24,13 +24,28 @@
  * 
  */
 
-package commons.test.replGraph256test;
+package commons.test.concurrentTest;
 
-public class ReplGraph256Test {
+
+public class ConcurrentTestMain {
 
 	public static void main(String[] args) {
 		
+		if (args.length!=1) {
+			System.out.println("Usage: java -jar concTest.jar <order of LSs>");
+			System.out.println("Then, press ENTER to conclude the test.");
+			return;
+		}
 		
+		CountLSsTester tester = new CountLSsTester(new Integer(args[0]));
+
+		Thread testerThread = new Thread(tester);
+		
+		Thread keyboardThread = new Thread(new KeyboardInputChecker(tester));
+		
+		
+		keyboardThread.start();
+		testerThread.start();
 	}
 
 }

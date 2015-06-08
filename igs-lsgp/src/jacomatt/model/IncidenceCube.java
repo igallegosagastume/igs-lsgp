@@ -33,6 +33,8 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 
 import javax.media.opengl.awt.GLCanvas;
@@ -57,6 +59,10 @@ public class IncidenceCube implements ILatinSquare {
 	//protected Random random = new Random();
 	protected SecureRandom random = new SecureRandom();
 	
+	
+	protected MessageDigest md = null;
+	
+	
 	public IncidenceCube() {
 		this.init();
 	}
@@ -71,6 +77,12 @@ public class IncidenceCube implements ILatinSquare {
 	}
 	
 	public void init() {
+		//initialize the md
+		try {
+			md = MessageDigest.getInstance("MD5");
+		} catch (NoSuchAlgorithmException e) {
+			System.out.println("No such algorithm: md5");
+		}
 		//initialize the ls as cyclic 
 		cube = new int[n][n][n];
 		drawingOptions = new DrawingOptions();
@@ -469,5 +481,29 @@ public class IncidenceCube implements ILatinSquare {
 		}
 		return eq;
 	}
+	
+	
+	public byte[] hashCodeOfLS() {
+		String str1 = this.serializeLS();
+		return md.digest(str1.getBytes());
+	}
+	
+	public String serializeLS() {
+		StringBuffer sb = new StringBuffer();
+		for (int x=0; x<n ; x++) {
+			for (int y=0; y<n ; y++) {
+				
+				Integer elem = null;
+				try {
+					elem = this.getValueAt(x, y);
+				} catch (Exception e) {
+					System.out.println("Exception trying to serialize the cube");
+				}
+				sb.append(elem); 
+			}
+		}
+		return sb.toString();
+	}
+	
 }
 

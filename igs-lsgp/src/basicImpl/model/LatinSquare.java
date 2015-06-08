@@ -27,6 +27,8 @@ package basicImpl.model;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 
 import commons.ILatinSquare;
@@ -42,7 +44,7 @@ public class LatinSquare implements ILatinSquare {
 	
 	protected int n = 0;
 	
-	
+	protected MessageDigest md = null;
 	
 	@SuppressWarnings("unchecked")
 	public LatinSquare(int n) {
@@ -53,6 +55,12 @@ public class LatinSquare implements ILatinSquare {
 		 for (int i=0; i<n; i++) {
 		    	ls[i] = new ArrayList<Integer>();
 		 }
+		//initialize the md
+		try {
+			md = MessageDigest.getInstance("MD5");
+		} catch (NoSuchAlgorithmException e) {
+			System.out.println("No such algorithm: md5");
+		}
 	}
 	
 	/*public void setLs(ArrayList<Integer>[] ls) {
@@ -127,5 +135,39 @@ public class LatinSquare implements ILatinSquare {
 			}
 		}
 		return eq;
+	}
+	
+//	public boolean equalHash(ILatinSquare ls2) {
+//		
+//		String str1 = this.toString();
+//		
+//		String str2 = ls2.toString();
+//		
+//		byte[] dig1 = md.digest(str1.getBytes());
+//		byte[] dig2 = md.digest(str2.getBytes());
+//		
+//		return MessageDigest.isEqual(dig1, dig2);
+//	}
+	
+	public byte[] hashCodeOfLS() {
+		String str1 = this.serializeLS();
+		return md.digest(str1.getBytes());
+	}
+	
+	
+	public String serializeLS() {
+		StringBuffer sb = new StringBuffer();
+		for (int x=0; x<n ; x++) {
+			for (int y=0; y<n ; y++) {
+				Integer elem = ls[x].get(y);
+				sb.append(elem); 
+			}
+		}
+		return sb.toString();
+	}
+	
+	
+	public static boolean equalHash(byte[] dig1, byte[] dig2) {
+		return MessageDigest.isEqual(dig1, dig2);
 	}
 }
