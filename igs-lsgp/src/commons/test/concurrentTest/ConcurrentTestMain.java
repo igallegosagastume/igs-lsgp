@@ -1,12 +1,12 @@
 /**
- * Creation date: 08/11/2014
+ * Creation date: 08/06/2015
  * 
  * Master thesis on Latin Squares generation
  * 
  */
 
 /**
- * © Copyright 2012-2014 Ignacio Gallego Sagastume
+ * © Copyright 2012-2015 Ignacio Gallego Sagastume
  * 
  * This file is part of IGS-ls-generation package.
  * IGS-ls-generation package is free software: you can redistribute it and/or modify
