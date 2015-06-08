@@ -119,7 +119,8 @@ public class CountLSsTester implements Runnable {
 			System.out.println("Test concluded after "+hours+" hours.  Generation method: Replacement graph.");
 		else
 			System.out.println("Test concluded after "+mins+" minutes.  Generation method: Replacement graph.");
-		 
+
+		System.out.println("Order of the generated LSs:"+this.order);
 	}
 
 
