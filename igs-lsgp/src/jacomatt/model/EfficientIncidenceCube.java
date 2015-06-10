@@ -32,6 +32,8 @@ import jacomatt.utils.DrawingOptions;
 import java.awt.Frame;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 import javax.media.opengl.awt.GLCanvas;
 import javax.swing.JFrame;
@@ -73,6 +75,12 @@ public class EfficientIncidenceCube extends IncidenceCube implements ILatinSquar
 	}
 	@Override
 	public void init() {
+		//initialize the md
+		try {
+			md = MessageDigest.getInstance("MD5");
+		} catch (NoSuchAlgorithmException e) {
+			System.out.println("No such algorithm: md5");
+		}
 		//initialize the ls as cyclic 
 		xyMatrix = new int[n][n][max];
 		yzMatrix = new int[n][n][max];

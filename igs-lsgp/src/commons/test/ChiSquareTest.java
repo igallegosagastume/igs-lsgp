@@ -6,6 +6,7 @@
  */
 package commons.test;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Iterator;
 
@@ -29,17 +30,23 @@ public class ChiSquareTest {
 		Iterator<Integer> idx = counts.keySet().iterator();
 		
 		int i = 0; 
-		int cantCLs=0;
+		Long cantCLs=null;
 		
 		if (order==2)
-			cantCLs=2;
+			cantCLs= 2L;
 		if (order==3)
-			cantCLs = 12;
+			cantCLs = 12L;
 		if (order==4)
-			cantCLs = 576;
+			cantCLs = 576L;
 		if (order==5)
-			cantCLs = 161280;
-		if (order>=6 || order <2) {
+			cantCLs = 161280L;
+		if (order==6)
+			cantCLs = 812851200L;
+		if (order==7)
+			cantCLs = 61479419904000L;
+//		if (order==8)
+//			cantCLs = new BigDecimal(108776032459082956800L);//long too long... :/
+		if (order>=8 || order <2) {
 			System.out.println("Order not supported");
 			return;
 		}
