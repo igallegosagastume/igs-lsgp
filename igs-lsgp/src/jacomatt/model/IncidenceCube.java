@@ -346,7 +346,7 @@ public class IncidenceCube implements ILatinSquare {
 					}
 					
 					sb.append(z); 
-					sb.append("    ".substring(z.length()));
+					sb.append("           ".substring(z.length()));//the blank string is necessary to avoid StringIndexOutOfBounds
 					
 				} catch (Exception e) {
 					sb.append("ERROR IN COORD");
