@@ -53,7 +53,11 @@ public class LatinSquare implements ILatinSquare {
 		 this.n = n;
 		 
 		 for (int i=0; i<n; i++) {
-		    	ls[i] = new ArrayList<Integer>();
+		    ls[i] = new ArrayList<Integer>(n);
+		    for (int j=0; j<n; j++) {
+		    	ls[i].add(0); //add initial n 0s
+		    }
+		    
 		 }
 		//initialize the md
 		try {
