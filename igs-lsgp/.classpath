@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="lib/gluegen-rt-natives-windows-amd64.jar"/>
-	<classpathentry kind="lib" path="lib/gluegen-rt.jar"/>
-	<classpathentry kind="lib" path="lib/jogl-all-natives-windows-amd64.jar"/>
-	<classpathentry kind="lib" path="lib/jogl-all.jar"/>
-	<classpathentry kind="lib" path="lib/jogl-test.jar"/>
-	<classpathentry kind="lib" path="lib/uncommons-maths-1.2.3.jar"/>
-	<classpathentry kind="output" path="bin"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jre1.8.0_31">
+		<attributes>
+			<attribute name="owner.project.facets" value="java"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry combineaccessrules="false" kind="src" path="/JOGL2.1"/>
+	<classpathentry kind="output" path="build/classes"/>
 </classpath>
