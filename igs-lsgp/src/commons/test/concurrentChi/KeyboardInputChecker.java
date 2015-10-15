@@ -1,6 +1,4 @@
 package commons.test.concurrentChi;
-
-
 /**
  * Creation date: 08/06/2015
  * 

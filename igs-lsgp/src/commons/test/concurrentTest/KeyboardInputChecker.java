@@ -1,6 +1,4 @@
 package commons.test.concurrentTest;
-
-
 /**
  * Creation date: 08/06/2015
  * 
