@@ -138,6 +138,7 @@ public class KolmogorovSmirnovUniformityTest {
 		System.out.println("Max count.:"+max+". Min count.:"+min);
 	}
 	
+	@SuppressWarnings("unused")
 	private static void printRepetitions(HashMap<Integer, Integer> counts) {
 		Iterator<Integer> cuadrados = counts.keySet().iterator();
 		HashMap<Integer, Integer> results = new HashMap<Integer,Integer>();

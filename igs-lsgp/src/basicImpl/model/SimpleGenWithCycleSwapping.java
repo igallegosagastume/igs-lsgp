@@ -42,6 +42,7 @@ public class SimpleGenWithCycleSwapping extends SimpleGenWithSwapping {
 		super(n);
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public ArrayList<Integer> generateRow(int i_row, int n, LatinSquare ls, HashSet<Integer>[] availableInCol, Integer[] failedAttemptsPerRow, int[][] collisions) {
 	    //genero row de tamanio n en la posicion i

@@ -45,6 +45,7 @@ public class SimpleGen {
 		RandomUtils.initRand();
 	}
 	
+	@SuppressWarnings("unchecked")
 	public LatinSquare genLS() { 
 	    LatinSquare ls = new LatinSquare(n);
 	    	    
@@ -81,6 +82,7 @@ public class SimpleGen {
 	  }
 	        
 	        
+	@SuppressWarnings("unchecked")
 	public ArrayList<Integer> generateRow(int i_row, int n, LatinSquare ls, HashSet<Integer>[] availableInCol, Integer[] failedAttemptsPerRow, int[][] collisions) {
 	    //genero row de tamanio n en la posicion i
 

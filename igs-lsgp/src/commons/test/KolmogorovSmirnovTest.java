@@ -138,6 +138,7 @@ public class KolmogorovSmirnovTest {
 		return probks;
 	}
 	
+	@SuppressWarnings("unused")
 	private void showData(List<Double> data) {
 		Double suma = 0.0;
 		for (int k=0; k<data.size(); k++) {

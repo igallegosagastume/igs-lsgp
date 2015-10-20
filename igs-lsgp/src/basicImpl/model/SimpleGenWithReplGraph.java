@@ -42,6 +42,7 @@ public class SimpleGenWithReplGraph extends SimpleGen {
 	}
 	
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public ArrayList<Integer> generateRow(int i_row, int n, LatinSquare ls, HashSet<Integer>[] availableInCol, Integer[] failedAttemptsPerRow, int[][] collisions) {
 		HashSet<Integer> availableInRow = new HashSet<Integer>();

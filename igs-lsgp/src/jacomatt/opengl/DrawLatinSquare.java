@@ -81,6 +81,7 @@ import com.jogamp.opengl.util.awt.TextRenderer;
  * @email ignaciogallego@gmail.com
  * @tags Java Latin Square generation
  */
+@SuppressWarnings("deprecation")
 public class DrawLatinSquare implements GLEventListener,
 		KeyListener {
 	TextRenderer textRenderer;

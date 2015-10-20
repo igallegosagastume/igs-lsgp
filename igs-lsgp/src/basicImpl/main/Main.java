@@ -35,7 +35,6 @@ import basicImpl.model.SimpleGen;
 import basicImpl.model.SimpleGenWithRandomSwapping;
 import basicImpl.model.SimpleGenWithReplGraph;
 import basicImpl.model.SimpleGenWithRestartRow;
-
 import commons.FileUtils;
 
 /**
@@ -127,6 +126,7 @@ public class Main {
 		System.out.println("LS generated in: "+secs+" seconds. Generation method: "+generator.getMethodName());		
 	}
 	
+	@SuppressWarnings("unchecked")
 	public static void debugRandomSwapping() throws Exception {
 		LatinSquare ls = new LatinSquare(5);
 		SimpleGenWithRandomSwapping rs = new SimpleGenWithRandomSwapping(5);
@@ -182,6 +182,7 @@ public class Main {
 	}
 	
 	
+	@SuppressWarnings("unchecked")
 	public static void debugReplGraph() throws Exception {
 		LatinSquare ls = new LatinSquare(6);
 		SimpleGenWithReplGraph rg = new SimpleGenWithReplGraph(6);
