@@ -148,6 +148,7 @@ public class KolmogorovSmirnovTest {
 		return;
 	}
 	
+	@SuppressWarnings("unused")
 	@Deprecated
 	private List<Double> fakeData() {
 		List<Double> data = new ArrayList<Double>();
