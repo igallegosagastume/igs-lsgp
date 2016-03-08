@@ -48,11 +48,6 @@ public class Main {
 	 * @param args
 	 */
 	public static void main(String[] args) throws Exception {
-//		debugReplGraph();
-//		debugRandomSwapping();
-//		computeTimeForSimpleGenerationWithCycleSwapping(7);//there are cases that enter into an infinite Loop
-
-
 		/** This class is prepared to be called from a runnable jar in a system console **/
 				
 		if (args.length<2) {
