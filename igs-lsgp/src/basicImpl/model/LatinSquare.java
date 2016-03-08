@@ -140,19 +140,7 @@ public class LatinSquare implements ILatinSquare {
 		}
 		return eq;
 	}
-	
-//	public boolean equalHash(ILatinSquare ls2) {
-//		
-//		String str1 = this.toString();
-//		
-//		String str2 = ls2.toString();
-//		
-//		byte[] dig1 = md.digest(str1.getBytes());
-//		byte[] dig2 = md.digest(str2.getBytes());
-//		
-//		return MessageDigest.isEqual(dig1, dig2);
-//	}
-	
+
 	public byte[] hashCodeOfLS() {
 		String str1 = this.serializeLS();
 		return md.digest(str1.getBytes());

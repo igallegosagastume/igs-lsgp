@@ -48,7 +48,6 @@ public class Main {
 	 * @param args
 	 */
 	public static void main(String[] args) throws Exception {
-		//prueba2
 		/** This class is prepared to be called from a runnable jar in a system console **/
 				
 		if (args.length<2) {
