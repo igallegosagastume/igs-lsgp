@@ -66,11 +66,6 @@ public class LatinSquare implements ILatinSquare {
 			System.out.println("No such algorithm: md5");
 		}
 	}
-	
-	/*public void setLs(ArrayList<Integer>[] ls) {
-		this.ls = ls;
-		this.n = ls.length;
-	}*/
 
 	@Override
 	public int size() throws Exception {

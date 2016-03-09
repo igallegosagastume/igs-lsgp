@@ -2,7 +2,7 @@
  * Creation date: 09/03/2016
  * 
  */
-package mckaywormald;
+package mckaywormald.model;
 
 
 
@@ -49,21 +49,41 @@ public class LatinRectangle implements ILatinRectangle {
 		protected MessageDigest md = null;
 		
 		@SuppressWarnings("unchecked")
-		public LatinRectangle(int k, int n) {
+		public LatinRectangle(ILatinSquare ls) throws Exception {
+			int n = ls.size();
+			this.colSize = n;
+			this.rowSize = n;
+			this.lr = new ArrayList[n];
 			
-			 this.lr = new ArrayList[k];
-			 this.colSize = n;
-			 this.rowSize = k;
-			 
-			 //initialization with 0s to reach size
-			 for (int i=0; i<k; i++) {
-			    lr[i] = new ArrayList<Integer>(n);
-			    for (int j=0; j<n; j++) {
-			    	lr[i].add(0); //add initial n 0s
-			    }
-			    
-			 }
-			//initialize the md
+			// initialization
+			for (int i = 0; i < n; i++) {
+				lr[i] = new ArrayList<Integer>(n);
+				for (int j = 0; j < n; j++) {
+					lr[i].add(ls.getValueAt(i, j));
+				}
+			}
+			// initialize the md
+			try {
+				md = MessageDigest.getInstance("MD5");
+			} catch (NoSuchAlgorithmException e) {
+				System.out.println("No such algorithm: md5");
+			}
+		}
+		
+		@SuppressWarnings("unchecked")
+		public LatinRectangle(int k, int n) {
+			this.lr = new ArrayList[k];
+			this.colSize = n;
+			this.rowSize = k;
+	
+			// initialization with 0s to reach size
+			for (int i = 0; i < k; i++) {
+				lr[i] = new ArrayList<Integer>(n);
+				for (int j = 0; j < n; j++) {
+					lr[i].add(0); // add initial n 0s
+				}
+			}
+			// initialize the md
 			try {
 				md = MessageDigest.getInstance("MD5");
 			} catch (NoSuchAlgorithmException e) {
@@ -155,7 +175,7 @@ public class LatinRectangle implements ILatinRectangle {
 		@Override
 		public String serializeStructure() {
 			StringBuffer sb = new StringBuffer();
-			for (int x=0; x<colSize ; x++) {
+			for (int x=0; x<rowSize ; x++) {
 				for (int y=0; y<colSize ; y++) {
 					Integer elem = lr[x].get(y);
 					sb.append(elem); 
@@ -171,14 +191,24 @@ public class LatinRectangle implements ILatinRectangle {
 
 		@Override
 		public int size() throws Exception {
-			if (this.rowSize==this.colSize)
+			if (this.isASquare())
 				return this.rowSize;//if it is a square, return n=order
 			throw new Exception("Don't know how to respond: rows or columns?");
 		}
 
 		@Override
 		public boolean equals(ILatinSquare ls) throws Exception {
-			return this.equals(ls);
+			if (this.isASquare() && this.size()==ls.size())
+				return this.equals(new LatinRectangle(ls));
+			else
+				return false;
 		}
+
+		@Override
+		public boolean isASquare() {
+			return (this.rowSize==this.colSize);
+		}
+		
+		
 	}
 

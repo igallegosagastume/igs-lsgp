@@ -14,5 +14,7 @@ public interface ILatinRectangle extends ILatinSquare {
 		public int rowSize();
 		
 		//querys
-		public boolean equals(ILatinRectangle lr) throws Exception; 
+		public boolean equals(ILatinRectangle lr) throws Exception;
+		
+		public boolean isASquare();
 }
