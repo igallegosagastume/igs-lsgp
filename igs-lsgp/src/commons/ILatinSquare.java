@@ -37,16 +37,15 @@ public interface ILatinSquare {
 	//getters and setters
 	public Integer getValueAt(int row, int column) throws Exception;
 	public void setValueAt(int row, int column, int value) throws Exception;
-	//public void setRow (int i, ArrayList<Integer> row);
-	
+
+	//utils
 	public void writeToFile(String fileName) throws Exception;
 	public String toString();
+	
 	
 	public int size();
 	
 	public boolean equals(ILatinSquare ls) throws Exception; 
-	
-//	public boolean equalHash(ILatinSquare ls);
 	
 	public byte[] hashCodeOfLS();
 	
