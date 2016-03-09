@@ -67,7 +67,7 @@ public class McKayLRGenerationMethod {
 	    
 		LatinRectangle lr = new LatinRectangle(k, n);
 	    
-	    for (int i=0; i<n; i++) {
+	    for (int i=0; i<k; i++) {
 	    	ArrayList<Integer> row = this.generateRow(i, n, lr);
 	    	
 	    	lr.setRow(i, row);

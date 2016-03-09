@@ -75,11 +75,11 @@ public class LatinRectangle implements ILatinRectangle {
 			this.colSize = n;
 
 			// initialization with 0s (useless)
-//			for (int i = 0; i < k; i++) {
-//				for (int j = 0; j < n; j++) {
-//					lr[i][j] = 0; // add initial n 0s
-//				}
-//			}
+			for (int i = 0; i < k; i++) {
+				for (int j = 0; j < n; j++) {
+					lr[i][j] = 0; // add initial n 0s
+				}
+			}
 			// initialize the md
 			try {
 				md = MessageDigest.getInstance("MD5");
