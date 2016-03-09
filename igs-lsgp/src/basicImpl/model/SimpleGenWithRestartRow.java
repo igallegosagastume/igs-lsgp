@@ -25,7 +25,7 @@ package basicImpl.model;
 import java.util.ArrayList;
 import java.util.HashSet;
 
-import basicImpl.utils.RandomUtils;
+import commons.RandomUtils;
 
 /**
  * @author igallego

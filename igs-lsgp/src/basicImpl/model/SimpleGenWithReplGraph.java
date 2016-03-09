@@ -28,7 +28,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 
-import basicImpl.utils.RandomUtils;
+import commons.RandomUtils;
 
 /**
  * @author igallego

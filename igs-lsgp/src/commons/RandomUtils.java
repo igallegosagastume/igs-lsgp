@@ -22,7 +22,7 @@
  * 
  * 
  */
-package basicImpl.utils;
+package commons;
 
 import java.security.SecureRandom;
 import java.util.HashSet;
