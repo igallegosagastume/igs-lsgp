@@ -49,7 +49,7 @@ public class Main {
 	 */
 	public static void main(String[] args) throws Exception {
 		/** This class is prepared to be called from a runnable jar in a system console **/
-				
+		
 		if (args.length<2) {
 			System.out.println("Usage: <method> <LS order> [write <path>]");
 			System.out.println("Where <method> ::= simple | product | swapping | restart | graph ");
