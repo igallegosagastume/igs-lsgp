@@ -31,6 +31,7 @@ import java.io.FileWriter;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import commons.ILatinRectangle;
 import commons.ILatinSquare;
@@ -41,7 +42,7 @@ import commons.ILatinSquare;
  */
 public class LatinRectangle implements ILatinRectangle {
 
-		protected ArrayList<Integer>[] lr;
+		protected Integer[][] lr;
 		
 		protected int colSize = 0;
 		protected int rowSize = 0;
@@ -53,13 +54,12 @@ public class LatinRectangle implements ILatinRectangle {
 			int n = ls.size();
 			this.colSize = n;
 			this.rowSize = n;
-			this.lr = new ArrayList[n];
+			this.lr = new Integer[n][n];
 			
 			// initialization
 			for (int i = 0; i < n; i++) {
-				lr[i] = new ArrayList<Integer>(n);
 				for (int j = 0; j < n; j++) {
-					lr[i].add(ls.getValueAt(i, j));
+					lr[i][j] = ls.getValueAt(i, j);
 				}
 			}
 			// initialize the md
@@ -72,15 +72,14 @@ public class LatinRectangle implements ILatinRectangle {
 		
 		@SuppressWarnings("unchecked")
 		public LatinRectangle(int k, int n) {
-			this.lr = new ArrayList[k];
+			this.lr = new Integer[k][n];
 			this.colSize = n;
 			this.rowSize = k;
 	
 			// initialization with 0s to reach size
 			for (int i = 0; i < k; i++) {
-				lr[i] = new ArrayList<Integer>(n);
 				for (int j = 0; j < n; j++) {
-					lr[i].add(0); // add initial n 0s
+					lr[i][j] = 0; // add initial n 0s
 				}
 			}
 			// initialize the md
@@ -107,7 +106,7 @@ public class LatinRectangle implements ILatinRectangle {
 				//sb.append("Row "+x+":");
 				for (int y=0; y<colSize ; y++) {
 					try {
-						Integer elem = lr[x].get(y);
+						Integer elem = lr[x][y];
 						sb.append(elem); 
 						sb.append("    ".substring(elem.toString().length()));
 						
@@ -122,12 +121,12 @@ public class LatinRectangle implements ILatinRectangle {
 
 		@Override
 		public Integer getValueAt(int row, int col) {
-			return lr[row].get(col);
+			return lr[row][col];
 		}
 
 		@Override
 		public void setValueAt(int row, int col, int value) {
-			lr[row].set(col, value);
+			lr[row][col] = value;
 		}
 
 		@Override
@@ -145,8 +144,14 @@ public class LatinRectangle implements ILatinRectangle {
 			bw.close();
 		}
 
-		public void setRow (int i, ArrayList<Integer> row) {
-			lr[i] = row;
+		public void setRow(int i, ArrayList<Integer> row) {
+			Iterator<Integer> rowIt = row.iterator();
+			
+			int j=0;
+			while (rowIt.hasNext()) {
+				Integer integer = rowIt.next();
+				lr[i][j++] = integer;
+			}
 		}
 		
 		@Override
@@ -177,7 +182,7 @@ public class LatinRectangle implements ILatinRectangle {
 			StringBuffer sb = new StringBuffer();
 			for (int x=0; x<rowSize ; x++) {
 				for (int y=0; y<colSize ; y++) {
-					Integer elem = lr[x].get(y);
+					Integer elem = lr[x][y];
 					sb.append(elem); 
 				}
 			}
@@ -209,6 +214,7 @@ public class LatinRectangle implements ILatinRectangle {
 			return (this.rowSize==this.colSize);
 		}
 		
-		
-	}
-
+		public boolean hasOverlappingConflicts() {
+			return false;
+		}
+}
