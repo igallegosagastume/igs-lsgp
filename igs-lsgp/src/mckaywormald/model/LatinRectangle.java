@@ -49,7 +49,6 @@ public class LatinRectangle implements ILatinRectangle {
 		
 		protected MessageDigest md = null;
 		
-		@SuppressWarnings("unchecked")
 		public LatinRectangle(ILatinSquare ls) throws Exception {
 			int n = ls.size();
 			this.colSize = n;
@@ -70,18 +69,17 @@ public class LatinRectangle implements ILatinRectangle {
 			}
 		}
 		
-		@SuppressWarnings("unchecked")
 		public LatinRectangle(int k, int n) {
 			this.lr = new Integer[k][n];
-			this.colSize = n;
 			this.rowSize = k;
-	
-			// initialization with 0s to reach size
-			for (int i = 0; i < k; i++) {
-				for (int j = 0; j < n; j++) {
-					lr[i][j] = 0; // add initial n 0s
-				}
-			}
+			this.colSize = n;
+
+			// initialization with 0s (useless)
+//			for (int i = 0; i < k; i++) {
+//				for (int j = 0; j < n; j++) {
+//					lr[i][j] = 0; // add initial n 0s
+//				}
+//			}
 			// initialize the md
 			try {
 				md = MessageDigest.getInstance("MD5");
@@ -214,7 +212,7 @@ public class LatinRectangle implements ILatinRectangle {
 			return (this.rowSize==this.colSize);
 		}
 		
-		public boolean hasOverlappingConflicts() {
-			return false;
-		}
+//		public boolean hasOverlappingConflicts() {
+//			return false;
+//		}
 }

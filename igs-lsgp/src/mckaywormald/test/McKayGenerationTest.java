@@ -41,7 +41,7 @@ public class McKayGenerationTest {
 		
 		McKayLRGenerationMethod gen = new McKayLRGenerationMethod();
 		
-		LatinRectangle lr3 = gen.generateLS(5);
+		LatinRectangle lr3 = gen.generateLR(3, 5);
 		
 		System.out.println(lr3);
 	}
