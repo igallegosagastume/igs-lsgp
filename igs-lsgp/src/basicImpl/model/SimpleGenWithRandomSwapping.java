@@ -46,7 +46,7 @@ public class SimpleGenWithRandomSwapping extends SimpleGen {
 	}
 	
 	@Override
-	public ArrayList<Integer> generateRow(int i_row, int n, LatinSquare ls, HashSet<Integer>[] availableInCol, Integer[] failedAttemptsPerRow, int[][] collisions) {
+	protected ArrayList<Integer> generateRow(int i_row, int n, LatinSquare ls, HashSet<Integer>[] availableInCol, Integer[] failedAttemptsPerRow, int[][] collisions) {
 		//genero row de tamanio n en la posicion i
 
 	    //disponibles en row actual

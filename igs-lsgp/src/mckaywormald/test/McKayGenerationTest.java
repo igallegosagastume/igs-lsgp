@@ -38,6 +38,12 @@ public class McKayGenerationTest {
 		System.out.println(ls);
 		
 		System.out.println(lr2.equals(ls));
+		
+		McKayLRGenerationMethod gen = new McKayLRGenerationMethod();
+		
+		LatinRectangle lr3 = gen.generateLS(5);
+		
+		System.out.println(lr3);
 	}
 	
 }
