@@ -75,7 +75,7 @@ public class GeneratorLSsChiTest implements Runnable {
 				|| option.equalsIgnoreCase("graph")) {
 			for (i=0; !finish ; i++) {
 				ls = generator.genLS();
-				byte[] dig1 = ls.hashCodeOfLS();
+				byte[] dig1 = ls.hashCodeOfStructure();
 				
 				boolean found = false;
 				Iterator<Integer> cuadrados = cuads.keySet().iterator();
@@ -102,7 +102,7 @@ public class GeneratorLSsChiTest implements Runnable {
 				ls = new EfficientIncidenceCube(order);//creates cyclic IC
 				((EfficientIncidenceCube)ls).shuffle();//shuffles IC = n^3 ops
 
-				byte[] dig1 = ls.hashCodeOfLS();
+				byte[] dig1 = ls.hashCodeOfStructure();
 				
 				boolean found = false;
 				Iterator<Integer> cuadrados = cuads.keySet().iterator();

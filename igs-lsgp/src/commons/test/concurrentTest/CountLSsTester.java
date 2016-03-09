@@ -78,7 +78,7 @@ public class CountLSsTester implements Runnable {
 		for (int i=0; !finish ; i++) {
 			
 			ls = generator.genLS();
-			byte[] dig1 = ls.hashCodeOfLS();
+			byte[] dig1 = ls.hashCodeOfStructure();
 			
 			boolean found = false;
 			Iterator<Integer> cuadrados = cuads.keySet().iterator();

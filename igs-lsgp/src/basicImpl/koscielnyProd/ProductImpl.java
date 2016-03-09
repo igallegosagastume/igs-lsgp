@@ -28,7 +28,6 @@ package basicImpl.koscielnyProd;
 import java.util.ArrayList;
 
 import commons.OrderedPair;
-
 import basicImpl.model.SimpleGen;
 import basicImpl.model.LatinSquare;
 
@@ -47,7 +46,7 @@ public class ProductImpl extends SimpleGen {
 		this.n = n;
 	}
 	
-	protected LatinSquare product(LatinSquare ls1, LatinSquare ls2) {
+	protected LatinSquare product(LatinSquare ls1, LatinSquare ls2) throws Exception {
 		int n1 = ls1.size();
 		int n2 = ls2.size();
 		
@@ -89,7 +88,13 @@ public class ProductImpl extends SimpleGen {
 
 		//genLS.mostrarLS(ls1)
 		//genLS.mostrarLS(ls2)
-		LatinSquare ls = this.product(ls1, ls2);
+		LatinSquare ls = null;
+		try {
+			ls = this.product(ls1, ls2);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		//write.writeMatrixToFile(ls, 'producto.txt')
 		return ls;
 	}

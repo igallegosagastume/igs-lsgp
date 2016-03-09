@@ -42,13 +42,12 @@ public interface ILatinSquare {
 	public void writeToFile(String fileName) throws Exception;
 	public String toString();
 	
-	
-	public int size();
-	
+	public int size() throws Exception;
+		
 	public boolean equals(ILatinSquare ls) throws Exception; 
 	
-	public byte[] hashCodeOfLS();
+	public byte[] hashCodeOfStructure();
 	
-	public String serializeLS();
+	public String serializeStructure();
 	
 }

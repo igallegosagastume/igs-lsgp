@@ -483,12 +483,12 @@ public class IncidenceCube implements ILatinSquare {
 	}
 	
 	
-	public byte[] hashCodeOfLS() {
-		String str1 = this.serializeLS();
+	public byte[] hashCodeOfStructure() {
+		String str1 = this.serializeStructure();
 		return md.digest(str1.getBytes());
 	}
 	
-	public String serializeLS() {
+	public String serializeStructure() {
 		StringBuffer sb = new StringBuffer();
 		for (int x=0; x<n ; x++) {
 			for (int y=0; y<n ; y++) {

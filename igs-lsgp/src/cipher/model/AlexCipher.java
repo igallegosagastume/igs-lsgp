@@ -71,7 +71,7 @@ public class AlexCipher {
 		input.close();
 	}
 	
-	public AlexCipher(ILatinSquare ls) {
+	public AlexCipher(ILatinSquare ls) throws Exception {
 		this.ls = ls;
 		this.n = ls.size();
 	}
