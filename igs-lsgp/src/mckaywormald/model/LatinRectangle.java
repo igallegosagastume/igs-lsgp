@@ -75,11 +75,11 @@ public class LatinRectangle implements ILatinRectangle {
 			this.colSize = n;
 
 			// initialization with 0s (useless)
-			for (int i = 0; i < k; i++) {
-				for (int j = 0; j < n; j++) {
-					lr[i][j] = 0; // add initial n 0s
-				}
-			}
+//			for (int i = 0; i < k; i++) {
+//				for (int j = 0; j < n; j++) {
+//					lr[i][j] = 0; // add initial n 0s
+//				}
+//			}
 			// initialize the md
 			try {
 				md = MessageDigest.getInstance("MD5");
@@ -105,8 +105,13 @@ public class LatinRectangle implements ILatinRectangle {
 				for (int y=0; y<colSize ; y++) {
 					try {
 						Integer elem = lr[x][y];
-						sb.append(elem); 
-						sb.append("    ".substring(elem.toString().length()));
+						
+						if (elem==null) {
+							sb.append(" -- ");
+						} else {
+							sb.append(elem); 
+							sb.append("    ".substring(elem.toString().length()));
+						}
 						
 					} catch (Exception e) {
 						sb.append("--  ");
@@ -160,7 +165,7 @@ public class LatinRectangle implements ILatinRectangle {
 			boolean eq = true;
 			for (int i=0; i<k2 && eq; i++) {
 				for (int j=0; j<n2 && eq; j++) {
-					if (this.getValueAt(i, j).intValue()!=lr2.getValueAt(i, j).intValue()) {
+					if (this.getValueAt(i, j)!=lr2.getValueAt(i, j)) {
 						eq = false;
 					}
 					
