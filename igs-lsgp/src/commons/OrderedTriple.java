@@ -45,4 +45,31 @@ public class OrderedTriple {
 	public String toString() {
 		return "("+x+", "+y+", "+z+")";
 	}
+
+	@Override
+	public boolean equals(Object obj) {
+		OrderedTriple t=null;
+		try {
+			t = (OrderedTriple)obj;
+		} catch (Exception e) {
+			return false;
+		}
+		if (t==null) return false;
+		else
+			return (this.x==t.x &&
+					this.y==t.y &&
+					this.z==t.z);
+					
+	}
+
+	@Override
+	public int hashCode() {
+		return (new Integer(x).hashCode())+
+			   (new Integer(y).hashCode())+
+			   (new Integer(z).hashCode());
+	}
+	
+	
+	
+	
 }

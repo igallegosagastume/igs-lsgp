@@ -42,7 +42,7 @@ import commons.ILatinSquare;
  */
 public class LatinRectangle implements ILatinRectangle {
 
-		protected Integer[][] lr;
+		protected int[][] lr;
 		
 		protected int colSize = 0;
 		protected int rowSize = 0;
@@ -53,7 +53,7 @@ public class LatinRectangle implements ILatinRectangle {
 			int n = ls.size();
 			this.colSize = n;
 			this.rowSize = n;
-			this.lr = new Integer[n][n];
+			this.lr = new int[n][n];
 			
 			// initialization
 			for (int i = 0; i < n; i++) {
@@ -70,7 +70,7 @@ public class LatinRectangle implements ILatinRectangle {
 		}
 		
 		public LatinRectangle(int k, int n) {
-			this.lr = new Integer[k][n];
+			this.lr = new int[k][n];
 			this.rowSize = k;
 			this.colSize = n;
 
