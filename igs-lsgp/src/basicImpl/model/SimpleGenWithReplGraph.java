@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 
 import commons.RandomUtils;
 
@@ -44,16 +45,16 @@ public class SimpleGenWithReplGraph extends SimpleGen {
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	public ArrayList<Integer> generateRow(int i_row, int n, LatinSquare ls, HashSet<Integer>[] availableInCol, Integer[] failedAttemptsPerRow, int[][] collisions) {
-		HashSet<Integer> availableInRow = new HashSet<Integer>();
+	public ArrayList<Integer> generateRow(int i_row, int n, LatinSquare ls, List<Integer>[] availableInCol, Integer[] failedAttemptsPerRow, int[][] collisions) {
+		List<Integer> availableInRow = new ArrayList<Integer>();
 	    for (int j=0; j<n; j++) {
 	    	availableInRow.add(j);
 	    }
 	    
-	    HashSet<Integer>[] initialAvailableInCol = new HashSet[n];
+	    List<Integer>[] initialAvailableInCol = new List[n];
 	    
 	    for (int j=0; j<n; j++) {
-	    	initialAvailableInCol[j] = new HashSet<Integer>();
+	    	initialAvailableInCol[j] = new ArrayList<Integer>();
 	    	initialAvailableInCol[j].addAll(availableInCol[j]);
 	    }
 	    
@@ -63,8 +64,12 @@ public class SimpleGenWithReplGraph extends SimpleGen {
 	    
 	    while (i_col < n) {//when i_col is n, there are n chosen numbers
 	        //available is:
-	        HashSet<Integer> available = new HashSet<Integer>();
+	        /*HashSet<Integer> available = new HashSet<Integer>();
 	        available.addAll(availableInCol[i_col]);
+	    	available.retainAll(availableInRow);*/
+	    	
+	    	List<Integer> available = new ArrayList<Integer>();
+	    	available.addAll(availableInCol[i_col]);
 	    	available.retainAll(availableInRow);
 
 	        if (!available.isEmpty()) { //if there are available
@@ -92,9 +97,9 @@ public class SimpleGenWithReplGraph extends SimpleGen {
 
 
 	public HashMap<Integer, HashSet<Integer>> constructReplGraph(ArrayList<Integer> row, 
-																	Integer col, 
-																	HashSet<Integer>[] initialAvailInCol, 
-																	HashSet<Integer>[] availInCol) {
+																 Integer col, 
+																 List<Integer>[] initialAvailInCol, 
+																 List<Integer>[] availInCol) {
 		
 		HashMap<Integer, HashSet<Integer>> map = new HashMap<Integer, HashSet<Integer>>();
 		
@@ -106,22 +111,20 @@ public class SimpleGenWithReplGraph extends SimpleGen {
 			if (set.size()>0)
 				map.put(j, set);//the element in position j could potentially be changed for one in the set
 		}
-//		System.out.println(map);
+
 		return map;
 	}
 	
-	public void makeElemAvailable(Integer old, HashMap<Integer, HashSet<Integer>> map, ArrayList<Integer> row, Integer col, HashSet<Integer>[] availInCol, HashSet<Integer> availableInRow) {
+	public void makeElemAvailable(Integer old, HashMap<Integer, HashSet<Integer>> map, 
+								  ArrayList<Integer> row, Integer col, 
+								  List<Integer>[] availInCol, 
+								  List<Integer> availableInRow) {
 		boolean finished = false;
 		
 		int firstElem = new Integer(old);
 		
 		this.eraseFirstElemFromGraph(map, firstElem);
-		
-//		System.out.println(firstElem);
-//		System.out.println("Collision at: "+row);
-//
-//		System.out.println(map);
-		
+	
 		int idx_old = row.indexOf(old);
 		int idx_new;
 
@@ -135,20 +138,17 @@ public class SimpleGenWithReplGraph extends SimpleGen {
 //				old = firstElem;
 //			}
 			
-			HashSet<Integer> avail = new HashSet<Integer>();
+			List<Integer> avail = new ArrayList<Integer>();
 			avail.addAll(map.get(idx_old));
 			avail.removeAll(path);
 			
 			if (avail.isEmpty()) {
-//				System.out.println("Path no good, begin again: "+path);
-//				System.out.println("Map: "+map);
-//				System.out.println("Row: "+row);
-				
+				//Path no good, begin again
 				path = new HashSet<Integer>();
 				avail.addAll(map.get(idx_old));
 			}
 			
-			int newElem = RandomUtils.randomChoice(avail);
+			Integer newElem = RandomUtils.randomChoice(avail);
 			idx_new = row.indexOf(newElem);//index of this elem before replacement because it will be repeated
 						
 			//replace 
@@ -161,7 +161,8 @@ public class SimpleGenWithReplGraph extends SimpleGen {
 				availableInRow.add(old);
 			availableInRow.remove(newElem);
 
-			availInCol[idx_old].add(old);
+			if (availInCol[idx_old].indexOf(old)==-1)//check to avoid repetition
+				availInCol[idx_old].add(old);
 			availInCol[idx_old].remove(newElem);
 			
 			finished = (availableInRow.contains(firstElem) && idx_new==-1);// || (path.size()==n);//the element is now available in row and there are no repetitions

@@ -27,6 +27,7 @@ package basicImpl.model;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 
 import commons.RandomUtils;
 
@@ -46,11 +47,11 @@ public class SimpleGenWithRandomSwapping extends SimpleGen {
 	}
 	
 	@Override
-	protected ArrayList<Integer> generateRow(int i_row, int n, LatinSquare ls, HashSet<Integer>[] availableInCol, Integer[] failedAttemptsPerRow, int[][] collisions) {
+	protected ArrayList<Integer> generateRow(int i_row, int n, LatinSquare ls, List<Integer>[] availableInCol, Integer[] failedAttemptsPerRow, int[][] collisions) {
 		//genero row de tamanio n en la posicion i
 
 	    //disponibles en row actual
-	    HashSet<Integer> availableInRow = new HashSet<Integer>();
+	    List<Integer> availableInRow = new ArrayList<Integer>();
 	    
 	    //inicialmente los elementos de 0 a n-1
 	    for (int j=0; j<n; j++) {
@@ -67,11 +68,11 @@ public class SimpleGenWithRandomSwapping extends SimpleGen {
 	    	repetitionsInCol[i] = new HashSet<Integer>();
 	    }*/
 	    
-	    HashSet<Integer> columnsWithRepetitions = new HashSet<Integer>();
+	    List<Integer> columnsWithRepetitions = new ArrayList<Integer>();
 	    
 	    while (i_col < n) {//cuando llega a n, elegi n numeros
 	        //conjunto de disponibles es:
-	        HashSet<Integer> available = new HashSet<Integer>();
+	        List<Integer> available = new ArrayList<Integer>();
 	        available.addAll(availableInCol[i_col]);
 	    	available.retainAll(availableInRow);
 	    	
@@ -103,12 +104,12 @@ public class SimpleGenWithRandomSwapping extends SimpleGen {
 	    if (columnsWithRepetitions.size()>0) {
 	    	this.fixRow(i_row, n, ls, row, columnsWithRepetitions, availableInCol);
 	    } else {
-//	    	System.out.println("Row "+(i_row)+" generated...");
+	    	//System.out.println("Row "+(i_row)+" generated...");
 	    }
 	    return row;
 	}
 
-	public void fixRow(int i_row, int n, LatinSquare ls, ArrayList<Integer> row, HashSet<Integer> columnsWithRepetitions, HashSet<Integer>[] availableInCol) {
+	public void fixRow(int i_row, int n, LatinSquare ls, List<Integer> row, List<Integer> columnsWithRepetitions, List<Integer>[] availableInCol) {
 		int columnCountBeforeSwap, columnCountAfterSwap;
 		Integer lastCol1 = null, lastCol2 = null;
 		do {
@@ -117,7 +118,7 @@ public class SimpleGenWithRandomSwapping extends SimpleGen {
 			Integer anotherCol = 0;
 			
 			//create a bag with all symbols, except the column with repetitions
-			HashSet<Integer> bag = new HashSet<Integer>();
+			List<Integer> bag = new ArrayList<Integer>();
 			bag.addAll(symbols);
 			bag.remove(columnWRep);
 			
@@ -143,12 +144,13 @@ public class SimpleGenWithRandomSwapping extends SimpleGen {
 			//In any case (successful or not), save the last swap to avoid repeating paths 
 			lastCol1 = columnWRep;
 			lastCol2 = anotherCol;
+//			System.out.println(columnCountAfterSwap);
 	    } while (columnCountAfterSwap>0);
 	}
 	
 
 	//swap in constant time
-	private void swap(int columnWRep, int anotherCol,  LatinSquare ls, ArrayList<Integer> row, HashSet<Integer> columnsWithRepetitions, HashSet<Integer>[] availableInCol) {
+	private void swap(Integer columnWRep, Integer anotherCol,  LatinSquare ls, List<Integer> row, List<Integer> columnsWithRepetitions, List<Integer>[] availableInCol) {
 		Integer elem1 = row.get(columnWRep);
 		Integer elem2 = row.get(anotherCol);
 		
@@ -163,13 +165,15 @@ public class SimpleGenWithRandomSwapping extends SimpleGen {
     	boolean deleted1 = availableInCol[anotherCol].remove(elem1);
     	
     	if (!columnsWithRepetitions.contains(anotherCol)) {//if the element was NOT repeated
-    		availableInCol[anotherCol].add(elem2);
+    		if (!availableInCol[anotherCol].contains(elem2))
+    			availableInCol[anotherCol].add(elem2);
     	}
     	
     	if (deleted1) {	//if the element was available
     		columnsWithRepetitions.remove(anotherCol);//now the column has no repetitions
 		} else {
-			columnsWithRepetitions.add(anotherCol);
+			if (!columnsWithRepetitions.contains(anotherCol)) 
+				columnsWithRepetitions.add(anotherCol);
 		}
 
 	}

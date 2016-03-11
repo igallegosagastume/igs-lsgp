@@ -24,6 +24,7 @@ package basicImpl.model;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 
 import commons.RandomUtils;
 
@@ -38,20 +39,8 @@ public class SimpleGenWithRestartRow extends SimpleGen {
 		super(n);
 	}
 	
-//	private HashSet<Integer>[] copyCollection(HashSet<Integer>[] col) {
-//		@SuppressWarnings("unchecked")
-//		HashSet<Integer>[] newCol =  new HashSet[n];
-//		
-//		for(int i=0; i<n; i++) {
-//			newCol[i] = new HashSet<Integer>();
-//			newCol[i].addAll(col[i]);
-//		}
-//		
-//		return newCol;
-//	}
-	
 	@Override
-	public ArrayList<Integer> generateRow(int i_row, int n, LatinSquare ls, HashSet<Integer>[] availableInCol, Integer[] failedAttemptsPerRow, int[][] collisions) {
+	public ArrayList<Integer> generateRow(int i_row, int n, LatinSquare ls, List<Integer>[] availableInCol, Integer[] failedAttemptsPerRow, int[][] collisions) {
 		HashSet<Integer> availableInRow = new HashSet<Integer>();
 	    for (int j=0; j<n; j++) {
 	    	availableInRow.add(j);
@@ -63,28 +52,15 @@ public class SimpleGenWithRestartRow extends SimpleGen {
 	    ArrayList<Integer> row = new ArrayList<Integer>();
 	    int i_col = 0;
 	    
-//	    ArrayList<Integer> beginWith = new ArrayList<Integer>();
-	    
 	    while (i_col < n) {//when i_col is n, there are n chosen numbers
 	        //available is:
-	        HashSet<Integer> available = new HashSet<Integer>();
+	        List<Integer> available = new ArrayList<Integer>();
 	        available.addAll(availableInCol[i_col]);
 	    	available.retainAll(availableInRow);
-	    	
-//	    	if (i_col==0) {
-//	    		available.removeAll(beginWith);
-//	    		if (available.isEmpty()) {
-//	    			available.addAll(beginWith);
-//	    		}
-//	    	}
 	    	
 	        if (!available.isEmpty()) { //if there are available
 	            //choose a symbol at random
 	            Integer symbol = RandomUtils.randomChoice(available);
-	            
-//	            if (i_col==0) {
-//	            	beginWith.add(symbol);
-//	            }
 	            
 	            //count the chosen symbol
 	            availableInCol[i_col].remove(symbol);
@@ -102,17 +78,7 @@ public class SimpleGenWithRestartRow extends SimpleGen {
 	        		availableInRow.add(symbol);
 	        		row.remove(i_col);
 	        	}
-//	        	
-//	        	
-//	        	row = new ArrayList<Integer>();
-//	            availableInCol = this.copyCollection(initialColsAvailable);
-//	            
-//	            //return all elements to available in row
-//	            availableInRow = new HashSet<Integer>();
-//	            for (int j=0; j<n; j++) {
-//		    		availableInRow.add(j);
-//	            }
-//	            i_col = 0;
+
 	            if (colcount%10000==0) {
 	            	System.out.println(colcount +" restarts!");
 	            }

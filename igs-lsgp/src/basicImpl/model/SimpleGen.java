@@ -27,6 +27,7 @@ package basicImpl.model;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 
 import commons.RandomUtils;
 
@@ -49,11 +50,11 @@ public class SimpleGen {
 	public LatinSquare genLS() { 
 	    LatinSquare ls = new LatinSquare(n);
 	    	    
-	    //disponibles en cada columna
-	    HashSet<Integer>[] availableInCol = new HashSet[n];
-	    //availableInCol = [ [y for y in range(1,n+1) ] for x in range(1, n+1) ] //inicialmente todos los numeros en cada columna
+	    //available in each column
+	    List<Integer>[] availableInCol = new List[n];
+
 	    for (int i=0; i<n; i++) {
-	    	availableInCol[i] = new HashSet<Integer>();
+	    	availableInCol[i] = new ArrayList<Integer>();
 	    	for (int j=0; j<n; j++) {
 	    		availableInCol[i].add(j);
 	    	}
@@ -83,7 +84,7 @@ public class SimpleGen {
 	        
 	        
 	@SuppressWarnings("unchecked")
-	protected ArrayList<Integer> generateRow(int i_row, int n, LatinSquare ls, HashSet<Integer>[] availableInCol, Integer[] failedAttemptsPerRow, int[][] collisions) {
+	protected ArrayList<Integer> generateRow(int i_row, int n, LatinSquare ls, List<Integer>[] availableInCol, Integer[] failedAttemptsPerRow, int[][] collisions) {
 	    //genero row de tamanio n en la posicion i
 
 	    //disponibles en row actual
@@ -106,7 +107,7 @@ public class SimpleGen {
 	    int failedInRowCount = 0;
 	    while (i_col < n) {//cuando llega a n, elegi n numeros
 	        //conjunto de disponibles es:
-	        HashSet<Integer> available = new HashSet<Integer>();
+	        List<Integer> available = new ArrayList<Integer>();
 	        available.addAll(availableInCol[i_col]);//list((set(availableInCol[i_col]) & set(availableInRow)) - set(failedAttemptsInCol[i_col]))
 	    	available.retainAll(availableInRow);
 	    	available.removeAll(failedAttemptsInCol[i_col]);

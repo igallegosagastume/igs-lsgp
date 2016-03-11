@@ -5,7 +5,6 @@
 package mckaywormald.model;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -69,7 +68,7 @@ public class McKayLRGenerationMethod {
 		    	int i2 = conflict.y;
 		    	int j1 = conflict.z;
 		    	
-		    	Set<Integer> nMinusj1 = new HashSet<Integer>();
+		    	List<Integer> nMinusj1 = new ArrayList<Integer>();
 		    	nMinusj1.addAll(this.initiallyAvInRow);//can this be avoided? is O(n)??
 		    	nMinusj1.remove(j1);
 		    	
@@ -133,7 +132,7 @@ public class McKayLRGenerationMethod {
 	}
 	        
 	private ArrayList<Integer> generateRow(int rowIndex, int n, LatinRectangle ls/*, int[][] columnOfRowValue*/) {
-	    HashSet<Integer> availableInRow = new HashSet<Integer>();
+	    List<Integer> availableInRow = new ArrayList<Integer>();
 	    availableInRow.addAll(this.initiallyAvInRow);
 	    
 	    ArrayList<Integer> row = new ArrayList<Integer>();
