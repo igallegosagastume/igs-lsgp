@@ -25,7 +25,7 @@ public class McKayLRGenerationMethod {
 	
 	private int conflictsCount = 0;
 	private boolean overlappingConflicts = false;
-	private int[][] timesSymbolOccurInColumn = null; 
+	private int[][] timesSymbolOccursInColumn = null; 
 	private List<OrderedTriple> conflicts = null; 
 	
 	
@@ -92,15 +92,15 @@ public class McKayLRGenerationMethod {
 		    	boolean x1 = (y == a.getValueAt(i2, j1));
 		    	
 		    	//x2 : u \notIn A[C_{j2} - {i1,j2}]
-		    	boolean x2 = (this.timesSymbolOccurInColumn[u][j2]==1);
+		    	boolean x2 = (this.timesSymbolOccursInColumn[u][j2]==1);
 		    	//x3 : v \notIn A[C_{j3} - {i1,j3}]
-		    	boolean x3 = (this.timesSymbolOccurInColumn[v][j3]==1);
+		    	boolean x3 = (this.timesSymbolOccursInColumn[v][j3]==1);
 		    	//x4 : y \notIn A[C_{j2}]
-		    	boolean x4 = (this.timesSymbolOccurInColumn[y][j2]==0);
+		    	boolean x4 = (this.timesSymbolOccursInColumn[y][j2]==0);
 		    	//x5 : u \notIn A[C_{j3}] 
-		    	boolean x5 = (this.timesSymbolOccurInColumn[u][j3]==0);
+		    	boolean x5 = (this.timesSymbolOccursInColumn[u][j3]==0);
 		    	//x6 : v \notIn A[C_{j1}]
-		    	boolean x6 = (this.timesSymbolOccurInColumn[v][j1]==0);
+		    	boolean x6 = (this.timesSymbolOccursInColumn[v][j1]==0);
 		    	
 		    	if (x1 && x2 && x3 && x4 && x5 && x6) {// (i1,i2,j1,j2,j3) \in sw(a), apply the switching
 		    	  	a.setValueAt(i1, j1, v);
@@ -125,7 +125,7 @@ public class McKayLRGenerationMethod {
 		
 		//from mckay
 		int[][] columnOfRowValue = new int[k][n];
-		this.timesSymbolOccurInColumn = new int[n][n]; //tells how many times a symbol occurs in the column
+		this.timesSymbolOccursInColumn = new int[n][n]; //tells how many times a symbol occurs in the column
 	    
 		LatinRectangle lr = new LatinRectangle(k, n);
 	    
@@ -147,14 +147,14 @@ public class McKayLRGenerationMethod {
 	    	//select symbol
 	    	Integer symbol = RandomUtils.randomChoice(availableInRow);
 
-	    	this.timesSymbolOccurInColumn[symbol][colIndex]++;
+	    	this.timesSymbolOccursInColumn[symbol][colIndex]++;
 	    	
 	    	//conflict checks
-            if (this.timesSymbolOccurInColumn[symbol][colIndex]>1) {//!this.availableInCol[colIndex].contains(symbol)) {
+            if (this.timesSymbolOccursInColumn[symbol][colIndex]>1) {//!this.availableInCol[colIndex].contains(symbol)) {
             	this.conflictsCount++;
             	int last = this.lastRowIndexOf(symbol, ls, rowIndex, colIndex);
             	this.conflicts.add(new OrderedTriple(last, rowIndex, colIndex));
-            	if (this.timesSymbolOccurInColumn[symbol][colIndex]>2) {
+            	if (this.timesSymbolOccursInColumn[symbol][colIndex]>2) {
             		this.overlappingConflicts=true;
             	}
             }
