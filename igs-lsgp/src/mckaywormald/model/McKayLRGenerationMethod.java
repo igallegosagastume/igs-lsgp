@@ -50,22 +50,19 @@ public class McKayLRGenerationMethod {
 		    	a = randomMemberOfMkn(k, n);
 		    	matrixCount++;
 		    	System.out.println("Generated matrix A N°"+matrixCount+" with conflicts count:"+this.conflictsCount+" (>"+pow+"?) Overlapping:"+this.hasOverlappingConflicts);
-		    } while (this.conflictsCount>pow || this.hasOverlappingConflicts);
+		    } while (this.conflictsCount>pow || this.hasOverlappingConflicts); //replaced "repeat-until(p)" by "do-while(!p)"
 	
 		    rejected = false;
-		    
-		    
-//		    System.out.println("");
-//		    System.out.print("Begin inner loop");
 		    int innerLoop = 0;
 		    
 		    while (this.conflictsCount>0 && !rejected) {
-		    	
 		    	innerLoop++;
 		    	if (innerLoop>maxInnerLoop) {
 		    		maxInnerLoop=innerLoop;
 		    		System.out.println("MaxInnerLoop:"+maxInnerLoop);
 		    	}
+		    	
+		    	//take a conflict at random in constant time
 		    	OrderedTriple conflict = RandomUtils.randomTriple(this.conflictList);
 		    	
 		    	int i1 = conflict.x;
@@ -73,7 +70,7 @@ public class McKayLRGenerationMethod {
 		    	int j1 = conflict.z;
 		    	
 		    	Set<Integer> nMinusj1 = new HashSet<Integer>();
-		    	nMinusj1.addAll(this.initiallyAvInRow);
+		    	nMinusj1.addAll(this.initiallyAvInRow);//can this be avoided? is O(n)??
 		    	nMinusj1.remove(j1);
 		    	
 		    	int j2 = RandomUtils.randomChoice(nMinusj1);
@@ -89,7 +86,6 @@ public class McKayLRGenerationMethod {
 		    	
 		    	//x1
 		    	boolean x1 = (y == a.getValueAt(i2, j1));
-		    	
 		    	//x2 : u \notIn A[C_{j2} - {i1,j2}]
 		    	boolean x2 = (this.timesSymbolOccursInColumn[u][j2]==1);
 		    	//x3 : v \notIn A[C_{j3} - {i1,j3}]
@@ -105,11 +101,12 @@ public class McKayLRGenerationMethod {
 		    	  	a.setValueAt(i1, j1, v);
 		    	  	a.setValueAt(i1, j2, y);
 		    	  	a.setValueAt(i1, j3, u);
-		    	  	rejected = false;
+		    	  	rejected = false;//don't do "rejected=true with Probability(...)" allways accept A if sw(A) is possible
 		    	} else {
 		    		rejected = true;
-		    		//System.out.println("");
 		    	}
+		    	
+		    	//remove conflict
 		    	this.conflictList.remove(conflict);
 	    	  	this.conflictsCount--;
 		    }
@@ -122,21 +119,20 @@ public class McKayLRGenerationMethod {
 		this.hasOverlappingConflicts = false;
 		this.conflictList = new ArrayList<OrderedTriple>();
 		
-		//from mckay
-		int[][] columnOfRowValue = new int[k][n];
+		//int[][] columnOfRowValue = new int[k][n];
 		this.timesSymbolOccursInColumn = new int[n][n]; //tells how many times a symbol occurs in the column
 	    
 		LatinRectangle lr = new LatinRectangle(k, n);
 	    
 	    for (int i=0; i<k; i++) {
-	    	ArrayList<Integer> row = this.generateRow(i, n, lr, columnOfRowValue);
+	    	ArrayList<Integer> row = this.generateRow(i, n, lr/*, columnOfRowValue*/);
 	    	
 	    	lr.setRow(i, row);
 	    }
 	    return lr;
 	}
 	        
-	private ArrayList<Integer> generateRow(int rowIndex, int n, LatinRectangle ls, int[][] columnOfRowValue) {
+	private ArrayList<Integer> generateRow(int rowIndex, int n, LatinRectangle ls/*, int[][] columnOfRowValue*/) {
 	    HashSet<Integer> availableInRow = new HashSet<Integer>();
 	    availableInRow.addAll(this.initiallyAvInRow);
 	    
@@ -151,14 +147,14 @@ public class McKayLRGenerationMethod {
 	    	//conflict checks
             if (this.timesSymbolOccursInColumn[symbol][colIndex]>1) {//!this.availableInCol[colIndex].contains(symbol)) {
             	this.conflictsCount++;
-            	int last = this.lastRowIndexOf(symbol, ls, rowIndex, colIndex);
+            	int last = this.lastRowIndexOf(symbol, ls, rowIndex, colIndex);//this step is at most of O(k)
             	this.conflictList.add(new OrderedTriple(last, rowIndex, colIndex));
             	if (this.timesSymbolOccursInColumn[symbol][colIndex]>2) {
             		this.hasOverlappingConflicts=true;
             	}
             }
 
-            columnOfRowValue[rowIndex][symbol] = colIndex;
+            //columnOfRowValue[rowIndex][symbol] = colIndex;
             
             //remove from available
             availableInRow.remove(symbol);
@@ -175,7 +171,7 @@ public class McKayLRGenerationMethod {
 	private int lastRowIndexOf(int symbol, LatinRectangle ls, int row, int col) {
 		int result = -1;
 		boolean found = false;
-		int i = row-1;
+		int i = row-1;//search from last row until row 0
 		while (!found && i>=0) {
 			found = (ls.getValueAt(i,col)==symbol);
 			if (found)

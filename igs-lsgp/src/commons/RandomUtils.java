@@ -47,7 +47,6 @@ public class RandomUtils {
 	}
 
 	public static Integer randomChoice(Set<Integer> set) {
-		//For cryptography, the Random object should return truly random numbers
 		int item = rand.nextInt(set.size());
 		int i = 0;
 		for(Integer obj : set)
@@ -60,12 +59,7 @@ public class RandomUtils {
 	}
 	
 	public static OrderedTriple randomTriple(List<OrderedTriple> list) {
-		//For cryptography, the Random object should return truly random numbers
 		int idx = rand.nextInt(list.size());
-		
-		//Object[] arr = list.toArray();
-		
-//		return (OrderedTriple)arr[idx];
 		return list.get(idx);
 	}
 
