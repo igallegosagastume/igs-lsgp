@@ -20,13 +20,12 @@ public class McKayLRGenerationMethod {
 	
 	//auxiliary variables for the algorithm
 	private Set<Integer> initiallyAvInRow = null;
-//	private HashSet<Integer>[] availableInCol = null;
-	
-	
+
+	//from mckay paper
 	private int conflictsCount = 0;
-	private boolean overlappingConflicts = false;
+	private boolean hasOverlappingConflicts = false;
 	private int[][] timesSymbolOccursInColumn = null; 
-	private List<OrderedTriple> conflicts = null; 
+	private List<OrderedTriple> conflictList = null; 
 	
 	
 	public McKayLRGenerationMethod() {
@@ -50,8 +49,8 @@ public class McKayLRGenerationMethod {
 			do {
 		    	a = randomMemberOfMkn(k, n);
 		    	matrixCount++;
-		    	System.out.println("Generated matrix A N°"+matrixCount+" with conflicts count:"+this.conflictsCount+" (>"+pow+"?) Overlapping:"+this.overlappingConflicts);
-		    } while (this.conflictsCount>pow || this.overlappingConflicts);
+		    	System.out.println("Generated matrix A N°"+matrixCount+" with conflicts count:"+this.conflictsCount+" (>"+pow+"?) Overlapping:"+this.hasOverlappingConflicts);
+		    } while (this.conflictsCount>pow || this.hasOverlappingConflicts);
 	
 		    rejected = false;
 		    
@@ -67,7 +66,7 @@ public class McKayLRGenerationMethod {
 		    		maxInnerLoop=innerLoop;
 		    		System.out.println("MaxInnerLoop:"+maxInnerLoop);
 		    	}
-		    	OrderedTriple conflict = RandomUtils.randomTriple(this.conflicts);
+		    	OrderedTriple conflict = RandomUtils.randomTriple(this.conflictList);
 		    	
 		    	int i1 = conflict.x;
 		    	int i2 = conflict.y;
@@ -111,7 +110,7 @@ public class McKayLRGenerationMethod {
 		    		rejected = true;
 		    		//System.out.println("");
 		    	}
-		    	this.conflicts.remove(conflict);
+		    	this.conflictList.remove(conflict);
 	    	  	this.conflictsCount--;
 		    }
 		} while (rejected);
@@ -120,8 +119,8 @@ public class McKayLRGenerationMethod {
 	
 	private LatinRectangle randomMemberOfMkn(int k, int n) {
 		this.conflictsCount = 0;
-		this.overlappingConflicts = false;
-		this.conflicts = new ArrayList<OrderedTriple>();
+		this.hasOverlappingConflicts = false;
+		this.conflictList = new ArrayList<OrderedTriple>();
 		
 		//from mckay
 		int[][] columnOfRowValue = new int[k][n];
@@ -153,9 +152,9 @@ public class McKayLRGenerationMethod {
             if (this.timesSymbolOccursInColumn[symbol][colIndex]>1) {//!this.availableInCol[colIndex].contains(symbol)) {
             	this.conflictsCount++;
             	int last = this.lastRowIndexOf(symbol, ls, rowIndex, colIndex);
-            	this.conflicts.add(new OrderedTriple(last, rowIndex, colIndex));
+            	this.conflictList.add(new OrderedTriple(last, rowIndex, colIndex));
             	if (this.timesSymbolOccursInColumn[symbol][colIndex]>2) {
-            		this.overlappingConflicts=true;
+            		this.hasOverlappingConflicts=true;
             	}
             }
 
