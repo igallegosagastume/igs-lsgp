@@ -48,7 +48,7 @@ public class AlexCipher {
 	
 	public static void main(String[] args) throws Exception {
 		SimpleGenWithReplGraph generator = new SimpleGenWithReplGraph(256);
-		ILatinSquare ls = generator.genLS();
+		ILatinSquare ls = generator.generateLS();
 		
 		AlexCipher cipher = new AlexCipher(ls);
 //		cipher.add(64);

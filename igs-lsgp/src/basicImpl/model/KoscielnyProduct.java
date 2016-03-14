@@ -27,6 +27,7 @@ package basicImpl.model;
 
 import java.util.ArrayList;
 
+import commons.ILatinSquare;
 import commons.OrderedPair;
 
 /**
@@ -44,11 +45,11 @@ public class KoscielnyProduct extends SimpleGenWithBacktracking {
 		this.n = n;
 	}
 	
-	protected LatinSquare product(LatinSquare ls1, LatinSquare ls2) throws Exception {
+	protected ArrayListLatinSquare product(ILatinSquare ls1, ILatinSquare ls2) throws Exception {
 		int n1 = ls1.size();
 		int n2 = ls2.size();
 		
-		LatinSquare result = new LatinSquare(n1*n2);
+		ArrayListLatinSquare result = new ArrayListLatinSquare(n1*n2);
     
 		for (int x=0; x < n1*n2; x++) {
 			for (int y=0; y < n1*n2; y++) {
@@ -57,7 +58,6 @@ public class KoscielnyProduct extends SimpleGenWithBacktracking {
 		}
 		return result;
 	}
-
 
 	private OrderedPair factors(int n) {
 	    ArrayList<OrderedPair> list = new ArrayList<OrderedPair>();
@@ -70,23 +70,21 @@ public class KoscielnyProduct extends SimpleGenWithBacktracking {
 	    return list.get(list.size()/2);//median
 	}
 
-	public  LatinSquare genLS() {
+	@Override
+	public ILatinSquare generateLS() {
 		OrderedPair pair = this.factors(n);
 		int n1 = pair.x;
 		int n2 = pair.y;
 
 		if (n2==1) {
 			//n is prime: cannot use Product to improve
-			return new SimpleGenWithBacktracking(n).genLS();//#genLS.genLS(n)
+			return new SimpleGenWithBacktracking(n).generateLS();//#genLS.genLS(n)
 		}
 
-		//print("generacion de LS("+repr(n)+") usando mult de N1="+repr(n1)+" * N2="+repr(n2))
-		LatinSquare ls1 = new SimpleGenWithBacktracking(n1).genLS();
-		LatinSquare ls2 = new SimpleGenWithBacktracking(n2).genLS();
+		ILatinSquare ls1 = new SimpleGenWithBacktracking(n1).generateLS();
+		ILatinSquare ls2 = new SimpleGenWithBacktracking(n2).generateLS();
 
-		//genLS.mostrarLS(ls1)
-		//genLS.mostrarLS(ls2)
-		LatinSquare ls = null;
+		ArrayListLatinSquare ls = null;
 		try {
 			ls = this.product(ls1, ls2);
 		} catch (Exception e) {
@@ -97,6 +95,7 @@ public class KoscielnyProduct extends SimpleGenWithBacktracking {
 		return ls;
 	}
 	
+	@Override
 	public String getMethodName() {
 		return "Koscielny product of two Latin Squares.";
 	}

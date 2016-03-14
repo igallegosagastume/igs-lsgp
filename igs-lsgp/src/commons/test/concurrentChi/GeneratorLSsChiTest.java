@@ -74,7 +74,7 @@ public class GeneratorLSsChiTest implements Runnable {
 		if (option.equalsIgnoreCase("swapping")
 				|| option.equalsIgnoreCase("graph")) {
 			for (i=0; !finish ; i++) {
-				ls = generator.genLS();
+				ls = generator.generateLS();
 				byte[] dig1 = ls.hashCodeOfStructure();
 				
 				boolean found = false;

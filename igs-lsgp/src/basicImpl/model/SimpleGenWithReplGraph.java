@@ -46,7 +46,7 @@ public class SimpleGenWithReplGraph extends SimpleGenWithBacktracking {
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	public ArrayList<Integer> generateRow(int i_row, int n, LatinSquare ls, Set<Integer>[] availableInCol, Integer[] failedAttemptsPerRow, int[][] collisions) {
+	public ArrayList<Integer> generateRow(int i_row, int n, ArrayListLatinSquare ls, Set<Integer>[] availableInCol, Integer[] failedAttemptsPerRow, int[][] collisions) {
 		Set<Integer> availableInRow = new HashSet<Integer>();
 	    for (int j=0; j<n; j++) {
 	    	availableInRow.add(j);

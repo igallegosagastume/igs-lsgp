@@ -29,13 +29,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 
+import basicImpl.model.ArrayListLatinSquare;
 import basicImpl.model.KoscielnyProduct;
-import basicImpl.model.LatinSquare;
 import basicImpl.model.SimpleGenWithBacktracking;
 import basicImpl.model.SimpleGenWithRandomSwapping;
 import basicImpl.model.SimpleGenWithReplGraph;
 import basicImpl.model.SimpleGenWithRestartRow;
+
 import commons.FileUtils;
+import commons.ILatinSquare;
 
 /**
  * @author Ignacio Gallego Sagastume
@@ -108,7 +110,7 @@ public class Main {
 	
 	public static void computeTimeFor(int n, SimpleGenWithBacktracking generator, String path) {
 		long startTime = System.nanoTime();
-		LatinSquare ls = generator.genLS();
+		ILatinSquare ls = generator.generateLS();
 		long endTime = System.nanoTime();
 
 		long duration = endTime - startTime;
@@ -123,7 +125,7 @@ public class Main {
 	
 	@SuppressWarnings("unchecked")
 	public static void debugRandomSwapping() throws Exception {
-		LatinSquare ls = new LatinSquare(5);
+		ArrayListLatinSquare ls = new ArrayListLatinSquare(5);
 		SimpleGenWithRandomSwapping rs = new SimpleGenWithRandomSwapping(5);
 		
 		ls.setValueAt(0, 0, 0);
@@ -179,7 +181,7 @@ public class Main {
 	
 	@SuppressWarnings("unchecked")
 	public static void debugReplGraph() throws Exception {
-		LatinSquare ls = new LatinSquare(6);
+		ArrayListLatinSquare ls = new ArrayListLatinSquare(6);
 		SimpleGenWithReplGraph rg = new SimpleGenWithReplGraph(6);
 		
 		ls.setValueAt(0, 0, 3);

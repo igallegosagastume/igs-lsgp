@@ -69,7 +69,7 @@ public class ChiSquareUniformityTest {
 			
 			if (option.equalsIgnoreCase("swapping")
 				|| option.equalsIgnoreCase("graph")) {
-				ls = generator.genLS();
+				ls = generator.generateLS();
 			} else {
 				ls = new EfficientIncidenceCube(order);//creates cyclic IC
 				((EfficientIncidenceCube)ls).shuffle();//shuffles IC = n^3 ops

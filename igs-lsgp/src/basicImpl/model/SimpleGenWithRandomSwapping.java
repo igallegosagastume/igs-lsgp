@@ -48,7 +48,7 @@ public class SimpleGenWithRandomSwapping extends SimpleGenWithBacktracking {
 	}
 	
 	@Override
-	protected ArrayList<Integer> generateRow(int i_row, int n, LatinSquare ls, Set<Integer>[] availableInCol, Integer[] failedAttemptsPerRow, int[][] collisions) {
+	protected ArrayList<Integer> generateRow(int i_row, int n, ArrayListLatinSquare ls, Set<Integer>[] availableInCol, Integer[] failedAttemptsPerRow, int[][] collisions) {
 		//genero row de tamanio n en la posicion i
 
 	    //disponibles en row actual
@@ -110,7 +110,7 @@ public class SimpleGenWithRandomSwapping extends SimpleGenWithBacktracking {
 	    return row;
 	}
 
-	public void fixRow(int i_row, int n, LatinSquare ls, List<Integer> row, List<Integer> columnsWithRepetitions, Set<Integer>[] availableInCol) {
+	public void fixRow(int i_row, int n, ArrayListLatinSquare ls, List<Integer> row, List<Integer> columnsWithRepetitions, Set<Integer>[] availableInCol) {
 		int columnCountBeforeSwap, columnCountAfterSwap;
 		Integer lastCol1 = null, lastCol2 = null;
 		do {
@@ -151,7 +151,7 @@ public class SimpleGenWithRandomSwapping extends SimpleGenWithBacktracking {
 	
 
 	//swap in constant time
-	private void swap(Integer columnWRep, Integer anotherCol,  LatinSquare ls, List<Integer> row, List<Integer> columnsWithRepetitions, Set<Integer>[] availableInCol) {
+	private void swap(Integer columnWRep, Integer anotherCol,  ArrayListLatinSquare ls, List<Integer> row, List<Integer> columnsWithRepetitions, Set<Integer>[] availableInCol) {
 		Integer elem1 = row.get(columnWRep);
 		Integer elem2 = row.get(anotherCol);
 		

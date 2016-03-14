@@ -30,6 +30,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import commons.ILatinSquare;
 import commons.RandomUtils;
 
 /**
@@ -37,7 +38,7 @@ import commons.RandomUtils;
  * @email ignaciogallego@gmail.com
  * @tags Java Latin Square generation
  */
-public class SimpleGenWithBacktracking {
+public class SimpleGenWithBacktracking implements ISimpleLSGenerator {
 
 	
 	protected int n = 0;
@@ -47,9 +48,10 @@ public class SimpleGenWithBacktracking {
 		RandomUtils.initRand();
 	}
 	
+	@Override
 	@SuppressWarnings("unchecked")
-	public LatinSquare genLS() { 
-	    LatinSquare ls = new LatinSquare(n);
+	public ILatinSquare generateLS() { 
+	    ArrayListLatinSquare ls = new ArrayListLatinSquare(n);
 	    	    
 	    //available in each column
 	    Set<Integer>[] availableInCol = new HashSet[n];
@@ -85,7 +87,7 @@ public class SimpleGenWithBacktracking {
 	        
 	        
 	@SuppressWarnings("unchecked")
-	protected ArrayList<Integer> generateRow(int i_row, int n, LatinSquare ls, Set<Integer>[] availableInCol, Integer[] failedAttemptsPerRow, int[][] collisions) {
+	protected ArrayList<Integer> generateRow(int i_row, int n, ArrayListLatinSquare ls, Set<Integer>[] availableInCol, Integer[] failedAttemptsPerRow, int[][] collisions) {
 	    //genero row de tamanio n en la posicion i
 
 	    //disponibles en row actual
@@ -157,6 +159,7 @@ public class SimpleGenWithBacktracking {
 	    return row;
 	}
 	        
+	@Override
 	public String getMethodName() {
 		return "Generation row by row with backtracking.";
 	}

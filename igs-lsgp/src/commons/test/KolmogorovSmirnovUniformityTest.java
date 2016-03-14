@@ -63,7 +63,7 @@ public class KolmogorovSmirnovUniformityTest {
 		for (int i=0; i<cantExperim ; i++) {
 			
 			if (random) {
-				ls = generator.genLS();
+				ls = generator.generateLS();
 			} else {
 				ls = new EfficientIncidenceCube(order);//creates a cyclic IC
 				((EfficientIncidenceCube)ls).shuffle();//shuffles ic

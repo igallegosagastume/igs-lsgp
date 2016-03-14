@@ -38,7 +38,7 @@ import commons.ILatinSquare;
  * @email ignaciogallego@gmail.com
  * @tags Java Latin Square generation
  */
-public class LatinSquare implements ILatinSquare {
+public class ArrayListLatinSquare implements ILatinSquare {
 
 	protected ArrayList<Integer>[] ls;
 	
@@ -47,7 +47,7 @@ public class LatinSquare implements ILatinSquare {
 	protected MessageDigest md = null;
 	
 	@SuppressWarnings("unchecked")
-	public LatinSquare(int n) {
+	public ArrayListLatinSquare(int n) {
 		
 		 this.ls = new ArrayList[n];
 		 this.n = n;
