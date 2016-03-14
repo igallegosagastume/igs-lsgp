@@ -117,6 +117,10 @@ public class Main {
 		}
 		
 		if (args[0].equalsIgnoreCase("mckay")) {
+			if (n<=2) {
+				System.out.println("Could not generate structure");
+				return;
+			}
 			double cubicRoot = Math.pow(n, 1.0/3.0);
 			int k = (int)cubicRoot+1;
 			
