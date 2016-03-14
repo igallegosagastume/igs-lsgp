@@ -25,7 +25,7 @@
  */
 package basicImpl.main;
 
-import jacomatt.generators.JacobsonMatthewsLSGenerator;
+import jacomatt.model.generators.JacobsonMatthewsLSGenerator;
 
 import java.util.ArrayList;
 import java.util.HashMap;

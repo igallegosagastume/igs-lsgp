@@ -2,7 +2,7 @@
  * Creation date: 14/03/2016
  * 
  */
-package jacomatt.generators;
+package jacomatt.model.generators;
 
 import jacomatt.model.EfficientIncidenceCube;
 import commons.ILatinSquare;
