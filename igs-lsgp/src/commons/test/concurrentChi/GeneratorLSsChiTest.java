@@ -34,9 +34,11 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import basicImpl.model.generators.AbstractSimpleGenerator;
 import basicImpl.model.generators.SimpleGenWithBacktracking;
 import basicImpl.model.generators.SimpleGenWithRandomSwapping;
 import basicImpl.model.generators.SimpleGenWithReplGraph;
+
 import commons.ILatinSquare;
 import commons.test.ChiSquareTest;
 
@@ -58,7 +60,7 @@ public class GeneratorLSsChiTest implements Runnable {
 
 		
 
-		SimpleGenWithBacktracking generator = new SimpleGenWithBacktracking(4); //default
+		AbstractSimpleGenerator generator = new SimpleGenWithBacktracking(4); //default
 		//creates the generator
 		if (option.equalsIgnoreCase("swapping")) 
 			generator = new SimpleGenWithRandomSwapping(order);

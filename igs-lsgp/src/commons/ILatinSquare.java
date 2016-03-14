@@ -37,8 +37,8 @@ import java.util.List;
 public interface ILatinSquare {
 
 	//getters and setters
-	public Integer getValueAt(int row, int column) throws Exception;
-	public void setValueAt(int row, int column, int value) throws Exception;
+	public Integer getValueAt(int row, int column);
+	public void setValueAt(int row, int column, int value);
 
 	public void setRow(int i, List<Integer> row);
 	//utils
@@ -46,11 +46,11 @@ public interface ILatinSquare {
 	public String toString();
 	
 	public int size() throws Exception;
-		
+	
+	
+	//equality
 	public boolean equals(ILatinSquare ls) throws Exception; 
-	
 	public byte[] hashCodeOfStructure();
-	
 	public String serializeStructure();
-	
+	public boolean equalHash(byte[] dig1, byte[] dig2);
 }

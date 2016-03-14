@@ -14,4 +14,5 @@ public interface ISimpleLSGenerator {
 
 	public ILatinSquare generateLS();
 	public String getMethodName();
+	
 }

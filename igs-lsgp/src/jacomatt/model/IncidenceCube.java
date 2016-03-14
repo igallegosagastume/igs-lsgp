@@ -454,12 +454,12 @@ public class IncidenceCube implements ILatinSquare {
 	}
 
 	@Override
-	public Integer getValueAt(int row, int column) throws Exception {
+	public Integer getValueAt(int row, int column) {
 		return this.plusOneZCoordOf(row, column);
 	}
 
 	@Override
-	public void setValueAt(int row, int column, int value) throws Exception {
+	public void setValueAt(int row, int column, int value) {
 		this.cube[row][column][value] = 1;		
 	}
 
@@ -508,6 +508,11 @@ public class IncidenceCube implements ILatinSquare {
 	@Override
 	public void setRow(int i, List<Integer> row) {
 		//not implemented yet
+	}
+	
+	@Override
+	public boolean equalHash(byte[] dig1, byte[] dig2) {
+		return MessageDigest.isEqual(dig1, dig2);
 	}
 }
 

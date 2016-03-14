@@ -30,12 +30,14 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
+import basicImpl.model.generators.AbstractSimpleGenerator;
 import basicImpl.model.generators.KoscielnyProduct;
 import basicImpl.model.generators.SimpleGenWithBacktracking;
 import basicImpl.model.generators.SimpleGenWithRandomSwapping;
 import basicImpl.model.generators.SimpleGenWithReplGraph;
 import basicImpl.model.generators.SimpleGenWithRestartRow;
 import basicImpl.model.latinsquares.ArrayListLatinSquare;
+
 import commons.FileUtils;
 import commons.ILatinSquare;
 
@@ -87,7 +89,7 @@ public class Main {
 		}
 
 		if (args[0].equalsIgnoreCase("swapping")) {
-			SimpleGenWithBacktracking generator = new SimpleGenWithRandomSwapping(n);
+			AbstractSimpleGenerator generator = new SimpleGenWithRandomSwapping(n);
 			computeTimeFor(n, generator, path);  // the most acceptable simple method
 			return;
 		}
@@ -108,7 +110,7 @@ public class Main {
 
 	}
 	
-	public static void computeTimeFor(int n, SimpleGenWithBacktracking generator, String path) {
+	public static void computeTimeFor(int n, AbstractSimpleGenerator generator, String path) {
 		long startTime = System.nanoTime();
 		ILatinSquare ls = generator.generateLS();
 		long endTime = System.nanoTime();
@@ -172,7 +174,7 @@ public class Main {
 		availableInCol[4] = new HashSet<Integer>();
 		availableInCol[4].add(1);availableInCol[4].add(2);
 		
-		rs.fixRow(3, 5, ls, row, columnsWithRepetitions, availableInCol);
+		rs.fixRow(3, row, columnsWithRepetitions);
 		
 		System.out.println(ls);
 		System.out.println(row);
@@ -266,13 +268,13 @@ public class Main {
 		availInitial[4].add(4);
 		
 		Integer col = 4;
-		HashMap<Integer, HashSet<Integer>> map = rg.constructReplGraph(row, col, availInitial, availableInCol);
+		HashMap<Integer, HashSet<Integer>> map = rg.constructReplGraph(row, col, availInitial);
 		
 		HashSet<Integer> availableInRow = new HashSet<Integer>();
 		availableInRow.add(0);
 		availableInRow.add(0);
 		int elem = 2;
-		rg.makeElemAvailable(elem, map, row, col, availableInCol, availableInRow);
+		rg.makeElemAvailable(elem, map, row, col, availableInRow);
 		System.out.println(row);
 		
 		System.exit(0);

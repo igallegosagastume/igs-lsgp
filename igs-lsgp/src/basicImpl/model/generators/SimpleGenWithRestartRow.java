@@ -42,11 +42,9 @@ public class SimpleGenWithRestartRow extends SimpleGenWithBacktracking {
 	}
 	
 	@Override
-	public ArrayList<Integer> generateRow(int i_row, int n, ILatinSquare ls, Set<Integer>[] availableInCol, Integer[] failedAttemptsPerRow, int[][] collisions) {
+	public ArrayList<Integer> generateRow(int i_row) {
 		HashSet<Integer> availableInRow = new HashSet<Integer>();
-	    for (int j=0; j<n; j++) {
-	    	availableInRow.add(j);
-	    }
+		availableInRow.addAll(symbols);
 	    
 	    int colcount = 0;
 	    

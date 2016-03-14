@@ -30,8 +30,6 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import commons.ILatinRectangle;
@@ -177,8 +175,8 @@ public class LatinRectangle implements ILatinRectangle {
 			return sb.toString();
 		}
 		
-		
-		public static boolean equalHash(byte[] dig1, byte[] dig2) {
+		@Override
+		public boolean equalHash(byte[] dig1, byte[] dig2) {
 			return MessageDigest.isEqual(dig1, dig2);
 		}
 

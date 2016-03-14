@@ -30,7 +30,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import commons.ILatinSquare;
 import commons.RandomUtils;
 
 /**
@@ -39,24 +38,18 @@ import commons.RandomUtils;
  * @tags Java Latin Square generation
  */
 
-public class SimpleGenWithRandomSwapping extends SimpleGenWithBacktracking {
+public class SimpleGenWithRandomSwapping extends AbstractSimpleGenerator {
 
-	protected HashSet<Integer> symbols = null;
-	
 	public SimpleGenWithRandomSwapping(int n) {
 		super(n);
-		this.symbols = RandomUtils.oneToN(n);
 	}
 	
 	@Override
-	protected ArrayList<Integer> generateRow(int i_row, int n, ILatinSquare ls, Set<Integer>[] availableInCol, Integer[] failedAttemptsPerRow, int[][] collisions) {
+	protected ArrayList<Integer> generateRow(int i_row) {
 	    Set<Integer> availableInRow = new HashSet<Integer>();
 	    
-	    //inicialmente los elementos de 0 a n-1
-	    for (int j=0; j<n; j++) {
-	    		availableInRow.add(j);
-	    }
-	    
+	    availableInRow.addAll(symbols);
+	    	    
 	    //resultado del algoritmo
 	    ArrayList<Integer> row = new ArrayList<Integer>();
 	    int i_col = 0;
@@ -95,14 +88,14 @@ public class SimpleGenWithRandomSwapping extends SimpleGenWithBacktracking {
 	    }
 	    
 	    if (columnsWithRepetitions.size()>0) {
-	    	this.fixRow(i_row, n, ls, row, columnsWithRepetitions, availableInCol);
+	    	this.fixRow(i_row, row, columnsWithRepetitions);
 	    } else {
 	    	//System.out.println("Row "+(i_row)+" generated...");
 	    }
 	    return row;
 	}
 
-	public void fixRow(int i_row, int n, ILatinSquare ls, List<Integer> row, Set<Integer> columnsWithRepetitions, Set<Integer>[] availableInCol) {
+	public void fixRow(int i_row, List<Integer> row, Set<Integer> columnsWithRepetitions) {
 		int columnCountBeforeSwap, columnCountAfterSwap;
 		Integer lastCol1 = null, lastCol2 = null;
 		do {
@@ -126,12 +119,12 @@ public class SimpleGenWithRandomSwapping extends SimpleGenWithBacktracking {
 			columnCountBeforeSwap = columnsWithRepetitions.size();
 			
 			//swap the two columns
-			this.swap(columnWRep, anotherCol, ls, row, columnsWithRepetitions, availableInCol);
+			this.swap(columnWRep, anotherCol, row, columnsWithRepetitions);
 			
 			columnCountAfterSwap = columnsWithRepetitions.size();
 			
 			if (columnCountAfterSwap>columnCountBeforeSwap) {//if not better, un-swap (== case must let swap, if not can loop forever)
-				this.swap(columnWRep, anotherCol, ls, row, columnsWithRepetitions, availableInCol);
+				this.swap(columnWRep, anotherCol, row, columnsWithRepetitions);
 			}
 			
 			//In any case (successful or not), save the last swap to avoid repeating paths 
@@ -143,7 +136,7 @@ public class SimpleGenWithRandomSwapping extends SimpleGenWithBacktracking {
 	
 
 	//swap in constant time
-	private void swap(Integer columnWRep, Integer anotherCol,  ILatinSquare ls, List<Integer> row, Set<Integer> columnsWithRepetitions, Set<Integer>[] availableInCol) {
+	private void swap(Integer columnWRep, Integer anotherCol, List<Integer> row, Set<Integer> columnsWithRepetitions) {
 		Integer elem1 = row.get(columnWRep);
 		Integer elem2 = row.get(anotherCol);
 		

@@ -29,7 +29,6 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
-import commons.ILatinSquare;
 import commons.RandomUtils;
 
 /**
@@ -41,15 +40,13 @@ public class SimpleGenWithReplGraph extends SimpleGenWithBacktracking {
 	public SimpleGenWithReplGraph(int n) {
 		super(n);
 	}
-	
-	
+
 	@SuppressWarnings("unchecked")
 	@Override
-	public ArrayList<Integer> generateRow(int i_row, int n, ILatinSquare ls, Set<Integer>[] availableInCol, Integer[] failedAttemptsPerRow, int[][] collisions) {
+	public ArrayList<Integer> generateRow(int i_row) {
 		Set<Integer> availableInRow = new HashSet<Integer>();
-	    for (int j=0; j<n; j++) {
-	    	availableInRow.add(j);
-	    }
+	    
+		availableInRow.addAll(symbols);
 	    
 	    Set<Integer>[] initialAvailableInCol = new HashSet[n];
 	    
@@ -81,9 +78,9 @@ public class SimpleGenWithReplGraph extends SimpleGenWithBacktracking {
 	            row.add(symbol);
 	            i_col++;
 	        } else {//collision
-	        	HashMap<Integer, HashSet<Integer>> map = this.constructReplGraph(row, i_col, initialAvailableInCol, availableInCol);
+	        	HashMap<Integer, HashSet<Integer>> map = this.constructReplGraph(row, i_col, initialAvailableInCol);
 	        	int elem = RandomUtils.randomChoice(availableInCol[i_col]);
-	        	this.makeElemAvailable(elem, map, row, i_col, availableInCol, availableInRow);
+	        	this.makeElemAvailable(elem, map, row, i_col, availableInRow);
 	        }
 	    }
 //	    System.out.println("Row "+i_row);//: "+row+".");
@@ -93,8 +90,7 @@ public class SimpleGenWithReplGraph extends SimpleGenWithBacktracking {
 
 	public HashMap<Integer, HashSet<Integer>> constructReplGraph(ArrayList<Integer> row, 
 																 Integer col, 
-																 Set<Integer>[] initialAvailInCol, 
-																 Set<Integer>[] availInCol) {
+																 Set<Integer>[] initialAvailInCol) {
 		
 		HashMap<Integer, HashSet<Integer>> map = new HashMap<Integer, HashSet<Integer>>();
 		
@@ -111,9 +107,7 @@ public class SimpleGenWithReplGraph extends SimpleGenWithBacktracking {
 	}
 	
 	public void makeElemAvailable(Integer old, HashMap<Integer, HashSet<Integer>> map, 
-								  ArrayList<Integer> row, Integer col, 
-								  Set<Integer>[] availInCol, 
-								  Set<Integer> availableInRow) {
+								  ArrayList<Integer> row, Integer col, Set<Integer> availableInRow) {
 		boolean finished = false;
 		
 		int firstElem = new Integer(old);
@@ -157,8 +151,8 @@ public class SimpleGenWithReplGraph extends SimpleGenWithBacktracking {
 			availableInRow.remove(newElem);
 
 			//if (availInCol[idx_old].indexOf(old)==-1)//check to avoid repetition
-			availInCol[idx_old].add(old);
-			availInCol[idx_old].remove(newElem);
+			availableInCol[idx_old].add(old);
+			availableInCol[idx_old].remove(newElem);
 			
 			finished = (availableInRow.contains(firstElem) && idx_new==-1);// || (path.size()==n);//the element is now available in row and there are no repetitions
 			

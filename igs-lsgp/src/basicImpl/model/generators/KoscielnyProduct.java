@@ -27,7 +27,7 @@ package basicImpl.model.generators;
 
 import java.util.ArrayList;
 
-import basicImpl.model.latinsquares.primitiveIntArrayLatinSquare;
+import basicImpl.model.latinsquares.PrimitiveIntArrayLatinSquare;
 
 import commons.ILatinSquare;
 import commons.OrderedPair;
@@ -37,7 +37,7 @@ import commons.OrderedPair;
  * @email ignaciogallego@gmail.com
  * @tags Java Latin Square generation
  */
-public class KoscielnyProduct extends SimpleGenWithBacktracking {
+public class KoscielnyProduct extends AbstractSimpleGenerator {
 
 	private int n = 0;
 	
@@ -51,7 +51,7 @@ public class KoscielnyProduct extends SimpleGenWithBacktracking {
 		int n1 = ls1.size();
 		int n2 = ls2.size();
 		
-		ILatinSquare result = new primitiveIntArrayLatinSquare(n1*n2);
+		ILatinSquare result = new PrimitiveIntArrayLatinSquare(n1*n2);
     
 		for (int x=0; x < n1*n2; x++) {
 			for (int y=0; y < n1*n2; y++) {
