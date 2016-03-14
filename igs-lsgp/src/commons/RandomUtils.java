@@ -27,6 +27,7 @@ package commons;
 import java.security.SecureRandom;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author Ignacio Gallego Sagastume
@@ -45,17 +46,17 @@ public class RandomUtils {
 		}
 	}
 
-/*	public static Integer randomChoice(Set<Integer> set) {
-		int item = rand.nextInt(set.size());
+	public static Integer randomChoice(Set<Integer> set) {
+		int index = rand.nextInt(set.size());
 		int i = 0;
 		for(Integer obj : set)
 		{
-		    if (i == item)
+		    if (i == index)
 		        return obj;
 		    i = i + 1;
 		}
 		return null;
-	}*/
+	}
 	
 	public static Integer randomChoice(List<Integer> list) {
 		int idx = rand.nextInt(list.size());

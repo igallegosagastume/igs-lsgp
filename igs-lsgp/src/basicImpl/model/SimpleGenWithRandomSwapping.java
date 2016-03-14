@@ -28,6 +28,7 @@ package basicImpl.model;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import commons.RandomUtils;
 
@@ -47,7 +48,7 @@ public class SimpleGenWithRandomSwapping extends SimpleGen {
 	}
 	
 	@Override
-	protected ArrayList<Integer> generateRow(int i_row, int n, LatinSquare ls, List<Integer>[] availableInCol, Integer[] failedAttemptsPerRow, int[][] collisions) {
+	protected ArrayList<Integer> generateRow(int i_row, int n, LatinSquare ls, Set<Integer>[] availableInCol, Integer[] failedAttemptsPerRow, int[][] collisions) {
 		//genero row de tamanio n en la posicion i
 
 	    //disponibles en row actual
@@ -109,7 +110,7 @@ public class SimpleGenWithRandomSwapping extends SimpleGen {
 	    return row;
 	}
 
-	public void fixRow(int i_row, int n, LatinSquare ls, List<Integer> row, List<Integer> columnsWithRepetitions, List<Integer>[] availableInCol) {
+	public void fixRow(int i_row, int n, LatinSquare ls, List<Integer> row, List<Integer> columnsWithRepetitions, Set<Integer>[] availableInCol) {
 		int columnCountBeforeSwap, columnCountAfterSwap;
 		Integer lastCol1 = null, lastCol2 = null;
 		do {
@@ -150,7 +151,7 @@ public class SimpleGenWithRandomSwapping extends SimpleGen {
 	
 
 	//swap in constant time
-	private void swap(Integer columnWRep, Integer anotherCol,  LatinSquare ls, List<Integer> row, List<Integer> columnsWithRepetitions, List<Integer>[] availableInCol) {
+	private void swap(Integer columnWRep, Integer anotherCol,  LatinSquare ls, List<Integer> row, List<Integer> columnsWithRepetitions, Set<Integer>[] availableInCol) {
 		Integer elem1 = row.get(columnWRep);
 		Integer elem2 = row.get(anotherCol);
 		
@@ -165,14 +166,14 @@ public class SimpleGenWithRandomSwapping extends SimpleGen {
     	boolean deleted1 = availableInCol[anotherCol].remove(elem1);
     	
     	if (!columnsWithRepetitions.contains(anotherCol)) {//if the element was NOT repeated
-    		if (!availableInCol[anotherCol].contains(elem2))
+    		//if (!availableInCol[anotherCol].contains(elem2))
     			availableInCol[anotherCol].add(elem2);
     	}
     	
     	if (deleted1) {	//if the element was available
     		columnsWithRepetitions.remove(anotherCol);//now the column has no repetitions
 		} else {
-			if (!columnsWithRepetitions.contains(anotherCol)) 
+			//if (!columnsWithRepetitions.contains(anotherCol)) 
 				columnsWithRepetitions.add(anotherCol);
 		}
 

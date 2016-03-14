@@ -28,6 +28,7 @@ package basicImpl.model;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import commons.RandomUtils;
 
@@ -51,10 +52,10 @@ public class SimpleGen {
 	    LatinSquare ls = new LatinSquare(n);
 	    	    
 	    //available in each column
-	    List<Integer>[] availableInCol = new List[n];
+	    Set<Integer>[] availableInCol = new HashSet[n];
 
 	    for (int i=0; i<n; i++) {
-	    	availableInCol[i] = new ArrayList<Integer>();
+	    	availableInCol[i] = new HashSet<Integer>();
 	    	for (int j=0; j<n; j++) {
 	    		availableInCol[i].add(j);
 	    	}
@@ -84,7 +85,7 @@ public class SimpleGen {
 	        
 	        
 	@SuppressWarnings("unchecked")
-	protected ArrayList<Integer> generateRow(int i_row, int n, LatinSquare ls, List<Integer>[] availableInCol, Integer[] failedAttemptsPerRow, int[][] collisions) {
+	protected ArrayList<Integer> generateRow(int i_row, int n, LatinSquare ls, Set<Integer>[] availableInCol, Integer[] failedAttemptsPerRow, int[][] collisions) {
 	    //genero row de tamanio n en la posicion i
 
 	    //disponibles en row actual

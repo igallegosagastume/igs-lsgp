@@ -152,22 +152,22 @@ public class Main {
 		row.add(4);
 		
 		ArrayList<Integer> columnsWithRepetitions = new ArrayList<Integer>();
-		ArrayList<Integer>[] availableInCol = new ArrayList[5];
+		HashSet<Integer>[] availableInCol = new HashSet[5];
 		
 		columnsWithRepetitions.add(4);
-		availableInCol[0] = new ArrayList<Integer>();
+		availableInCol[0] = new HashSet<Integer>();
 		availableInCol[0].add(3);
 		
-		availableInCol[1] = new ArrayList<Integer>();
+		availableInCol[1] = new HashSet<Integer>();
 		availableInCol[1].add(4);
 		
-		availableInCol[2] = new ArrayList<Integer>();
+		availableInCol[2] = new HashSet<Integer>();
 		availableInCol[2].add(4);
 		
-		availableInCol[3] = new ArrayList<Integer>();
+		availableInCol[3] = new HashSet<Integer>();
 		availableInCol[3].add(0);
 		
-		availableInCol[4] = new ArrayList<Integer>();
+		availableInCol[4] = new HashSet<Integer>();
 		availableInCol[4].add(1);availableInCol[4].add(2);
 		
 		rs.fixRow(3, 5, ls, row, columnsWithRepetitions, availableInCol);
@@ -203,62 +203,62 @@ public class Main {
 		row.add(3);
 		row.add(1);
 		
-		ArrayList<Integer>[] availableInCol = new ArrayList[6];
+		HashSet<Integer>[] availableInCol = new HashSet[6];
 		
-		availableInCol[0] = new ArrayList<Integer>();
+		availableInCol[0] = new HashSet<Integer>();
 		availableInCol[0].add(0);
 		availableInCol[0].add(1);
 		availableInCol[0].add(5);
 		
-		availableInCol[1] = new ArrayList<Integer>();
+		availableInCol[1] = new HashSet<Integer>();
 		availableInCol[1].add(0);
 		availableInCol[1].add(2);
 		availableInCol[1].add(4);
 		
-		availableInCol[2] = new ArrayList<Integer>();
+		availableInCol[2] = new HashSet<Integer>();
 		availableInCol[2].add(0);
 		availableInCol[2].add(1);
 		availableInCol[2].add(3);
 		
-		availableInCol[3] = new ArrayList<Integer>();
+		availableInCol[3] = new HashSet<Integer>();
 		availableInCol[3].add(0);
 		availableInCol[3].add(4);
 		availableInCol[3].add(5);
 		
-		availableInCol[4] = new ArrayList<Integer>();
+		availableInCol[4] = new HashSet<Integer>();
 		availableInCol[4].add(2);
 		availableInCol[4].add(3);
 		availableInCol[4].add(4);
 		
-		availableInCol[5] = new ArrayList<Integer>();
+		availableInCol[5] = new HashSet<Integer>();
 		availableInCol[5].add(1);
 		availableInCol[5].add(2);
 		availableInCol[5].add(3);
 		availableInCol[5].add(5);
 		
-		ArrayList<Integer>[] availInitial = new ArrayList[6];
+		HashSet<Integer>[] availInitial = new HashSet[6];
 		
-		availInitial[0] = new ArrayList<Integer>();
+		availInitial[0] = new HashSet<Integer>();
 		availInitial[0].add(0);
 		availInitial[0].add(1);
 		availInitial[0].add(5);
 		
-		availInitial[1] = new ArrayList<Integer>();
+		availInitial[1] = new HashSet<Integer>();
 		availInitial[1].add(0);
 		availInitial[1].add(2);
 		availInitial[1].add(4);
 		
-		availInitial[2] = new ArrayList<Integer>();
+		availInitial[2] = new HashSet<Integer>();
 		availInitial[2].add(0);
 		availInitial[2].add(1);
 		availInitial[2].add(3);
 		
-		availInitial[3] = new ArrayList<Integer>();
+		availInitial[3] = new HashSet<Integer>();
 		availInitial[3].add(0);
 		availInitial[3].add(4);
 		availInitial[3].add(5);
 		
-		availInitial[4] = new ArrayList<Integer>();
+		availInitial[4] = new HashSet<Integer>();
 		availInitial[4].add(2);
 		availInitial[4].add(3);
 		availInitial[4].add(4);
@@ -266,7 +266,7 @@ public class Main {
 		Integer col = 4;
 		HashMap<Integer, HashSet<Integer>> map = rg.constructReplGraph(row, col, availInitial, availableInCol);
 		
-		ArrayList<Integer> availableInRow = new ArrayList<Integer>();
+		HashSet<Integer> availableInRow = new HashSet<Integer>();
 		availableInRow.add(0);
 		availableInRow.add(0);
 		int elem = 2;

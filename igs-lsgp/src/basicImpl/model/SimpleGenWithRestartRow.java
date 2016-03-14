@@ -25,6 +25,7 @@ package basicImpl.model;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import commons.RandomUtils;
 
@@ -40,7 +41,7 @@ public class SimpleGenWithRestartRow extends SimpleGen {
 	}
 	
 	@Override
-	public ArrayList<Integer> generateRow(int i_row, int n, LatinSquare ls, List<Integer>[] availableInCol, Integer[] failedAttemptsPerRow, int[][] collisions) {
+	public ArrayList<Integer> generateRow(int i_row, int n, LatinSquare ls, Set<Integer>[] availableInCol, Integer[] failedAttemptsPerRow, int[][] collisions) {
 		HashSet<Integer> availableInRow = new HashSet<Integer>();
 	    for (int j=0; j<n; j++) {
 	    	availableInRow.add(j);
