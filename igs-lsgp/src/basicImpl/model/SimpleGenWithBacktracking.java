@@ -37,12 +37,12 @@ import commons.RandomUtils;
  * @email ignaciogallego@gmail.com
  * @tags Java Latin Square generation
  */
-public class SimpleGen {
+public class SimpleGenWithBacktracking {
 
 	
 	protected int n = 0;
 	
-	public SimpleGen(int n) {
+	public SimpleGenWithBacktracking(int n) {
 		this.n = n;
 		RandomUtils.initRand();
 	}

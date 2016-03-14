@@ -33,7 +33,7 @@ import commons.RandomUtils;
  * @author igallego
  *
  */
-public class SimpleGenWithRestartRow extends SimpleGen {
+public class SimpleGenWithRestartRow extends SimpleGenWithBacktracking {
 	
 	
 	public SimpleGenWithRestartRow(int n) {

@@ -38,7 +38,7 @@ import commons.RandomUtils;
  * @tags Java Latin Square generation
  */
 
-public class SimpleGenWithRandomSwapping extends SimpleGen {
+public class SimpleGenWithRandomSwapping extends SimpleGenWithBacktracking {
 
 	protected HashSet<Integer> symbols = null;
 	

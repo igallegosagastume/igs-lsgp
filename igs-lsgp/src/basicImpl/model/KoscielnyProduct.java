@@ -23,25 +23,23 @@
  * 
  * 
  */
-package basicImpl.koscielnyProd;
+package basicImpl.model;
 
 import java.util.ArrayList;
 
 import commons.OrderedPair;
-import basicImpl.model.SimpleGen;
-import basicImpl.model.LatinSquare;
 
 /**
  * @author Ignacio Gallego Sagastume
  * @email ignaciogallego@gmail.com
  * @tags Java Latin Square generation
  */
-public class ProductImpl extends SimpleGen {
+public class KoscielnyProduct extends SimpleGenWithBacktracking {
 
 	private int n = 0;
 	
 	
-	public ProductImpl(int n) {
+	public KoscielnyProduct(int n) {
 		super(n);
 		this.n = n;
 	}
@@ -79,12 +77,12 @@ public class ProductImpl extends SimpleGen {
 
 		if (n2==1) {
 			//n is prime: cannot use Product to improve
-			return new SimpleGen(n).genLS();//#genLS.genLS(n)
+			return new SimpleGenWithBacktracking(n).genLS();//#genLS.genLS(n)
 		}
 
 		//print("generacion de LS("+repr(n)+") usando mult de N1="+repr(n1)+" * N2="+repr(n2))
-		LatinSquare ls1 = new SimpleGen(n1).genLS();
-		LatinSquare ls2 = new SimpleGen(n2).genLS();
+		LatinSquare ls1 = new SimpleGenWithBacktracking(n1).genLS();
+		LatinSquare ls2 = new SimpleGenWithBacktracking(n2).genLS();
 
 		//genLS.mostrarLS(ls1)
 		//genLS.mostrarLS(ls2)

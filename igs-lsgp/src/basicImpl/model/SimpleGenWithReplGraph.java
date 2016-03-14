@@ -36,7 +36,7 @@ import commons.RandomUtils;
  * @author igallego
  *
  */
-public class SimpleGenWithReplGraph extends SimpleGen {
+public class SimpleGenWithReplGraph extends SimpleGenWithBacktracking {
 
 	
 	public SimpleGenWithReplGraph(int n) {

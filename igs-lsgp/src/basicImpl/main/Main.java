@@ -29,9 +29,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 
-import basicImpl.koscielnyProd.ProductImpl;
+import basicImpl.model.KoscielnyProduct;
 import basicImpl.model.LatinSquare;
-import basicImpl.model.SimpleGen;
+import basicImpl.model.SimpleGenWithBacktracking;
 import basicImpl.model.SimpleGenWithRandomSwapping;
 import basicImpl.model.SimpleGenWithReplGraph;
 import basicImpl.model.SimpleGenWithRestartRow;
@@ -73,31 +73,31 @@ public class Main {
 		}
 		
 		if (args[0].equalsIgnoreCase("simple")) {
-			SimpleGen generator = new SimpleGen(n);
+			SimpleGenWithBacktracking generator = new SimpleGenWithBacktracking(n);
 			computeTimeFor(n, generator, path);
 			return;
 		}
 		
 		if (args[0].equalsIgnoreCase("product")) {
-			ProductImpl generator = new ProductImpl(n);
+			KoscielnyProduct generator = new KoscielnyProduct(n);
 			computeTimeFor(n, generator, path);  //does not generate LS uniformly distributed
 			return;
 		}
 
 		if (args[0].equalsIgnoreCase("swapping")) {
-			SimpleGen generator = new SimpleGenWithRandomSwapping(n);
+			SimpleGenWithBacktracking generator = new SimpleGenWithRandomSwapping(n);
 			computeTimeFor(n, generator, path);  // the most acceptable simple method
 			return;
 		}
 		
 		if (args[0].equalsIgnoreCase("restart")) {
-			SimpleGen generator = new SimpleGenWithRestartRow(n);
+			SimpleGenWithBacktracking generator = new SimpleGenWithRestartRow(n);
 			computeTimeFor(n, generator, path);//improvements to simple method?
 			return;
 		}
 		
 		if (args[0].equalsIgnoreCase("graph")) {
-			SimpleGen generator = new SimpleGenWithReplGraph(n);
+			SimpleGenWithBacktracking generator = new SimpleGenWithReplGraph(n);
 			computeTimeFor(n, generator, path);
 			return;
 		}
@@ -106,7 +106,7 @@ public class Main {
 
 	}
 	
-	public static void computeTimeFor(int n, SimpleGen generator, String path) {
+	public static void computeTimeFor(int n, SimpleGenWithBacktracking generator, String path) {
 		long startTime = System.nanoTime();
 		LatinSquare ls = generator.genLS();
 		long endTime = System.nanoTime();
