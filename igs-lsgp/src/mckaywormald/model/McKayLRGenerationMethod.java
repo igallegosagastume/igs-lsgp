@@ -5,17 +5,19 @@
 package mckaywormald.model;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import commons.OrderedTriple;
 import commons.RandomUtils;
+import commons.generators.IRandomLatinRectangleGenerator;
 
 /**
  * @author igallego
  *
  */
-public class McKayLRGenerationMethod {
+public class McKayLRGenerationMethod implements IRandomLatinRectangleGenerator {
 	
 	//auxiliary variables for the algorithm
 	private Set<Integer> initiallyAvInRow = null;
@@ -31,6 +33,7 @@ public class McKayLRGenerationMethod {
 		RandomUtils.initRand();
 	}
 	
+	@Override
 	public LatinRectangle generateLR(int k, int n) {
 		this.initiallyAvInRow = RandomUtils.oneToN(n);
 		boolean rejected = false;
@@ -68,7 +71,7 @@ public class McKayLRGenerationMethod {
 		    	int i2 = conflict.y;
 		    	int j1 = conflict.z;
 		    	
-		    	List<Integer> nMinusj1 = new ArrayList<Integer>();
+		    	Set<Integer> nMinusj1 = new HashSet<Integer>();
 		    	nMinusj1.addAll(this.initiallyAvInRow);//can this be avoided? is O(n)??
 		    	nMinusj1.remove(j1);
 		    	
@@ -179,9 +182,10 @@ public class McKayLRGenerationMethod {
 		}
 		return result;
 	}
-	        
+	
+	@Override
 	public String getMethodName() {
-		return "McKay generation of Latin rectangle.";
+		return "McKay-Wormald generation of Latin rectangle.";
 	}
 
 }

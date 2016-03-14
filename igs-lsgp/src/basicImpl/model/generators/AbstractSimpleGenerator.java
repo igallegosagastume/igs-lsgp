@@ -12,12 +12,13 @@ import java.util.Set;
 import basicImpl.model.latinsquares.ArrayListLatinSquare;
 import commons.ILatinSquare;
 import commons.RandomUtils;
+import commons.generators.IRandomLatinSquareGenerator;
 
 /**
  * @author igallego
  *
  */
-public abstract class AbstractSimpleGenerator implements ISimpleLSGenerator {
+public abstract class AbstractSimpleGenerator implements IRandomLatinSquareGenerator {
 
 	
 	protected int n = 0;
