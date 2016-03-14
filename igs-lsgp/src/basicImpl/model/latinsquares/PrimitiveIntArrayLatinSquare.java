@@ -5,7 +5,6 @@
 package basicImpl.model.latinsquares;
 
 import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 /**
@@ -22,14 +21,6 @@ public class PrimitiveIntArrayLatinSquare extends AbstractLatinSquare {
 	public PrimitiveIntArrayLatinSquare(int n) {
 		super(n);
 		this.ls = new int[n][n];
-		
-		 
-		//initialize the md
-		try {
-			md = MessageDigest.getInstance("MD5");
-		} catch (NoSuchAlgorithmException e) {
-			System.out.println("No such algorithm: md5");
-		}
 	}
 
 	@Override
