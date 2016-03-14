@@ -117,7 +117,10 @@ public class Main {
 		}
 		
 		if (args[0].equalsIgnoreCase("mckay")) {
-			generator = new McKayLRGenerationMethod(n, n);
+			double cubicRoot = Math.pow(n, 1.0/3.0);
+			int k = (int)cubicRoot+1;
+			
+			generator = new McKayLRGenerationMethod(k,n);
 			computeTimeFor(n, generator, path);
 			return;
 		}
@@ -138,7 +141,7 @@ public class Main {
 		
 		FileUtils.writeLS(ls, path);
 		
-		System.out.println("LS generated in: "+secs+" seconds. Generation method: "+generator.getMethodName());		
+		System.out.println("Random structure generated in "+secs+" seconds. Generation method: "+generator.getMethodName());		
 	}
 	
 	@SuppressWarnings("unchecked")

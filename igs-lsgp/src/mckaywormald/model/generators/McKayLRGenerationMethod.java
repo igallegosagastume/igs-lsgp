@@ -45,11 +45,12 @@ public class McKayLRGenerationMethod implements IRandomLatinRectangleGenerator, 
 	@Override
 	public ILatinSquare generateLS() {
 		
-		if (this.k==this.n)
+		//if (this.k==this.n)
 			return this.generateLR();
-		else
-			System.out.println("Could not generate a square of "+this.k+" rows by "+this.n+" columns.");
-		return null;
+		//else
+			/*System.out.println("Could not generate a square of "+this.k+" rows by "+this.n+" columns.");
+		return null;*/
+			
 	}
 	
 	@Override
