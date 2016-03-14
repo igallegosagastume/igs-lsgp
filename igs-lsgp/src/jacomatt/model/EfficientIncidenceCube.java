@@ -25,22 +25,12 @@
  */
 package jacomatt.model;
 
-import jacomatt.opengl.DrawIncidenceCube;
 import jacomatt.utils.ArrayUtils;
 import jacomatt.utils.DrawingOptions;
 
-import java.awt.Frame;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-import javax.media.opengl.awt.GLCanvas;
-import javax.swing.JFrame;
-
-import com.jogamp.opengl.util.FPSAnimator;
-
-import commons.ILatinSquare;
 import commons.OrderedTriple;
 
 /**
@@ -49,23 +39,19 @@ import commons.OrderedTriple;
  * @tags Java Latin Square generation
  */
 
-public class EfficientIncidenceCube extends IncidenceCube implements ILatinSquare {
+public class EfficientIncidenceCube extends IncidenceCube {
 	private final int nullInt = -99999; //a number outside the scope of symbols
 	private final int minus0  = -10000;
 	//Each view is stored as a two-dimensional array, 
 	//to avoid sequential searches for "1" elements along the cube
 	//the lists store all possible values of the third coordinate
 	private final int max = 3;
-	protected int[][][] xyMatrix = new int[n][n][max];//maximum of 8 elements in the row or column (-z, z, t)
+	protected int[][][] xyMatrix = new int[n][n][max];//maximum of 3 elements in the row or column (-z, z, t)
 	protected int[][][] yzMatrix = new int[n][n][max];
 	protected int[][][] xzMatrix = new int[n][n][max];
 	
-	public EfficientIncidenceCube() {
-		this.init();
-	}
-	
 	public EfficientIncidenceCube(int n) {
-		this.n = n;
+		super(n);
 		this.init();
 	}
 	
@@ -116,8 +102,6 @@ public class EfficientIncidenceCube extends IncidenceCube implements ILatinSquar
 		return ArrayUtils.indexOf(arr, nullInt);
 	}
 	
-
-
 	/**
 	 * Stores an 1 at position (x,y,z) in the incidence cube.
 	 *  This is done by 
@@ -351,49 +335,6 @@ public class EfficientIncidenceCube extends IncidenceCube implements ILatinSquar
 		return new OrderedTriple(x,y,z);
 	}
 	
-/*	@Override
-	public String toString() {
-		StringBuffer sb = new StringBuffer();
-		sb.append("Incidence cube of size "+n+":\n");
-		for (int x=0; x<n ; x++) {
-			//sb.append("Row "+x+":");
-			for (int y=0; y<n ; y++) {
-//				sb.append("{");
-				for (int z=0; z<max; z++) {
-					
-					if (xyMatrix[x][y][z]!=nullInt) {
-//						String ze = ((xyCube[x][y][z]==minus0)?"-0":(xyCube[x][y][z]+" "));
-//						sb.append(ze);
-						String xyz = xyMatrix[x][y][z]+""; 
-						sb.append(xyz+("    ".substring(xyz.length())));
-//						sb.append("    ".substring(ze.length()));
-					} else {
-						//sb.append("X, ");
-					}
-					
-				}
-//				sb.append("}");
-			}
-			sb.append("\n");
-		}
-		return sb.toString();
-	}*/
-	
-/*	@Override
-	public int shuffle() {
-		int iterations;
-		for (iterations=0; (iterations<Math.pow((double)this.size(), (double)3)/8)
-							|| !this.proper(); 
-			iterations++) {
-			if (this.proper()) {
-				this.moveFromProper();
-			} else {
-				this.moveFromImproper();
-			}
-		}
-		return iterations;
-	}*/
-
 	public DrawingOptions getDrawingOptions() {
 		return drawingOptions;
 	}
@@ -401,59 +342,5 @@ public class EfficientIncidenceCube extends IncidenceCube implements ILatinSquar
 	public void setDrawingOptions(DrawingOptions drawingOptions) {
 		this.drawingOptions = drawingOptions;
 	}
-	
-	@Override
-	@Deprecated
-	public void drawIncidenceCube() {
-		// Create the OpenGL rendering canvas
-		GLCanvas canvas = new GLCanvas(); // heavy-weight GLCanvas
-		
-		DrawingOptions opts = this.getDrawingOptions();
-		
-		//canvas.setPreferredSize(new Dimension(CANVAS_WIDTH, CANVAS_HEIGHT));
-		DrawIncidenceCube renderer = new DrawIncidenceCube(this);
-		canvas.addGLEventListener(renderer);
-		canvas.addKeyListener(renderer);
-		canvas.setFocusable(true); // To receive key event
-		canvas.requestFocus();
-
-		// Create a animator that drives canvas' display() at the specified FPS.
-		final FPSAnimator animator = new FPSAnimator(canvas, opts.getFPS(), true);
-
-		// Create the top-level container frame
-		final JFrame frame = new JFrame(); // Swing's JFrame or AWT's Frame
-		frame.getContentPane().add(canvas);
-		frame.addWindowListener(new WindowAdapter() {
-			@Override
-			public void windowClosing(WindowEvent e) {
-				// Use a dedicate thread to run the stop() to ensure that the
-				// animator stops before program exits.
-				new Thread() {
-					@Override
-					public void run() {
-						animator.stop(); // stop the animator loop
-						System.exit(0);
-					}
-				}.start();
-			}
-		});
-		
-		
-		frame.setTitle(opts.getWindowTitle());
-		frame.pack();
-		frame.setVisible(true);
-		if (opts.isFullScreen())
-			frame.setExtendedState(Frame.MAXIMIZED_BOTH); // full screen mode
-		else
-			frame.setBounds(opts.getFrameXPosition(), opts.getFrameYPosition(),
-							opts.getFrameWidth(), opts.getFrameHeight());
-	
-		animator.start(); // start the animation loop
-	}
-	
-	/*public boolean equals(ILatinSquare ls2) throws Exception {
-		
-	}*/
-	
 }
 

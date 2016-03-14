@@ -39,7 +39,6 @@ import commons.RandomUtils;
  */
 public class SimpleGenWithBacktracking extends AbstractSimpleGenerator {
 
-
 	public SimpleGenWithBacktracking(int n) {
 		super(n);
 	}

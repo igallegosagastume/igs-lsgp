@@ -31,8 +31,6 @@ import jacomatt.utils.DrawingOptions;
 import java.awt.Frame;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.BufferedWriter;
-import java.io.FileWriter;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
@@ -40,6 +38,8 @@ import java.util.List;
 
 import javax.media.opengl.awt.GLCanvas;
 import javax.swing.JFrame;
+
+import basicImpl.model.latinsquares.AbstractLatinSquare;
 
 import com.jogamp.opengl.util.FPSAnimator;
 import commons.ILatinSquare;
@@ -50,8 +50,7 @@ import commons.OrderedTriple;
  * @email ignaciogallego@gmail.com
  * @tags Java Latin Square generation
  */
-public class IncidenceCube implements ILatinSquare {
-	protected int n = 5;
+public class IncidenceCube extends AbstractLatinSquare implements ILatinSquare {
 	protected int[][][] cube = {};//the incidence cube, each cell containing 0, 1, or -1 (for improper cubes)
 	protected DrawingOptions drawingOptions;
 	protected boolean proper = true; //it all starts from a proper (possibly cyclic) cube
@@ -62,13 +61,9 @@ public class IncidenceCube implements ILatinSquare {
 	
 	protected MessageDigest md = null;
 	
-	
-	public IncidenceCube() {
-		this.init();
-	}
-	
+		
 	public IncidenceCube(int n) {
-		this.n = n;
+		super(n);
 		this.init();
 	}
 	
@@ -313,6 +308,17 @@ public class IncidenceCube implements ILatinSquare {
 		return new OrderedTriple(x,y,z);
 	}
 	
+	/**
+	 * Redefinition of the method toString() for Incidence Cubes.
+	 * 
+	 * This method writes the structure into a String, taking into account the special case when the cube
+	 *  is improper: that is, it has for the same (x,y) three values of z, one negative and two positives. 
+	 * 
+	 * @author ignacio
+	 * 
+	 * @return String
+	 */
+	@Override
 	public String toString() {
 		StringBuffer sb = new StringBuffer();
 		sb.append("Incidence cube of size "+n+":\n");
@@ -368,7 +374,6 @@ public class IncidenceCube implements ILatinSquare {
 	 * 
 	 * @return int , the number of iterations that took to get a proper ic
 	 */
-
 	public int shuffle() {
 		int iterations;
 		for (iterations=0; (iterations<Math.pow((double)this.size(), (double)3))
@@ -437,21 +442,6 @@ public class IncidenceCube implements ILatinSquare {
 	
 		animator.start(); // start the animation loop
 	}
-	
-	@Override
-	public void writeToFile(String fileName) throws Exception {
-		BufferedWriter bw = new BufferedWriter(new FileWriter(fileName));
-		
-		for (int i=0; i<n; i++) {
-			for (int j=0; j<n; j++) {
-				Integer elem = this.plusOneZCoordOf(i, j);
-				bw.write(elem.toString());
-				bw.write("    ".substring(elem.toString().length()));
-			}
-			bw.write("\n");
-		}
-		bw.close();
-	}
 
 	@Override
 	public Integer getValueAt(int row, int column) {
@@ -462,57 +452,10 @@ public class IncidenceCube implements ILatinSquare {
 	public void setValueAt(int row, int column, int value) {
 		this.cube[row][column][value] = 1;		
 	}
-
-	/* (non-Javadoc)
-	 * @see commons.ILatinSquare#equals(commons.ILatinSquare)
-	 */
-	@Override
-	public boolean equals(ILatinSquare ls2) throws Exception {
-		int n2 = ls2.size();
-		if (this.size()!=n2) return false;
-		boolean eq = true;
-		for (int i=0; i<n2 && eq; i++) {
-			for (int j=0; j<n2 && eq; j++) {
-				if (this.getValueAt(i, j).intValue()!=ls2.getValueAt(i, j).intValue()) {
-					eq = false;
-				}
-				
-			}
-		}
-		return eq;
-	}
-	
-	
-	public byte[] hashCodeOfStructure() {
-		String str1 = this.serializeStructure();
-		return md.digest(str1.getBytes());
-	}
-	
-	public String serializeStructure() {
-		StringBuffer sb = new StringBuffer();
-		for (int x=0; x<n ; x++) {
-			for (int y=0; y<n ; y++) {
-				
-				Integer elem = null;
-				try {
-					elem = this.getValueAt(x, y);
-				} catch (Exception e) {
-					System.out.println("Exception trying to serialize the cube");
-				}
-				sb.append(elem); 
-			}
-		}
-		return sb.toString();
-	}
 	
 	@Override
 	public void setRow(int i, List<Integer> row) {
 		//not implemented yet
-	}
-	
-	@Override
-	public boolean equalHash(byte[] dig1, byte[] dig2) {
-		return MessageDigest.isEqual(dig1, dig2);
 	}
 }
 

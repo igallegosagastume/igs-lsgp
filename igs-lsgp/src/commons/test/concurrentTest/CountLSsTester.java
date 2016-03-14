@@ -31,9 +31,10 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 
-import commons.ILatinSquare;
-import basicImpl.model.generators.SimpleGenWithBacktracking;
+import basicImpl.model.generators.AbstractSimpleGenerator;
 import basicImpl.model.generators.SimpleGenWithReplGraph;
+
+import commons.ILatinSquare;
 
 public class CountLSsTester implements Runnable {
 
@@ -68,7 +69,7 @@ public class CountLSsTester implements Runnable {
 		long startTime = System.nanoTime();	
 		
 		//create the generator
-		SimpleGenWithBacktracking generator = new SimpleGenWithReplGraph(this.order);
+		AbstractSimpleGenerator generator = new SimpleGenWithReplGraph(this.order);
 			
 		ILatinSquare ls;
 

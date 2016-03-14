@@ -99,22 +99,7 @@ public class IncidenceCubeWithDebugging extends IncidenceCube {
 		
 		//check if improper
 		//(only one cell can be -1)
-		/*if (cube[t.x][t.y][z1]==-1) {
-			proper = false;
-			improperCell = new OrderedTriple(t.x, t.y, z1);
-		}
-		
-		if (cube[t.x][y1][t.z]==-1) {
-			proper = false;
-			improperCell = new OrderedTriple(t.x, y1, t.z);
-		}
-		
-		if (cube[x1][t.y][t.z]==-1) {
-			proper = false;
-			improperCell = new OrderedTriple(x1, t.y, t.z);
-		}*/
-		
-		if (cube[x1][y1][z1]  ==-1) {
+		if (cube[x1][y1][z1] == -1) {
 			proper = false;
 			improperCell = new OrderedTriple(x1, y1, z1);
 		}

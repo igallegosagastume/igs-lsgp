@@ -42,8 +42,8 @@ import commons.FileUtils;
 public class Main {
 
 	/** The entry main() method */
-	public static void main(String[] args) {
-		
+	public static void main(String[] args) {		
+
 		if (args.length<3) {
 			/*System.out.println("Usage: <action> <option> <LS order> [write <path>]");
 			System.out.println("Where <action> ::= debug | draw | compute");

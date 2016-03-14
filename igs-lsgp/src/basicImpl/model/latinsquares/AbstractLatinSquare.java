@@ -87,7 +87,7 @@ public abstract class AbstractLatinSquare implements ILatinSquare {
 		}
 		return eq;
 	}
-
+	
 	@Override
 	public byte[] hashCodeOfStructure() {
 		String str1 = this.serializeStructure();

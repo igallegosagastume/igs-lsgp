@@ -24,17 +24,15 @@ package basicImpl.model.generators;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
-import commons.ILatinSquare;
 import commons.RandomUtils;
 
 /**
  * @author igallego
  *
  */
-public class SimpleGenWithRestartRow extends SimpleGenWithBacktracking {
+public class SimpleGenWithRestartRow extends AbstractSimpleGenerator {
 	
 	
 	public SimpleGenWithRestartRow(int n) {
@@ -54,7 +52,7 @@ public class SimpleGenWithRestartRow extends SimpleGenWithBacktracking {
 	    
 	    while (i_col < n) {//when i_col is n, there are n chosen numbers
 	        //available is:
-	        List<Integer> available = new ArrayList<Integer>();
+	        Set<Integer> available = new HashSet<Integer>();
 	        available.addAll(availableInCol[i_col]);
 	    	available.retainAll(availableInRow);
 	    	
