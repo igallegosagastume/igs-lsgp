@@ -79,7 +79,7 @@ public class SimpleGenWithBacktracking extends AbstractSimpleGenerator {
 	            failedInRowCount = failedInRowCount + 1;
 
 	            if (failedInRowCount%100000==0) {
-	            	System.out.println("Conflicts in row "+i_row+" "+failedInRowCount);
+	            	System.out.println("Conflicts in row "+i_row+": "+failedInRowCount);
 	            }
 	            collisions[i_row][i_col] = collisions[i_row][i_col] + 1;
 	            
