@@ -46,11 +46,11 @@ public class KoscielnyProduct extends SimpleGenWithBacktracking {
 		this.n = n;
 	}
 	
-	protected ArrayListLatinSquare product(ILatinSquare ls1, ILatinSquare ls2) throws Exception {
+	protected ILatinSquare product(ILatinSquare ls1, ILatinSquare ls2) throws Exception {
 		int n1 = ls1.size();
 		int n2 = ls2.size();
 		
-		ArrayListLatinSquare result = new ArrayListLatinSquare(n1*n2);
+		ILatinSquare result = new ArrayListLatinSquare(n1*n2);
     
 		for (int x=0; x < n1*n2; x++) {
 			for (int y=0; y < n1*n2; y++) {
@@ -85,7 +85,7 @@ public class KoscielnyProduct extends SimpleGenWithBacktracking {
 		ILatinSquare ls1 = new SimpleGenWithBacktracking(n1).generateLS();
 		ILatinSquare ls2 = new SimpleGenWithBacktracking(n2).generateLS();
 
-		ArrayListLatinSquare ls = null;
+		ILatinSquare ls = null;
 		try {
 			ls = this.product(ls1, ls2);
 		} catch (Exception e) {
