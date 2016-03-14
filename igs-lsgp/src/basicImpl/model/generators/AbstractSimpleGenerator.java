@@ -43,9 +43,8 @@ public abstract class AbstractSimpleGenerator implements IRandomLatinSquareGener
 		//initially available in each column
 	    for (int i=0; i<n; i++) {
 	    	availableInCol[i] = new HashSet<Integer>();
-	    	for (int j=0; j<n; j++) {
-	    		availableInCol[i].add(j);
-	    	}
+	
+	    	availableInCol[i].addAll(symbols);
 	    }
 	    
 	    ls = new ArrayListLatinSquare(n);//default implementation
