@@ -27,7 +27,8 @@ package basicImpl.model.generators;
 
 import java.util.ArrayList;
 
-import basicImpl.model.latinsquares.ArrayListLatinSquare;
+import basicImpl.model.latinsquares.primitiveIntArrayLatinSquare;
+
 import commons.ILatinSquare;
 import commons.OrderedPair;
 
@@ -50,7 +51,7 @@ public class KoscielnyProduct extends SimpleGenWithBacktracking {
 		int n1 = ls1.size();
 		int n2 = ls2.size();
 		
-		ILatinSquare result = new ArrayListLatinSquare(n1*n2);
+		ILatinSquare result = new primitiveIntArrayLatinSquare(n1*n2);
     
 		for (int x=0; x < n1*n2; x++) {
 			for (int y=0; y < n1*n2; y++) {

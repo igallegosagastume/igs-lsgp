@@ -31,7 +31,7 @@ import java.util.List;
 import java.util.Set;
 
 import basicImpl.model.latinsquares.ArrayListLatinSquare;
-import basicImpl.model.latinsquares.primitiveIntArrayLatinSquare;
+
 import commons.ILatinSquare;
 import commons.RandomUtils;
 
@@ -53,7 +53,7 @@ public class SimpleGenWithBacktracking implements ISimpleLSGenerator {
 	@Override
 	@SuppressWarnings("unchecked")
 	public ILatinSquare generateLS() { 
-	    ILatinSquare ls = new primitiveIntArrayLatinSquare(n);
+	    ILatinSquare ls = new ArrayListLatinSquare(n);
 	    	    
 	    //available in each column
 	    Set<Integer>[] availableInCol = new HashSet[n];

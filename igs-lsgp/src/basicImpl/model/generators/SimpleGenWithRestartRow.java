@@ -91,6 +91,7 @@ public class SimpleGenWithRestartRow extends SimpleGenWithBacktracking {
 	    return row;
 	}
 
+	@Override
 	public String getMethodName() {
 		return "Generation row by row with restarting row.";
 	}

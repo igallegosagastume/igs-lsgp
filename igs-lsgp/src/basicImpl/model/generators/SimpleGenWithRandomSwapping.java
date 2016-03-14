@@ -30,8 +30,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import basicImpl.model.latinsquares.ArrayListLatinSquare;
-
 import commons.ILatinSquare;
 import commons.RandomUtils;
 
@@ -172,7 +170,8 @@ public class SimpleGenWithRandomSwapping extends SimpleGenWithBacktracking {
 		}
 
 	}
-	
+
+	@Override
 	public String getMethodName() {
 		return "Generation row by row with random swapping.";
 	}

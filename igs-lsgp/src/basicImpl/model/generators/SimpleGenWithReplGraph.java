@@ -179,7 +179,6 @@ public class SimpleGenWithReplGraph extends SimpleGenWithBacktracking {
 		}
 	}
 
-
 	@Override
 	public String getMethodName() {
 		return "Generation row by row with replacement graph.";
