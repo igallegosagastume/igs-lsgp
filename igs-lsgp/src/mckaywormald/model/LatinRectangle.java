@@ -129,7 +129,7 @@ public class LatinRectangle implements ILatinRectangle {
 		public void writeToFile(String fileName) throws Exception {
 			BufferedWriter bw = new BufferedWriter(new FileWriter(fileName));
 			
-			for (int i=0; i<colSize; i++) {
+			for (int i=0; i<rowSize; i++) {
 				for (int j=0; j<colSize; j++) {
 					Integer elem = this.getValueAt(i, j);
 					bw.write(elem.toString());
