@@ -23,7 +23,7 @@
  * 
  * 
  */
-package basicImpl.main;
+package commons.mainexecutable;
 
 import jacomatt.model.generators.JacobsonMatthewsLSGenerator;
 
