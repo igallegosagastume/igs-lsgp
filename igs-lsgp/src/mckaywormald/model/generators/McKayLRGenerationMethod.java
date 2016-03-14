@@ -2,13 +2,14 @@
  * Creation date: 09/03/2016
  * 
  */
-package mckaywormald.model;
+package mckaywormald.model.generators;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import mckaywormald.model.LatinRectangle;
 import commons.OrderedTriple;
 import commons.RandomUtils;
 import commons.generators.IRandomLatinRectangleGenerator;

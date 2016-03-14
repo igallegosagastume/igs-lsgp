@@ -25,6 +25,8 @@
  */
 package basicImpl.main;
 
+import jacomatt.generators.JacobsonMatthewsLSGenerator;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -37,9 +39,9 @@ import basicImpl.model.generators.SimpleGenWithRandomSwapping;
 import basicImpl.model.generators.SimpleGenWithReplGraph;
 import basicImpl.model.generators.SimpleGenWithRestartRow;
 import basicImpl.model.latinsquares.ArrayListLatinSquare;
-
 import commons.FileUtils;
 import commons.ILatinSquare;
+import commons.generators.IRandomLatinSquareGenerator;
 
 /**
  * @author Ignacio Gallego Sagastume
@@ -56,7 +58,7 @@ public class Main {
 		
 		if (args.length<2) {
 			System.out.println("Usage: <method> <LS order> [write <path>]");
-			System.out.println("Where <method> ::= simple | product | swapping | restart | graph ");
+			System.out.println("Where <method> ::= simple | product | swapping | restart | graph | jm ");
 			return;
 		}
 		
@@ -77,13 +79,13 @@ public class Main {
 		}
 		
 		if (args[0].equalsIgnoreCase("simple")) {
-			SimpleGenWithBacktracking generator = new SimpleGenWithBacktracking(n);
+			AbstractSimpleGenerator generator = new SimpleGenWithBacktracking(n);
 			computeTimeFor(n, generator, path);
 			return;
 		}
 		
 		if (args[0].equalsIgnoreCase("product")) {
-			KoscielnyProduct generator = new KoscielnyProduct(n);
+			AbstractSimpleGenerator generator = new KoscielnyProduct(n);
 			computeTimeFor(n, generator, path);  //does not generate LS uniformly distributed
 			return;
 		}
@@ -95,13 +97,19 @@ public class Main {
 		}
 		
 		if (args[0].equalsIgnoreCase("restart")) {
-			SimpleGenWithBacktracking generator = new SimpleGenWithRestartRow(n);
+			AbstractSimpleGenerator generator = new SimpleGenWithRestartRow(n);
 			computeTimeFor(n, generator, path);//improvements to simple method?
 			return;
 		}
 		
 		if (args[0].equalsIgnoreCase("graph")) {
-			SimpleGenWithBacktracking generator = new SimpleGenWithReplGraph(n);
+			AbstractSimpleGenerator generator = new SimpleGenWithReplGraph(n);
+			computeTimeFor(n, generator, path);
+			return;
+		}
+		
+		if (args[0].equalsIgnoreCase("jm")) {
+			JacobsonMatthewsLSGenerator generator = new JacobsonMatthewsLSGenerator(n);
 			computeTimeFor(n, generator, path);
 			return;
 		}
@@ -110,7 +118,7 @@ public class Main {
 
 	}
 	
-	public static void computeTimeFor(int n, AbstractSimpleGenerator generator, String path) {
+	public static void computeTimeFor(int n, IRandomLatinSquareGenerator generator, String path) {
 		long startTime = System.nanoTime();
 		ILatinSquare ls = generator.generateLS();
 		long endTime = System.nanoTime();

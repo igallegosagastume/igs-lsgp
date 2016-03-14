@@ -5,7 +5,7 @@
 package mckaywormald.test;
 
 import mckaywormald.model.LatinRectangle;
-import mckaywormald.model.McKayLRGenerationMethod;
+import mckaywormald.model.generators.McKayLRGenerationMethod;
 
 import org.junit.Test;
 
