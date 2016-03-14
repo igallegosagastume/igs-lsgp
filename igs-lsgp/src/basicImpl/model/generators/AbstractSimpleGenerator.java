@@ -64,9 +64,6 @@ public abstract class AbstractSimpleGenerator implements IRandomLatinSquareGener
 	public ILatinSquare generateLS() { 
 	    for (int i=0; i<n; i++) {
 	    	List<Integer> row = this.generateRow(i);
-	    	if (failedAttemptsPerRow[i]>1000000) {
-		        System.out.print("Collisions in row "+i+"="+failedAttemptsPerRow[i]);
-		    }
 	    	ls.setRow(i, row);
 	    }
 
