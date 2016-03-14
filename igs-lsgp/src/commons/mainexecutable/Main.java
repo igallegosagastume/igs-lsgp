@@ -32,13 +32,14 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
-import basicImpl.model.generators.AbstractSimpleGenerator;
+import mckaywormald.model.generators.McKayLRGenerationMethod;
 import basicImpl.model.generators.KoscielnyProduct;
 import basicImpl.model.generators.SimpleGenWithBacktracking;
 import basicImpl.model.generators.SimpleGenWithRandomSwapping;
 import basicImpl.model.generators.SimpleGenWithReplGraph;
 import basicImpl.model.generators.SimpleGenWithRestartRow;
 import basicImpl.model.latinsquares.ArrayListLatinSquare;
+
 import commons.FileUtils;
 import commons.ILatinSquare;
 import commons.generators.IRandomLatinSquareGenerator;
@@ -58,7 +59,7 @@ public class Main {
 		
 		if (args.length<2) {
 			System.out.println("Usage: <method> <LS order> [write <path>]");
-			System.out.println("Where <method> ::= simple | product | swapping | restart | graph | jm ");
+			System.out.println("Where <method> ::= simple | product | swapping | restart | graph | jm | mckay");
 			return;
 		}
 		
@@ -77,39 +78,46 @@ public class Main {
 				return;
 			}
 		}
+		IRandomLatinSquareGenerator generator;
 		
 		if (args[0].equalsIgnoreCase("simple")) {
-			AbstractSimpleGenerator generator = new SimpleGenWithBacktracking(n);
+			generator = new SimpleGenWithBacktracking(n);
 			computeTimeFor(n, generator, path);
 			return;
 		}
 		
 		if (args[0].equalsIgnoreCase("product")) {
-			AbstractSimpleGenerator generator = new KoscielnyProduct(n);
+			generator = new KoscielnyProduct(n);
 			computeTimeFor(n, generator, path);  //does not generate LS uniformly distributed
 			return;
 		}
 
 		if (args[0].equalsIgnoreCase("swapping")) {
-			AbstractSimpleGenerator generator = new SimpleGenWithRandomSwapping(n);
+			generator = new SimpleGenWithRandomSwapping(n);
 			computeTimeFor(n, generator, path);  // the most acceptable simple method
 			return;
 		}
 		
 		if (args[0].equalsIgnoreCase("restart")) {
-			AbstractSimpleGenerator generator = new SimpleGenWithRestartRow(n);
+			generator = new SimpleGenWithRestartRow(n);
 			computeTimeFor(n, generator, path);//improvements to simple method?
 			return;
 		}
 		
 		if (args[0].equalsIgnoreCase("graph")) {
-			AbstractSimpleGenerator generator = new SimpleGenWithReplGraph(n);
+			generator = new SimpleGenWithReplGraph(n);
 			computeTimeFor(n, generator, path);
 			return;
 		}
 		
 		if (args[0].equalsIgnoreCase("jm")) {
-			JacobsonMatthewsLSGenerator generator = new JacobsonMatthewsLSGenerator(n);
+			generator = new JacobsonMatthewsLSGenerator(n);
+			computeTimeFor(n, generator, path);
+			return;
+		}
+		
+		if (args[0].equalsIgnoreCase("mckay")) {
+			generator = new McKayLRGenerationMethod(n, n);
 			computeTimeFor(n, generator, path);
 			return;
 		}

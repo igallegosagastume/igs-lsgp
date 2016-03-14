@@ -4,10 +4,11 @@
  */
 package mckaywormald.test;
 
-import mckaywormald.model.LatinRectangle;
 import mckaywormald.model.generators.McKayLRGenerationMethod;
 
 import org.junit.Test;
+
+import commons.ILatinRectangle;
 
 /**
  * @author igallego
@@ -38,14 +39,13 @@ public class McKayGenerationTest {
 		long startTime = System.nanoTime();
 		
 		
-		McKayLRGenerationMethod gen = new McKayLRGenerationMethod();
+		McKayLRGenerationMethod gen = new McKayLRGenerationMethod(10, 256);
 		
-		LatinRectangle lr3 = gen.generateLR(10, 256);
+		ILatinRectangle lr3 = gen.generateLR();
 		
 		long endTime = System.nanoTime();
 		
 		System.out.println(lr3);
-		
 		
 		long duration = endTime - startTime;
 		double secs = duration/1000000000d;

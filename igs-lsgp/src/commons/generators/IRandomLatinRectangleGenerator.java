@@ -4,7 +4,7 @@
  */
 package commons.generators;
 
-import commons.ILatinSquare;
+import commons.ILatinRectangle;
 
 /**
  * @author igallego
@@ -12,6 +12,6 @@ import commons.ILatinSquare;
  */
 public interface IRandomLatinRectangleGenerator extends IRandomStructureGenerator {
 
-	public ILatinSquare generateLR(int k, int n);
+	public ILatinRectangle generateLR();
 		
 }

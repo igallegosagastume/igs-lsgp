@@ -10,15 +10,19 @@ import java.util.List;
 import java.util.Set;
 
 import mckaywormald.model.LatinRectangle;
+
+import commons.ILatinRectangle;
+import commons.ILatinSquare;
 import commons.OrderedTriple;
 import commons.RandomUtils;
 import commons.generators.IRandomLatinRectangleGenerator;
+import commons.generators.IRandomLatinSquareGenerator;
 
 /**
  * @author igallego
  *
  */
-public class McKayLRGenerationMethod implements IRandomLatinRectangleGenerator {
+public class McKayLRGenerationMethod implements IRandomLatinRectangleGenerator, IRandomLatinSquareGenerator {
 	
 	//auxiliary variables for the algorithm
 	private Set<Integer> initiallyAvInRow = null;
@@ -28,15 +32,29 @@ public class McKayLRGenerationMethod implements IRandomLatinRectangleGenerator {
 	private boolean hasOverlappingConflicts = false;
 	private int[][] timesSymbolOccursInColumn = null; 
 	private List<OrderedTriple> conflictList = null; 
+	private int k;
+	private int n;
 	
-	
-	public McKayLRGenerationMethod() {
+	public McKayLRGenerationMethod(int k, int n) {
+		this.k = k;
+		this.n = n;
+		this.initiallyAvInRow = RandomUtils.oneToN(n);
 		RandomUtils.initRand();
 	}
 	
 	@Override
-	public LatinRectangle generateLR(int k, int n) {
-		this.initiallyAvInRow = RandomUtils.oneToN(n);
+	public ILatinSquare generateLS() {
+		
+		if (this.k==this.n)
+			return this.generateLR();
+		else
+			System.out.println("Could not generate a square of "+this.k+" rows by "+this.n+" columns.");
+		return null;
+	}
+	
+	@Override
+	public ILatinRectangle generateLR() {
+		
 		boolean rejected = false;
 		LatinRectangle a = null;
 		double pow = Math.pow(n, 2);
@@ -50,7 +68,7 @@ public class McKayLRGenerationMethod implements IRandomLatinRectangleGenerator {
 			outerLoop++;
 			int matrixCount = 0;
 			do {
-		    	a = randomMemberOfMkn(k, n);
+		    	a = randomMemberOfMkn();
 		    	matrixCount++;
 		    	System.out.println("Generated matrix A N°"+matrixCount+" with conflicts count:"+this.conflictsCount+" (>"+pow+"?) Overlapping:"+this.hasOverlappingConflicts);
 		    } while (this.conflictsCount>pow || this.hasOverlappingConflicts); //replaced "repeat-until(p)" by "do-while(!p)"
@@ -117,7 +135,7 @@ public class McKayLRGenerationMethod implements IRandomLatinRectangleGenerator {
 	    return a;
 	}
 	
-	private LatinRectangle randomMemberOfMkn(int k, int n) {
+	private LatinRectangle randomMemberOfMkn() {
 		this.conflictsCount = 0;
 		this.hasOverlappingConflicts = false;
 		this.conflictList = new ArrayList<OrderedTriple>();
@@ -128,14 +146,14 @@ public class McKayLRGenerationMethod implements IRandomLatinRectangleGenerator {
 		LatinRectangle lr = new LatinRectangle(k, n);
 	    
 	    for (int i=0; i<k; i++) {
-	    	ArrayList<Integer> row = this.generateRow(i, n, lr/*, columnOfRowValue*/);
+	    	ArrayList<Integer> row = this.generateRow(i, lr);
 	    	
 	    	lr.setRow(i, row);
 	    }
 	    return lr;
 	}
 	        
-	private ArrayList<Integer> generateRow(int rowIndex, int n, LatinRectangle ls/*, int[][] columnOfRowValue*/) {
+	private ArrayList<Integer> generateRow(int rowIndex, LatinRectangle lr) {
 	    List<Integer> availableInRow = new ArrayList<Integer>();
 	    availableInRow.addAll(this.initiallyAvInRow);
 	    
@@ -150,7 +168,7 @@ public class McKayLRGenerationMethod implements IRandomLatinRectangleGenerator {
 	    	//conflict checks
             if (this.timesSymbolOccursInColumn[symbol][colIndex]>1) {//!this.availableInCol[colIndex].contains(symbol)) {
             	this.conflictsCount++;
-            	int last = this.lastRowIndexOf(symbol, ls, rowIndex, colIndex);//this step is at most of O(k)
+            	int last = this.lastRowIndexOf(symbol, lr, rowIndex, colIndex);//this step is at most of O(k)
             	this.conflictList.add(new OrderedTriple(last, rowIndex, colIndex));
             	if (this.timesSymbolOccursInColumn[symbol][colIndex]>2) {
             		this.hasOverlappingConflicts=true;
@@ -171,12 +189,12 @@ public class McKayLRGenerationMethod implements IRandomLatinRectangleGenerator {
 	    return row;
 	}
 	
-	private int lastRowIndexOf(int symbol, LatinRectangle ls, int row, int col) {
+	private int lastRowIndexOf(int symbol, LatinRectangle lr, int row, int col) {
 		int result = -1;
 		boolean found = false;
 		int i = row-1;//search from last row until row 0
 		while (!found && i>=0) {
-			found = (ls.getValueAt(i,col)==symbol);
+			found = (lr.getValueAt(i,col)==symbol);
 			if (found)
 				result = i;
 			i--;
