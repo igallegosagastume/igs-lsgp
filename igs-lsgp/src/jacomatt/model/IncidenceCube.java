@@ -36,12 +36,12 @@ import java.io.FileWriter;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+import java.util.List;
 
 import javax.media.opengl.awt.GLCanvas;
 import javax.swing.JFrame;
 
 import com.jogamp.opengl.util.FPSAnimator;
-
 import commons.ILatinSquare;
 import commons.OrderedTriple;
 
@@ -505,5 +505,9 @@ public class IncidenceCube implements ILatinSquare {
 		return sb.toString();
 	}
 	
+	@Override
+	public void setRow(int i, List<Integer> row) {
+		//not implemented yet
+	}
 }
 

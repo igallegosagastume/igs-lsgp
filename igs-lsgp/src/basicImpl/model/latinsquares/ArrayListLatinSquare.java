@@ -30,6 +30,7 @@ import java.io.FileWriter;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.List;
 
 import commons.ILatinSquare;
 
@@ -124,8 +125,9 @@ public class ArrayListLatinSquare implements ILatinSquare {
 	 * @param i
 	 * @param row
 	 */
-	public void setRow (int i, ArrayList<Integer> row) {
-		ls[i] = row;
+	@Override
+	public void setRow(int i, List<Integer> row) {
+		ls[i] = (ArrayList<Integer>)row;
 	}
 	
 	public boolean equals(ILatinSquare ls2) throws Exception {

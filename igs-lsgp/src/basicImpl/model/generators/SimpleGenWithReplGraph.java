@@ -27,10 +27,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Set;
 
-import basicImpl.model.latinsquares.ArrayListLatinSquare;
+import commons.ILatinSquare;
 import commons.RandomUtils;
 
 /**
@@ -39,7 +38,6 @@ import commons.RandomUtils;
  */
 public class SimpleGenWithReplGraph extends SimpleGenWithBacktracking {
 
-	
 	public SimpleGenWithReplGraph(int n) {
 		super(n);
 	}
@@ -47,7 +45,7 @@ public class SimpleGenWithReplGraph extends SimpleGenWithBacktracking {
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	public ArrayList<Integer> generateRow(int i_row, int n, ArrayListLatinSquare ls, Set<Integer>[] availableInCol, Integer[] failedAttemptsPerRow, int[][] collisions) {
+	public ArrayList<Integer> generateRow(int i_row, int n, ILatinSquare ls, Set<Integer>[] availableInCol, Integer[] failedAttemptsPerRow, int[][] collisions) {
 		Set<Integer> availableInRow = new HashSet<Integer>();
 	    for (int j=0; j<n; j++) {
 	    	availableInRow.add(j);

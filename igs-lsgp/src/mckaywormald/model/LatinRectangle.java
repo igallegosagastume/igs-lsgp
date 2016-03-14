@@ -32,6 +32,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import commons.ILatinRectangle;
 import commons.ILatinSquare;
@@ -216,8 +217,10 @@ public class LatinRectangle implements ILatinRectangle {
 		public boolean isASquare() {
 			return (this.rowSize==this.colSize);
 		}
-		
-//		public boolean hasOverlappingConflicts() {
-//			return false;
-//		}
+
+		@Override
+		public void setRow(int i, List<Integer> row) {
+			for (int j=0; j<this.colSize; j++)
+				lr[i][j] = row.get(j);
+		}
 }

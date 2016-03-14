@@ -25,6 +25,8 @@
  */
 package commons;
 
+import java.util.List;
+
 
 /**
  * @author Ignacio Gallego Sagastume
@@ -38,6 +40,7 @@ public interface ILatinSquare {
 	public Integer getValueAt(int row, int column) throws Exception;
 	public void setValueAt(int row, int column, int value) throws Exception;
 
+	public void setRow(int i, List<Integer> row);
 	//utils
 	public void writeToFile(String fileName) throws Exception;
 	public String toString();

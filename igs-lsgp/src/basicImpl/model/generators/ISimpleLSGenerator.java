@@ -2,7 +2,7 @@
  * Creation date: 14/03/2016
  * 
  */
-package basicImpl.model;
+package basicImpl.model.generators;
 
 import commons.ILatinSquare;
 

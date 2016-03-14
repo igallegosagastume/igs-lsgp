@@ -31,6 +31,8 @@ import java.util.List;
 import java.util.Set;
 
 import basicImpl.model.latinsquares.ArrayListLatinSquare;
+
+import commons.ILatinSquare;
 import commons.RandomUtils;
 
 /**
@@ -49,7 +51,7 @@ public class SimpleGenWithRandomSwapping extends SimpleGenWithBacktracking {
 	}
 	
 	@Override
-	protected ArrayList<Integer> generateRow(int i_row, int n, ArrayListLatinSquare ls, Set<Integer>[] availableInCol, Integer[] failedAttemptsPerRow, int[][] collisions) {
+	protected ArrayList<Integer> generateRow(int i_row, int n, ILatinSquare ls, Set<Integer>[] availableInCol, Integer[] failedAttemptsPerRow, int[][] collisions) {
 	    Set<Integer> availableInRow = new HashSet<Integer>();
 	    
 	    //inicialmente los elementos de 0 a n-1
@@ -102,7 +104,7 @@ public class SimpleGenWithRandomSwapping extends SimpleGenWithBacktracking {
 	    return row;
 	}
 
-	public void fixRow(int i_row, int n, ArrayListLatinSquare ls, List<Integer> row, Set<Integer> columnsWithRepetitions, Set<Integer>[] availableInCol) {
+	public void fixRow(int i_row, int n, ILatinSquare ls, List<Integer> row, Set<Integer> columnsWithRepetitions, Set<Integer>[] availableInCol) {
 		int columnCountBeforeSwap, columnCountAfterSwap;
 		Integer lastCol1 = null, lastCol2 = null;
 		do {
@@ -143,7 +145,7 @@ public class SimpleGenWithRandomSwapping extends SimpleGenWithBacktracking {
 	
 
 	//swap in constant time
-	private void swap(Integer columnWRep, Integer anotherCol,  ArrayListLatinSquare ls, List<Integer> row, Set<Integer> columnsWithRepetitions, Set<Integer>[] availableInCol) {
+	private void swap(Integer columnWRep, Integer anotherCol,  ILatinSquare ls, List<Integer> row, Set<Integer> columnsWithRepetitions, Set<Integer>[] availableInCol) {
 		Integer elem1 = row.get(columnWRep);
 		Integer elem2 = row.get(anotherCol);
 		
