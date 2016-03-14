@@ -78,6 +78,9 @@ public class SimpleGenWithBacktracking extends AbstractSimpleGenerator {
 	        } else {
 	            failedInRowCount = failedInRowCount + 1;
 
+	            if (failedInRowCount%100000==0) {
+	            	System.out.println("Failed attempts in row "+i_row+" "+failedInRowCount);
+	            }
 	            collisions[i_row][i_col] = collisions[i_row][i_col] + 1;
 	            
 	            //clean failed attempts from rightest columns
