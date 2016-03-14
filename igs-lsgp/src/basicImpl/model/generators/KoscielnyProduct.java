@@ -23,10 +23,11 @@
  * 
  * 
  */
-package basicImpl.model;
+package basicImpl.model.generators;
 
 import java.util.ArrayList;
 
+import basicImpl.model.latinsquares.ArrayListLatinSquare;
 import commons.ILatinSquare;
 import commons.OrderedPair;
 

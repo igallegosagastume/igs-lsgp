@@ -24,8 +24,7 @@ package cipher.model;
 
 import java.util.Scanner;
 
-import basicImpl.model.SimpleGenWithReplGraph;
-
+import basicImpl.model.generators.SimpleGenWithReplGraph;
 import commons.ILatinSquare;
 import commons.OrderedPair;
 

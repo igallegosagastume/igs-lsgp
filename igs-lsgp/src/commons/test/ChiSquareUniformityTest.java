@@ -32,9 +32,9 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 
-import basicImpl.model.SimpleGenWithBacktracking;
-import basicImpl.model.SimpleGenWithRandomSwapping;
-import basicImpl.model.SimpleGenWithReplGraph;
+import basicImpl.model.generators.SimpleGenWithBacktracking;
+import basicImpl.model.generators.SimpleGenWithRandomSwapping;
+import basicImpl.model.generators.SimpleGenWithReplGraph;
 import commons.ILatinSquare;
 
 public class ChiSquareUniformityTest {

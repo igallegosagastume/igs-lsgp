@@ -23,7 +23,7 @@
  * 
  * 
  */
-package basicImpl.model;
+package basicImpl.model.latinsquares;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -118,6 +118,12 @@ public class ArrayListLatinSquare implements ILatinSquare {
 		bw.close();
 	}
 
+	/**
+	 * This method is the reason for the ls structure. It's efficient to set a complete row.
+	 * 
+	 * @param i
+	 * @param row
+	 */
 	public void setRow (int i, ArrayList<Integer> row) {
 		ls[i] = row;
 	}

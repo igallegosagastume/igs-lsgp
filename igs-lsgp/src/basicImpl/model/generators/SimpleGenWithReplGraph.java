@@ -21,7 +21,7 @@
  * 
  * 
  */
-package basicImpl.model;
+package basicImpl.model.generators;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -30,6 +30,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import basicImpl.model.latinsquares.ArrayListLatinSquare;
 import commons.RandomUtils;
 
 /**
@@ -65,13 +66,13 @@ public class SimpleGenWithReplGraph extends SimpleGenWithBacktracking {
 	    
 	    while (i_col < n) {//when i_col is n, there are n chosen numbers
 	        //available is:
-	        /*HashSet<Integer> available = new HashSet<Integer>();
+	        HashSet<Integer> available = new HashSet<Integer>();
 	        available.addAll(availableInCol[i_col]);
-	    	available.retainAll(availableInRow);*/
-	    	
-	    	List<Integer> available = new ArrayList<Integer>();
-	    	available.addAll(availableInCol[i_col]);
 	    	available.retainAll(availableInRow);
+	    	
+	    	/*List<Integer> available = new ArrayList<Integer>();
+	    	available.addAll(availableInCol[i_col]);
+	    	available.retainAll(availableInRow);*/
 
 	        if (!available.isEmpty()) { //if there are available
 	            //choose a symbol at random
@@ -83,11 +84,6 @@ public class SimpleGenWithReplGraph extends SimpleGenWithBacktracking {
 	            i_col++;
 	        } else {//collision
 	        	HashMap<Integer, HashSet<Integer>> map = this.constructReplGraph(row, i_col, initialAvailableInCol, availableInCol);
-//	        	System.out.println(ls);
-//	        	System.out.println("Map:"+map);
-//	        	System.out.println("Avail:"+availableInCol);
-//	        	System.out.println("Row:"+row);
-	        	
 	        	int elem = RandomUtils.randomChoice(availableInCol[i_col]);
 	        	this.makeElemAvailable(elem, map, row, i_col, availableInCol, availableInRow);
 	        }
@@ -139,7 +135,7 @@ public class SimpleGenWithReplGraph extends SimpleGenWithBacktracking {
 //				old = firstElem;
 //			}
 			
-			List<Integer> avail = new ArrayList<Integer>();
+			Set<Integer> avail = new HashSet<Integer>();
 			avail.addAll(map.get(idx_old));
 			avail.removeAll(path);
 			

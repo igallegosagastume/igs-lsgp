@@ -32,8 +32,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 import commons.ILatinSquare;
-import basicImpl.model.SimpleGenWithBacktracking;
-import basicImpl.model.SimpleGenWithReplGraph;
+import basicImpl.model.generators.SimpleGenWithBacktracking;
+import basicImpl.model.generators.SimpleGenWithReplGraph;
 
 public class CountLSsTester implements Runnable {
 

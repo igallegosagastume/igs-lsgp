@@ -28,14 +28,14 @@ package basicImpl.main;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Set;
 
-import basicImpl.model.ArrayListLatinSquare;
-import basicImpl.model.KoscielnyProduct;
-import basicImpl.model.SimpleGenWithBacktracking;
-import basicImpl.model.SimpleGenWithRandomSwapping;
-import basicImpl.model.SimpleGenWithReplGraph;
-import basicImpl.model.SimpleGenWithRestartRow;
-
+import basicImpl.model.generators.KoscielnyProduct;
+import basicImpl.model.generators.SimpleGenWithBacktracking;
+import basicImpl.model.generators.SimpleGenWithRandomSwapping;
+import basicImpl.model.generators.SimpleGenWithReplGraph;
+import basicImpl.model.generators.SimpleGenWithRestartRow;
+import basicImpl.model.latinsquares.ArrayListLatinSquare;
 import commons.FileUtils;
 import commons.ILatinSquare;
 
@@ -153,7 +153,7 @@ public class Main {
 		row.add(1);
 		row.add(4);
 		
-		ArrayList<Integer> columnsWithRepetitions = new ArrayList<Integer>();
+		Set<Integer> columnsWithRepetitions = new HashSet<Integer>();
 		HashSet<Integer>[] availableInCol = new HashSet[5];
 		
 		columnsWithRepetitions.add(4);

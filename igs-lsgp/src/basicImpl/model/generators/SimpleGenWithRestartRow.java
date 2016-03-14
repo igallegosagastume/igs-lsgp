@@ -20,13 +20,14 @@
  * 
  * 
  */
-package basicImpl.model;
+package basicImpl.model.generators;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import basicImpl.model.latinsquares.ArrayListLatinSquare;
 import commons.RandomUtils;
 
 /**
