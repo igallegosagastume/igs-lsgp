@@ -75,12 +75,6 @@ public class LatinRectangle implements ILatinRectangle {
 			this.rowSize = k;
 			this.colSize = n;
 
-			// initialization with 0s (useless)
-//			for (int i = 0; i < k; i++) {
-//				for (int j = 0; j < n; j++) {
-//					lr[i][j] = 0; // add initial n 0s
-//				}
-//			}
 			// initialize the md
 			try {
 				md = MessageDigest.getInstance("MD5");
@@ -148,16 +142,6 @@ public class LatinRectangle implements ILatinRectangle {
 			bw.close();
 		}
 
-		public void setRow(int i, ArrayList<Integer> row) {
-			Iterator<Integer> rowIt = row.iterator();
-			
-			int j=0;
-			while (rowIt.hasNext()) {
-				Integer integer = rowIt.next();
-				lr[i][j++] = integer;
-			}
-		}
-		
 		@Override
 		public boolean equals(ILatinRectangle lr2) throws Exception {
 			int k2 = lr2.rowSize();
