@@ -58,8 +58,15 @@ public class Main {
 		/** This class is prepared to be called from a runnable jar in a system console **/
 		
 		if (args.length<2) {
+			System.out.println("_____________________________________________________________________________");
+			System.out.println("");
+			System.out.println("igs-lsgp (Ignacio Gallego Sagastume's Latin Square generation package).");
+			System.out.println("© 2014-2016 by Mg. Ignacio Gallego Sagastume.");
+			System.out.println("_____________________________________________________________________________");
+			System.out.println("");
 			System.out.println("Usage: <method> <order> [write <path>]");
 			System.out.println("Where <method> ::= simple | product | swapping | restart | graph | jm | mckay");
+			System.out.println("_____________________________________________________________________________");
 			return;
 		}
 		
