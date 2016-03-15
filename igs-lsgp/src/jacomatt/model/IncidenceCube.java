@@ -42,6 +42,7 @@ import javax.swing.JFrame;
 import basicImpl.model.latinsquares.AbstractLatinSquare;
 
 import com.jogamp.opengl.util.FPSAnimator;
+
 import commons.ILatinSquare;
 import commons.OrderedTriple;
 
@@ -320,10 +321,12 @@ public class IncidenceCube extends AbstractLatinSquare implements ILatinSquare {
 	 */
 	@Override
 	public String toString() {
+		if (this.proper()) {
+			return this.toStringOfProper();
+		}
 		StringBuffer sb = new StringBuffer();
 		sb.append("Incidence cube of size "+n+":\n");
 		for (int x=0; x<n ; x++) {
-			//sb.append("Row "+x+":");
 			for (int y=0; y<n ; y++) {
 				try {
 					String z;
@@ -363,6 +366,27 @@ public class IncidenceCube extends AbstractLatinSquare implements ILatinSquare {
 		return sb.toString();
 	}
 
+	public String toStringOfProper() {
+		StringBuffer sb = new StringBuffer();
+		sb.append("Incidence cube of size "+n+":\n");
+		for (int x=0; x<n ; x++) {
+			for (int y=0; y<n ; y++) {
+				try {
+					Integer elem = this.getValueAt(x, y);
+					sb.append(elem); 
+					sb.append("    ".substring(elem.toString().length()));
+					
+				} catch (Exception e) {
+					sb.append("--  ");
+				}
+			}
+			sb.append("\n");
+		}
+		return sb.toString();
+	}
+
+	
+	
 	public boolean proper() {
 		return this.proper;
 	}

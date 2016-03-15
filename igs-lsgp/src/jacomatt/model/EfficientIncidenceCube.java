@@ -216,22 +216,16 @@ public class EfficientIncidenceCube extends IncidenceCube {
 	@Override
 	public void doPlusMinus1Move(OrderedTriple t, int x1, int y1, int z1) {
 		//changes in chosen sub-cube
-//		cube[t.x][t.y][t.z]++; //sum 1 to the selected "0" cell
+		//sum 1 to the selected "0" cell
 		this.xyzStore(t.x, t.y, t.z);
-//		cube[t.x][y1][z1]++;
 		this.xyzStore(t.x, y1, z1);
-//		cube[x1][y1][t.z]++;
 		this.xyzStore(x1, y1, t.z);
-//		cube[x1][t.y][z1]++;
 		this.xyzStore(x1, t.y, z1);
 				
-//		cube[t.x][t.y][z1]--; //subtract 1 to the "1" cell
+		//subtract 1 to the "1" cell
 		this.xyzRemove(t.x, t.y, z1);
-//		cube[t.x][y1][t.z]--;
 		this.xyzRemove(t.x, y1, t.z);
-//		cube[x1][t.y][t.z]--;
 		this.xyzRemove(x1, t.y, t.z);
-//		cube[x1][y1][z1]--;
 		this.xyzRemove(x1, y1, z1);
 	}
 	
