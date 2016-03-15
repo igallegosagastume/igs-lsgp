@@ -63,7 +63,7 @@ public class McKayLRGenerationMethod implements IRandomLatinRectangleGenerator, 
 		int outerLoop = 0;
 //		int maxInnerLoop = 0;
 		do {
-			if (outerLoop%1000==0)
+			if (outerLoop%1000==0 && outerLoop>0)
 				System.out.println("Outer:"+outerLoop);
 			
 //			outerLoop++;
