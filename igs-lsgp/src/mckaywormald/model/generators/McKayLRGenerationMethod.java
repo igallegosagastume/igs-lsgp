@@ -61,29 +61,29 @@ public class McKayLRGenerationMethod implements IRandomLatinRectangleGenerator, 
 		double pow = Math.pow(n, 2);
 		
 		int outerLoop = 0;
-		int maxInnerLoop = 0;
+//		int maxInnerLoop = 0;
 		do {
 			if (outerLoop%1000==0)
 				System.out.println("Outer:"+outerLoop);
 			
-			outerLoop++;
-			int matrixCount = 0;
+//			outerLoop++;
+//			int matrixCount = 0;
 			do {
 		    	a = randomMemberOfMkn();
-		    	matrixCount++;
-		    	System.out.println("Generated matrix A N°"+matrixCount+" with conflicts count:"+this.conflictsCount+" (>"+pow+"?) Overlapping:"+this.hasOverlappingConflicts);
+//		    	matrixCount++;
+//		    	System.out.println("Generated matrix A N°"+matrixCount+" with conflicts count:"+this.conflictsCount+" (>"+pow+"?) Overlapping:"+this.hasOverlappingConflicts);
 		    } while (this.conflictsCount>pow || this.hasOverlappingConflicts); //replaced "repeat-until(p)" by "do-while(!p)"
 	
 		    rejected = false;
-		    int innerLoop = 0;
+//		    int innerLoop = 0;
 		    
 		    while (this.conflictsCount>0 && !rejected) {
-		    	innerLoop++;
-		    	if (innerLoop>maxInnerLoop) {
-		    		maxInnerLoop=innerLoop;
-		    		System.out.println("MaxInnerLoop:"+maxInnerLoop);
-		    	}
-		    	
+//		    	innerLoop++;
+//		    	if (innerLoop>maxInnerLoop) {
+//		    		maxInnerLoop=innerLoop;
+//		    		System.out.println("MaxInnerLoop:"+maxInnerLoop);
+//		    	}
+//		    	
 		    	//take a conflict at random in constant time
 		    	OrderedTriple conflict = RandomUtils.randomTriple(this.conflictList);
 		    	
