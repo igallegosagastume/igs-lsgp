@@ -42,6 +42,7 @@ public class OrderedTriple {
 		this.z = z;
 	}
 	
+	@Override
 	public String toString() {
 		return "("+x+", "+y+", "+z+")";
 	}
@@ -68,8 +69,4 @@ public class OrderedTriple {
 			   (new Integer(y).hashCode())+
 			   (new Integer(z).hashCode());
 	}
-	
-	
-	
-	
 }
