@@ -15,19 +15,25 @@ import commons.RandomUtils;
 import commons.generators.IRandomLatinSquareGenerator;
 
 /**
+ * This class abstracts the common behaviour of all generators that operate sequentially, generating one random symbol at the time,
+ * and completing the LS by rows (up to down) and columns (left to write).
+ * 
  * @author igallego
  *
  */
 public abstract class AbstractSimpleGenerator implements IRandomLatinSquareGenerator {
 
 	
-	protected int n = 0;
+	protected int n = 0;//the size of the LSs to be generated
+	
+	//auxiliary structures
 	protected Set<Integer>[] availableInCol;
 	protected ILatinSquare ls;
 	protected Integer[] failedAttemptsPerRow;
 	protected int[][] collisions;
 	
-	protected HashSet<Integer> symbols = null;
+	//the set of all possible symbols
+	protected Set<Integer> symbols = null;
 
 	@SuppressWarnings("unchecked")
 	public AbstractSimpleGenerator(int n) {
@@ -71,14 +77,16 @@ public abstract class AbstractSimpleGenerator implements IRandomLatinSquareGener
 	  }
 
 	/** 
-	 * Generates row i_row of LS
+	 * Generates row i_row of LS. 
+	 * 
+	 * This default implementation does not take into account the conflicts in the generated row with previous columns.
+	 *  
 	 * @param i_row
 	 * @return
 	 */
 	protected List<Integer> generateRow(int i_row) {
-	    HashSet<Integer> availableInRow = new HashSet<Integer>();//    = [ i for i in range(1,n+1) ]
-	    
-	    availableInRow.addAll(RandomUtils.oneToN(n));
+	    HashSet<Integer> availableInRow = new HashSet<Integer>();
+	    availableInRow.addAll(this.symbols);//all symbols initially available in the row 
 	    
 	    ArrayList<Integer> row = new ArrayList<Integer>();
 	    int i_col = 0;
@@ -87,7 +95,7 @@ public abstract class AbstractSimpleGenerator implements IRandomLatinSquareGener
             Integer symbol = RandomUtils.randomChoice(availableInRow);
 
             i_col = i_col + 1;
-            availableInRow.remove(symbol);
+            availableInRow.remove(symbol);//to avoid repetition in the generated row
             row.add(symbol);
 	    }
 
