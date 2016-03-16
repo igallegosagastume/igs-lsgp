@@ -45,6 +45,10 @@ import commons.ILatinSquare;
 import commons.generators.IRandomLatinSquareGenerator;
 
 /**
+ * 
+ * This class is prepared to be called from a runnable jar in a system console.
+ *  It provides an access point to all the methods in the project. 
+ * 
  * @author Ignacio Gallego Sagastume
  * @email ignaciogallego@gmail.com
  * @tags Java Latin Square generation
@@ -55,8 +59,6 @@ public class GeneratorJar {
 	 * @param args
 	 */
 	public static void main(String[] args) throws Exception {
-		/** This class is prepared to be called from a runnable jar in a system console **/
-		
 		if (args.length<2) {
 			System.out.println("_____________________________________________________________________________");
 			System.out.println("");
