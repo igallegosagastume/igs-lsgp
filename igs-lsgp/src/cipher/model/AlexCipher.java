@@ -29,6 +29,11 @@ import commons.ILatinSquare;
 import commons.OrderedPair;
 
 /**
+ * This simple Cipher shows how a LS can be used to crypt and decrypt information.
+ * 
+ *  The mechanism is due to Gibson, and it's called "Off the Grid".
+ * 
+ * 
  * @author igallego
  *
  */
