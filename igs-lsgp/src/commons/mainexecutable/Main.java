@@ -89,37 +89,37 @@ public class Main {
 		
 		if (args[0].equalsIgnoreCase("simple")) {
 			generator = new SimpleGenWithBacktracking(n);
-			computeTimeFor(n, generator, path);
+			computeTimeFor(generator, path);
 			return;
 		}
 		
 		if (args[0].equalsIgnoreCase("product")) {
 			generator = new KoscielnyProduct(n);
-			computeTimeFor(n, generator, path);  //does not generate LS uniformly distributed
+			computeTimeFor(generator, path);  //does not generate LS uniformly distributed
 			return;
 		}
 
 		if (args[0].equalsIgnoreCase("swapping")) {
 			generator = new SimpleGenWithRandomSwapping(n);
-			computeTimeFor(n, generator, path);  // the most acceptable simple method
+			computeTimeFor(generator, path);  // the most acceptable simple method
 			return;
 		}
 		
 		if (args[0].equalsIgnoreCase("restart")) {
 			generator = new SimpleGenWithRestartRow(n);
-			computeTimeFor(n, generator, path);//improvements to simple method?
+			computeTimeFor(generator, path);//improvements to simple method?
 			return;
 		}
 		
 		if (args[0].equalsIgnoreCase("graph")) {
 			generator = new SimpleGenWithReplGraph(n);
-			computeTimeFor(n, generator, path);
+			computeTimeFor(generator, path);
 			return;
 		}
 		
 		if (args[0].equalsIgnoreCase("jm")) {
 			generator = new JacobsonMatthewsLSGenerator(n);
-			computeTimeFor(n, generator, path);
+			computeTimeFor(generator, path);
 			return;
 		}
 		
@@ -132,7 +132,7 @@ public class Main {
 			int k = (int)cubicRoot+1;
 			
 			generator = new McKayLRGenerationMethod(k,n);
-			computeTimeFor(n, generator, path);
+			computeTimeFor(generator, path);
 			return;
 		}
 		
@@ -140,7 +140,7 @@ public class Main {
 
 	}
 	
-	public static void computeTimeFor(int n, IRandomLatinSquareGenerator generator, String path) {
+	public static void computeTimeFor(IRandomLatinSquareGenerator generator, String path) {
 		long startTime = System.nanoTime();
 		ILatinSquare ls = generator.generateLS();
 		long endTime = System.nanoTime();
