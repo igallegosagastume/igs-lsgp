@@ -49,7 +49,7 @@ import commons.generators.IRandomLatinSquareGenerator;
  * @email ignaciogallego@gmail.com
  * @tags Java Latin Square generation
  */
-public class Main {
+public class GeneratorJar {
 
 	/**
 	 * @param args
