@@ -39,7 +39,7 @@ import commons.FileUtils;
  * @email ignaciogallego@gmail.com
  * @tags Java Latin Square generation
  */
-public class Main {
+public class JacoMattJar {
 
 	/** The entry main() method */
 	public static void main(String[] args) {		
