@@ -83,7 +83,6 @@ public class SimpleGenWithReplGraph extends AbstractSimpleGenerator {
 	        	this.makeElemAvailable(elem, map, row, i_col, availableInRow);
 	        }
 	    }
-//	    System.out.println("Row "+i_row);//: "+row+".");
 	    return row;
 	}
 
