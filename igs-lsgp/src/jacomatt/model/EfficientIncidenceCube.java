@@ -52,7 +52,7 @@ public class EfficientIncidenceCube extends IncidenceCube {
 	
 	public EfficientIncidenceCube(int n) {
 		super(n);
-		this.init();
+		this.init(true);
 	}
 	
 	@Override
@@ -60,7 +60,7 @@ public class EfficientIncidenceCube extends IncidenceCube {
 		return this.n;
 	}
 	@Override
-	public void init() {
+	public void init(boolean cyclic) {
 		//initialize the md
 		try {
 			md = MessageDigest.getInstance("MD5");
@@ -83,17 +83,14 @@ public class EfficientIncidenceCube extends IncidenceCube {
 		}
 		
 		drawingOptions = new DrawingOptions();
-		//fill the 1s
-		int lastSymbol = -1;
-		for (int i=0; i<n; i++) {//for all rows
-			
-			lastSymbol = (lastSymbol + 1) % n;
-			
-			for (int j=0; j<n; j++) {
-
-				this.xyzStore(i, j, lastSymbol);
-				
+		if (cyclic) {
+			int lastSymbol = -1;
+			for (int i=0; i<n; i++) {//for all rows
 				lastSymbol = (lastSymbol + 1) % n;
+				for (int j=0; j<n; j++) {
+					this.xyzStore(i, j, lastSymbol);
+					lastSymbol = (lastSymbol + 1) % n;
+				}
 			}
 		}
 	}

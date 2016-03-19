@@ -65,20 +65,26 @@ public class IncidenceCube extends AbstractLatinSquare implements ILatinSquare {
 		
 	public IncidenceCube(int n) {
 		super(n);
-		this.init();
+		this.init(true);
 	}
 	
 	public IncidenceCube(ILatinSquare ls) {
 		super(ls.size());
-		this.init();
+		this.init(false);
 		
+		//initalize with the ls values
+		for (int i=0; i<n; i++) {
+			for (int j=0; j<n; j++) {
+					cube[i][j][ls.getValueAt(i, j)] = 1;
+			}
+		}
 	}
 	
 	public int size() {
 		return this.n;
 	}
 	
-	public void init() {
+	public void init(boolean cyclic) {
 		//initialize the md
 		try {
 			md = MessageDigest.getInstance("MD5");
@@ -95,13 +101,16 @@ public class IncidenceCube extends AbstractLatinSquare implements ILatinSquare {
 					cube[row][col][sym] = 0;
 			}
 		}
-		//fill the 1s
-		int lastSymbol = -1;
-		for (int i=0; i<n; i++) {//for all rows
-			lastSymbol = (lastSymbol + 1) % n;
-			for (int j=0; j<n; j++) {
-				cube[i][j][lastSymbol] = 1;
+		
+		if (cyclic) {
+			//initialize the cube with cyclic 1s
+			int lastSymbol = -1;
+			for (int i=0; i<n; i++) {//for all rows
 				lastSymbol = (lastSymbol + 1) % n;
+				for (int j=0; j<n; j++) {
+					cube[i][j][lastSymbol] = 1;
+					lastSymbol = (lastSymbol + 1) % n;
+				}
 			}
 		}
 	}
