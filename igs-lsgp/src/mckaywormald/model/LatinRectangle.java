@@ -48,7 +48,7 @@ public class LatinRectangle implements ILatinRectangle {
 		
 		protected MessageDigest md = null;
 		
-		public LatinRectangle(ILatinSquare ls) throws Exception {
+		public LatinRectangle(ILatinSquare ls) {
 			int n = ls.size();
 			this.colSize = n;
 			this.rowSize = n;
@@ -126,22 +126,27 @@ public class LatinRectangle implements ILatinRectangle {
 		}
 
 		@Override
-		public void writeToFile(String fileName) throws Exception {
-			BufferedWriter bw = new BufferedWriter(new FileWriter(fileName));
+		public void writeToFile(String fileName) {
 			
-			for (int i=0; i<rowSize; i++) {
-				for (int j=0; j<colSize; j++) {
-					Integer elem = this.getValueAt(i, j);
-					bw.write(elem.toString());
-					bw.write("    ".substring(elem.toString().length()));
+			try {
+				BufferedWriter bw = new BufferedWriter(new FileWriter(fileName));
+				
+				for (int i=0; i<rowSize; i++) {
+					for (int j=0; j<colSize; j++) {
+						Integer elem = this.getValueAt(i, j);
+						bw.write(elem.toString());
+						bw.write("    ".substring(elem.toString().length()));
+					}
+					bw.write("\n");
 				}
-				bw.write("\n");
+				bw.close();
+			} catch (Exception e) {
+				System.out.println("Could not write to file "+fileName);
 			}
-			bw.close();
 		}
 
 		@Override
-		public boolean equals(ILatinRectangle lr2) throws Exception {
+		public boolean equals(ILatinRectangle lr2) {
 			int k2 = lr2.rowSize();
 			int n2 = lr2.colSize();
 			if (this.rowSize!=k2 || this.colSize!=n2) return false;
@@ -181,14 +186,15 @@ public class LatinRectangle implements ILatinRectangle {
 		}
 
 		@Override
-		public int size() throws Exception {
+		public int size() {
 			if (this.isASquare())
 				return this.rowSize;//if it is a square, return n=order
-			throw new Exception("Don't know how to respond: rows or columns?");
+			System.out.println("Don't know how to respond: rows or columns?");
+			return 0;
 		}
 
 		@Override
-		public boolean equals(ILatinSquare ls) throws Exception {
+		public boolean equals(ILatinSquare ls) {
 			if (this.isASquare() && this.size()==ls.size())
 				return this.equals(new LatinRectangle(ls));
 			else

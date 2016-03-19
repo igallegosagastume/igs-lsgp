@@ -42,14 +42,14 @@ public interface ILatinSquare {
 
 	public void setRow(int i, List<Integer> row);
 	//utils
-	public void writeToFile(String fileName) throws Exception;
+	public void writeToFile(String fileName);
 	public String toString();
 	
-	public int size() throws Exception;
+	public int size();
 	
 	
 	//equality
-	public boolean equals(ILatinSquare ls) throws Exception; 
+	public boolean equals(ILatinSquare ls); 
 	public byte[] hashCodeOfStructure();
 	public String serializeStructure();
 	public boolean equalHash(byte[] dig1, byte[] dig2);

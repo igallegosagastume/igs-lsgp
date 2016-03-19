@@ -32,7 +32,7 @@ public abstract class AbstractLatinSquare implements ILatinSquare {
 	}
 	
 	@Override
-	public int size() throws Exception {
+	public int size() {
 		return n;
 	}
 	
@@ -58,22 +58,26 @@ public abstract class AbstractLatinSquare implements ILatinSquare {
 	}
 
 	@Override
-	public void writeToFile(String fileName) throws Exception {
-		BufferedWriter bw = new BufferedWriter(new FileWriter(fileName));
-		
-		for (int i=0; i<n; i++) {
-			for (int j=0; j<n; j++) {
-				Integer elem = this.getValueAt(i, j);
-				bw.write(elem.toString());
-				bw.write("    ".substring(elem.toString().length()));
+	public void writeToFile(String fileName) {
+		try {
+			BufferedWriter bw = new BufferedWriter(new FileWriter(fileName));
+			
+			for (int i=0; i<n; i++) {
+				for (int j=0; j<n; j++) {
+					Integer elem = this.getValueAt(i, j);
+					bw.write(elem.toString());
+					bw.write("    ".substring(elem.toString().length()));
+				}
+				bw.write("\n");
 			}
-			bw.write("\n");
+			bw.close();
+		} catch (Exception e) {
+			System.out.println("Could not write to file "+fileName);
 		}
-		bw.close();
 	}
 
 	@Override
-	public boolean equals(ILatinSquare ls2) throws Exception {
+	public boolean equals(ILatinSquare ls2) {
 		int n2 = ls2.size();
 		if (this.size()!=n2) return false;
 		boolean eq = true;

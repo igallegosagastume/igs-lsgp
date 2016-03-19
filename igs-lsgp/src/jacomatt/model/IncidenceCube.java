@@ -68,6 +68,12 @@ public class IncidenceCube extends AbstractLatinSquare implements ILatinSquare {
 		this.init();
 	}
 	
+	public IncidenceCube(ILatinSquare ls) {
+		super(ls.size());
+		this.init();
+		
+	}
+	
 	public int size() {
 		return this.n;
 	}
