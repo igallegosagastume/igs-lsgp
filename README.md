@@ -2,7 +2,7 @@
 Ignacio Gallego Sagastume's Latin Square Generation package
 
 
-Go to the [https://github.com/bluemontag/igs-lsgp/wiki](wiki home page) for more info !!
+Go to the [wiki home page](https://github.com/bluemontag/igs-lsgp/wiki) for more info !!
 
 Thank you !!
 
