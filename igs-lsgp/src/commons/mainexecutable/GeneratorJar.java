@@ -39,10 +39,9 @@ import basicImpl.model.generators.SimpleGenWithRandomSwapping;
 import basicImpl.model.generators.SimpleGenWithReplGraph;
 import basicImpl.model.generators.SimpleGenWithRestartRow;
 import basicImpl.model.latinsquares.ArrayListLatinSquare;
-
-import commons.FileUtils;
-import commons.ILatinSquare;
 import commons.generators.IRandomLatinSquareGenerator;
+import commons.model.ILatinSquare;
+import commons.utils.FileUtils;
 
 /**
  * 

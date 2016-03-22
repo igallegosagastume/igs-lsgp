@@ -38,8 +38,7 @@ import basicImpl.model.generators.AbstractSimpleGenerator;
 import basicImpl.model.generators.SimpleGenWithBacktracking;
 import basicImpl.model.generators.SimpleGenWithRandomSwapping;
 import basicImpl.model.generators.SimpleGenWithReplGraph;
-
-import commons.ILatinSquare;
+import commons.model.ILatinSquare;
 import commons.test.ChiSquareTest;
 
 public class GeneratorLSsChiTest implements Runnable {

@@ -33,7 +33,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 import basicImpl.model.generators.SimpleGenWithRandomSwapping;
-import commons.ILatinSquare;
+import commons.model.ILatinSquare;
 
 public class KolmogorovSmirnovUniformityTest {
 

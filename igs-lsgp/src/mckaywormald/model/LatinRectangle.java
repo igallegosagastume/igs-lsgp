@@ -32,8 +32,8 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
-import commons.ILatinRectangle;
-import commons.ILatinSquare;
+import commons.model.ILatinRectangle;
+import commons.model.ILatinSquare;
 
 /**
  * @author igallego

@@ -43,8 +43,8 @@ import basicImpl.model.latinsquares.AbstractLatinSquare;
 
 import com.jogamp.opengl.util.FPSAnimator;
 
-import commons.ILatinSquare;
-import commons.OrderedTriple;
+import commons.model.ILatinSquare;
+import commons.model.OrderedTriple;
 
 /**
  * @author Ignacio Gallego Sagastume

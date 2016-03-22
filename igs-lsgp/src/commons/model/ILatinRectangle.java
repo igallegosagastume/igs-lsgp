@@ -2,7 +2,7 @@
  * Creation date: 09/03/2016
  * 
  */
-package commons;
+package commons.model;
 
 /**
  * @author igallego

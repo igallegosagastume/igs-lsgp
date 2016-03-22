@@ -42,7 +42,7 @@ import java.util.Iterator;
 
 import javax.media.opengl.GL2;
 
-import commons.OrderedTriple;
+import commons.model.OrderedTriple;
 
 /**
  * @author Ignacio Gallego Sagastume

@@ -23,7 +23,7 @@
  * 
  * 
  */
-package commons;
+package commons.model;
 
 import java.util.List;
 

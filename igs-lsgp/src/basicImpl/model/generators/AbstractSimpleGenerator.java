@@ -10,9 +10,9 @@ import java.util.List;
 import java.util.Set;
 
 import basicImpl.model.latinsquares.ArrayListLatinSquare;
-import commons.ILatinSquare;
-import commons.RandomUtils;
 import commons.generators.IRandomLatinSquareGenerator;
+import commons.model.ILatinSquare;
+import commons.utils.RandomUtils;
 
 /**
  * This class abstracts the common behaviour of all generators that operate sequentially, generating one random symbol at the time,

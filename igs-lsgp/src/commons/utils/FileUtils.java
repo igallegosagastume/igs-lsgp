@@ -1,11 +1,9 @@
 /**
- * Creation date: 07/06/2014
+ * Creation date: 24/02/2015
  * 
  * Master thesis on Latin Squares generation
  * 
  */
-
-
 /**
  * © Copyright 2012-2015 Ignacio Gallego Sagastume
  * 
@@ -24,49 +22,25 @@
  * 
  * 
  */
-package commons;
+package commons.utils;
+
+import commons.model.ILatinSquare;
 
 /**
  * @author Ignacio Gallego Sagastume
  * @email ignaciogallego@gmail.com
- * @tags Java Latin Square generation
+ * @tags 
  */
-public class OrderedTriple {
-	public int x;
-	public int y;
-	public int z;
-	
-	public OrderedTriple(int x, int y, int z) {
-		this.x = x;
-		this.y = y;
-		this.z = z;
-	}
-	
-	@Override
-	public String toString() {
-		return "("+x+", "+y+", "+z+")";
-	}
+public class FileUtils {
 
-	@Override
-	public boolean equals(Object obj) {
-		OrderedTriple t=null;
-		try {
-			t = (OrderedTriple)obj;
-		} catch (Exception e) {
-			return false;
+	public static void writeLS(ILatinSquare ic, String path) {
+		if (path!=null && path.length()>3) {
+			try {
+				ic.writeToFile(path); //"C:\\Users\\ignacio\\JyMIncidenceCube.txt");
+				System.out.println("LS written to path: "+path);//C:\\Users\\ignacio\\JyMEfficientCube.txt");
+			} catch (Exception e) {
+				System.out.println("Could not write LS to file. Exception: "+e.getMessage());
+			}
 		}
-		if (t==null) return false;
-		else
-			return (this.x==t.x &&
-					this.y==t.y &&
-					this.z==t.z);
-					
-	}
-
-	@Override
-	public int hashCode() {
-		return (new Integer(x).hashCode())+
-			   (new Integer(y).hashCode())+
-			   (new Integer(z).hashCode());
 	}
 }

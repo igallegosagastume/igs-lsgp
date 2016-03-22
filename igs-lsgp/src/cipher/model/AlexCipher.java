@@ -25,8 +25,8 @@ package cipher.model;
 import java.util.Scanner;
 
 import basicImpl.model.generators.SimpleGenWithReplGraph;
-import commons.ILatinSquare;
-import commons.OrderedPair;
+import commons.model.ILatinSquare;
+import commons.model.OrderedPair;
 
 /**
  * This simple Cipher shows how a LS can be used to crypt and decrypt information.

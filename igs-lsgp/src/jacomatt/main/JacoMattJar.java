@@ -32,7 +32,7 @@ import jacomatt.model.IncidenceCubeWithDebugging;
 
 import java.security.SecureRandom;
 
-import commons.FileUtils;
+import commons.utils.FileUtils;
 
 /**
  * @author Ignacio Gallego Sagastume

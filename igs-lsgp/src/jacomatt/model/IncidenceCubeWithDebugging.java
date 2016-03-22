@@ -40,7 +40,8 @@ import javax.media.opengl.awt.GLCanvas;
 import javax.swing.JFrame;
 
 import com.jogamp.opengl.util.FPSAnimator;
-import commons.OrderedTriple;
+
+import commons.model.OrderedTriple;
 
 /**
  * @author Ignacio Gallego Sagastume

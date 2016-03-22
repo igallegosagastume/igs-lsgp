@@ -28,9 +28,8 @@ package basicImpl.model.generators;
 import java.util.ArrayList;
 
 import basicImpl.model.latinsquares.PrimitiveIntArrayLatinSquare;
-
-import commons.ILatinSquare;
-import commons.OrderedPair;
+import commons.model.ILatinSquare;
+import commons.model.OrderedPair;
 
 /**
  * @author Ignacio Gallego Sagastume

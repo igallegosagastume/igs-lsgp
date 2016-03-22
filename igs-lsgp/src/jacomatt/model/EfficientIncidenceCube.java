@@ -31,7 +31,7 @@ import jacomatt.utils.DrawingOptions;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-import commons.OrderedTriple;
+import commons.model.OrderedTriple;
 
 /**
  * @author Ignacio Gallego Sagastume

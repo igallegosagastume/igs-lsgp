@@ -9,7 +9,7 @@ import java.io.FileWriter;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-import commons.ILatinSquare;
+import commons.model.ILatinSquare;
 
 /**
  * @author igallego

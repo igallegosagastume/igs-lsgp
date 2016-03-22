@@ -33,8 +33,7 @@ import java.util.Iterator;
 
 import basicImpl.model.generators.AbstractSimpleGenerator;
 import basicImpl.model.generators.SimpleGenWithReplGraph;
-
-import commons.ILatinSquare;
+import commons.model.ILatinSquare;
 
 public class CountLSsTester implements Runnable {
 

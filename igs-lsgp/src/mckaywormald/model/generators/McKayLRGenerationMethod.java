@@ -10,13 +10,12 @@ import java.util.List;
 import java.util.Set;
 
 import mckaywormald.model.LatinRectangle;
-
-import commons.ILatinRectangle;
-import commons.ILatinSquare;
-import commons.OrderedTriple;
-import commons.RandomUtils;
 import commons.generators.IRandomLatinRectangleGenerator;
 import commons.generators.IRandomLatinSquareGenerator;
+import commons.model.ILatinRectangle;
+import commons.model.ILatinSquare;
+import commons.model.OrderedTriple;
+import commons.utils.RandomUtils;
 
 /**
  * 

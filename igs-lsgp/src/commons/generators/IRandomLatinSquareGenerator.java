@@ -4,7 +4,7 @@
  */
 package commons.generators;
 
-import commons.ILatinSquare;
+import commons.model.ILatinSquare;
 
 
 /**

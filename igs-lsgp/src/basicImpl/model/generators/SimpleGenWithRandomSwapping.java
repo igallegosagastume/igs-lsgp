@@ -30,7 +30,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import commons.RandomUtils;
+import commons.utils.RandomUtils;
 
 /**
  * @author Ignacio Gallego Sagastume

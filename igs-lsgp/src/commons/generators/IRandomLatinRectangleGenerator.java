@@ -4,7 +4,7 @@
  */
 package commons.generators;
 
-import commons.ILatinRectangle;
+import commons.model.ILatinRectangle;
 
 /**
  * @author igallego
