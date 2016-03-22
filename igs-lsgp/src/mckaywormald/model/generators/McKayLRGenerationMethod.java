@@ -19,6 +19,9 @@ import commons.generators.IRandomLatinRectangleGenerator;
 import commons.generators.IRandomLatinSquareGenerator;
 
 /**
+ * 
+ *  McKay-Wormald method for generating LRs of n * k where k=O(n^(1/3)). 
+ * 
  * @author igallego
  *
  */
