@@ -47,7 +47,7 @@ import commons.generators.IRandomLatinSquareGenerator;
 /**
  * 
  * This class is prepared to be called from a runnable jar in a system console.
- *  It provides an access point to all the methods in the project. 
+ *  It provides an access point to all the methods for generating LSs in the project. 
  * 
  * @author Ignacio Gallego Sagastume
  * @email ignaciogallego@gmail.com
