@@ -26,6 +26,9 @@
 package commons.model;
 
 /**
+ *  
+ *  Utility class that implements ordered pairs.
+ * 
  * @author Ignacio Gallego Sagastume
  * @email ignaciogallego@gmail.com
  * @tags Java Latin Square generation

@@ -3,7 +3,6 @@ package commons.test.concurrentChi;
 /**
  * Creation date: 18/05/2015
  * 
- * Master thesis on Latin Squares generation
  * 
  */
 
@@ -26,6 +25,15 @@ package commons.test.concurrentChi;
  * 
  */
 
+
+/**
+ * This class is prepared to be called from a runnable jar.
+ *  Implements a concurret test that finishes when the ENTER key is pressed. It generates LSs of order n<=7 and classifies them into equivalence classes 
+ *  (equivalent classes are count under the same identifier).
+ *   
+ * @author igallego
+ *
+ */
 public class ConcurrentChiTestMain {
 
 	public static void main(String[] args) {

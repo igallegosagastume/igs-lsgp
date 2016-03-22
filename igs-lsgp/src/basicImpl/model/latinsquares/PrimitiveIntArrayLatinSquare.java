@@ -8,6 +8,9 @@ import java.security.MessageDigest;
 import java.util.List;
 
 /**
+ *  This is an optional implementation for class AbstractLatinSquare.
+ * 
+ * 
  * @author igallego
  *
  */

@@ -1,12 +1,10 @@
 /**
  * Creation date: 23/09/2014
  * 
- * Master thesis on Latin Squares generation
- * 
  */
 
 /**
- * © Copyright 2012-2015 Ignacio Gallego Sagastume
+ * © Copyright 2012-2016 Ignacio Gallego Sagastume
  * 
  * This file is part of IGS-ls-generation package.
  * IGS-ls-generation package is free software: you can redistribute it and/or modify
@@ -33,6 +31,10 @@ import java.util.Set;
 import commons.utils.RandomUtils;
 
 /**
+ *  This class implements an efficient method for the generation of Random Latin Squares.
+ *   While the current row has conflicts, the method makes swapping between elements 
+ *  until the current row is free of conflicts.
+ * 
  * @author Ignacio Gallego Sagastume
  * @email ignaciogallego@gmail.com
  * @tags Java Latin Square generation

@@ -41,6 +41,14 @@ import basicImpl.model.generators.SimpleGenWithReplGraph;
 import commons.model.ILatinSquare;
 import commons.test.ChiSquareTest;
 
+
+/**
+ * This class generates the LSs of order n<=7 needed for the test
+ *  with the swapping, graph or the Jacobson &amp; matthews' method.
+ * 
+ * @author igallego
+ *
+ */
 public class GeneratorLSsChiTest implements Runnable {
 	private String option = "jacomatt";
 	private int order = 5;

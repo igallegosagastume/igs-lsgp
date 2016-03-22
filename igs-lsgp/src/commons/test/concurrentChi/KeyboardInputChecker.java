@@ -29,6 +29,13 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+
+/**
+ * This class constantly looks for pressed keys, and finishes the test when the ENTER key is pressed.
+ * 
+ * @author igallego
+ *
+ */
 public class KeyboardInputChecker implements Runnable {
 
 	private GeneratorLSsChiTest tester = null;

@@ -1,12 +1,10 @@
 /**
  * Creation date: 08/07/2014
  * 
- * Master thesis on Latin Squares generation
- * 
  */
 
 /**
- * © Copyright 2012-2015 Ignacio Gallego Sagastume
+ * © Copyright 2012-2016 Ignacio Gallego Sagastume
  * 
  * This file is part of IGS-ls-generation package.
  * IGS-ls-generation package is free software: you can redistribute it and/or modify
@@ -32,6 +30,12 @@ import commons.model.ILatinSquare;
 import commons.model.OrderedPair;
 
 /**
+ *  This class implements a generator based in the concept of product by Koscielny of two LSs.
+ *   The product of a LS of order n by a LS of order m returns a LS of order (n*m).
+ *  This fact is used by the generator, two speed the generation of a larger LS.
+ *  The results are not uniformly distributed, but the method operates in order n^2 (as fast as possible).
+ * 
+ * 
  * @author Ignacio Gallego Sagastume
  * @email ignaciogallego@gmail.com
  * @tags Java Latin Square generation

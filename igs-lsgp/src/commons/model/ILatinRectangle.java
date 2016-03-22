@@ -5,6 +5,9 @@
 package commons.model;
 
 /**
+ *  All Latin rectangle classes must implement comparation and return new dimensions.
+ *  
+ * 
  * @author igallego
  *
  */
@@ -15,6 +18,7 @@ public interface ILatinRectangle extends ILatinSquare {
 		
 		//querys
 		public boolean equals(ILatinRectangle lr) throws Exception;
+		public boolean preservesLatinProperty();
 		
 		public boolean isASquare();
 }

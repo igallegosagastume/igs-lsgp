@@ -32,6 +32,11 @@ import java.util.Set;
 import commons.utils.RandomUtils;
 
 /**
+ *  This class implements the method with the replacement graph.
+ *   The generation is done row by row. When a conflict occurs,
+ *  a replacement graph is constructed and the row is fixed to make room for the conflicting element.
+ *  This is the best method of the SimpleGen-type algorithms. It's very efficient and finishes in polynomial type.
+ * 
  * @author igallego
  *
  */

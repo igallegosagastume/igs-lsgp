@@ -5,6 +5,7 @@
 package commons.generators;
 
 /**
+ *  This interface lists the methods that all random structure generators must implement.
  * @author igallego
  *
  */

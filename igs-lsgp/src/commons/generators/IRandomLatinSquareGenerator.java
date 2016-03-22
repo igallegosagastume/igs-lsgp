@@ -8,6 +8,7 @@ import commons.model.ILatinSquare;
 
 
 /**
+ *  This interface lists the methods that LS generators must implement.
  * @author igallego
  *
  */

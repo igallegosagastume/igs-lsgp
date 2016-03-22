@@ -27,6 +27,9 @@
 package commons.model;
 
 /**
+ * 
+ *  Utility class that implements ordered triples.
+ *  
  * @author Ignacio Gallego Sagastume
  * @email ignaciogallego@gmail.com
  * @tags Java Latin Square generation

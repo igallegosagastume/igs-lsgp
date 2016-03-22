@@ -16,10 +16,10 @@ import commons.utils.RandomUtils;
 
 /**
  * This class abstracts the common behaviour of all generators that operate sequentially, generating one random symbol at the time,
- * and completing the LS by rows (up to down) and columns (left to write).
+ * and completing the LS by rows (up to down) and columns (left to write). This type of algorithms is based on the concept of the 
+ * theorem that claims that an i*n Latin Rectangle (where i&lt;n) can always be completed to an n*n Latin Square.
  * 
  * @author igallego
- *
  */
 public abstract class AbstractSimpleGenerator implements IRandomLatinSquareGenerator {
 

@@ -8,10 +8,14 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.HashSet;
+import java.util.Set;
 
 import commons.model.ILatinSquare;
 
 /**
+ *  This class provides the default behaviour for ILatinSquare implementations.
+ * 
  * @author igallego
  *
  */
@@ -113,6 +117,34 @@ public abstract class AbstractLatinSquare implements ILatinSquare {
 	@Override
 	public boolean equalHash(byte[] dig1, byte[] dig2) {
 		return MessageDigest.isEqual(dig1, dig2);
+	}
+	
+	@Override
+	public boolean preservesLatinProperty() {
+		boolean result = true;
+		
+		Set<Integer> symbols = new HashSet<Integer>();
+		
+		//row verification
+		for(int i=0; i<n; i++) {
+			symbols = new HashSet<Integer>();
+			for(int j=0; j<n; j++) {
+				symbols.add(this.getValueAt(i, j));	
+			}
+			if (symbols.size()!=n)
+				return false;
+		}
+		
+		//column verification
+		for(int j=0; j<n; j++) {
+			symbols = new HashSet<Integer>();
+			for(int i=0; i<n; i++) {
+				symbols.add(this.getValueAt(i, j));	
+			}
+			if (symbols.size()!=n)
+				return false;
+		}
+		return result;
 	}
 
 }

@@ -35,6 +35,9 @@ import java.security.SecureRandom;
 import commons.utils.FileUtils;
 
 /**
+ *  This class is prepared to be called from a runnable jar.
+ *  
+ *  
  * @author Ignacio Gallego Sagastume
  * @email ignaciogallego@gmail.com
  * @tags Java Latin Square generation

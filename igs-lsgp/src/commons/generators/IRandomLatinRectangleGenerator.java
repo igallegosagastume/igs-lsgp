@@ -7,6 +7,8 @@ package commons.generators;
 import commons.model.ILatinRectangle;
 
 /**
+ *  This interface lists the methods that LR generators must implement.
+ *   
  * @author igallego
  *
  */

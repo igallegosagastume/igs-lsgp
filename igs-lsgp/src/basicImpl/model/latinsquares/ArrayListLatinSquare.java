@@ -29,6 +29,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * This is the default implementation of AbstractLatinSquare class. The decision choice for the data structure is to make the operation
+ *  setRow() efficient.
+ * 
  * @author Ignacio Gallego Sagastume
  * @email ignaciogallego@gmail.com
  * @tags Java Latin Square generation

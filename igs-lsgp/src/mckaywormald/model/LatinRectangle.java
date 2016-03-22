@@ -30,7 +30,9 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import commons.model.ILatinRectangle;
 import commons.model.ILatinSquare;
@@ -210,5 +212,33 @@ public class LatinRectangle implements ILatinRectangle {
 		public void setRow(int i, List<Integer> row) {
 			for (int j=0; j<this.colSize; j++)
 				lr[i][j] = row.get(j);
+		}
+		
+		@Override
+		public boolean preservesLatinProperty() {
+			boolean result = true;
+			
+			Set<Integer> symbols = new HashSet<Integer>();
+			
+			//row verification
+			for(int i=0; i<this.rowSize; i++) {
+				symbols = new HashSet<Integer>();
+				for(int j=0; j<this.colSize; j++) {
+					symbols.add(this.getValueAt(i, j));	
+				}
+				if (symbols.size()!=this.colSize)
+					return false;
+			}
+			
+			//column verification
+			for(int j=0; j<this.colSize; j++) {
+				symbols = new HashSet<Integer>();
+				for(int i=0; i<this.rowSize; i++) {
+					symbols.add(this.getValueAt(i, j));	
+				}
+				if (symbols.size()!=this.rowSize)
+					return false;
+			}
+			return result;
 		}
 }

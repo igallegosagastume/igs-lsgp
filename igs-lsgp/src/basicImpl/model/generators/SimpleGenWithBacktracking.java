@@ -1,12 +1,10 @@
 /**
  * Creation date: 08/07/2014
  * 
- * Master thesis on Latin Squares generation
- * 
  */
 
 /**
- * © Copyright 2012-2015 Ignacio Gallego Sagastume
+ * © Copyright 2012-2016 Ignacio Gallego Sagastume
  * 
  * This file is part of IGS-ls-generation package.
  * IGS-ls-generation package is free software: you can redistribute it and/or modify
@@ -33,6 +31,11 @@ import java.util.Set;
 import commons.utils.RandomUtils;
 
 /**
+ *  This class implements a sequential algorithm that does backtracking to fix conflicts.
+ *   It's useful with small orders (n<=30). With larger orders, the algorithm encounters 
+ *  too many conflicts and takes too much to conclude. The algorithm behaves in exponential order (c^n). 
+ * 
+ * 
  * @author Ignacio Gallego Sagastume
  * @email ignaciogallego@gmail.com
  * @tags Java Latin Square generation

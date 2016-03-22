@@ -29,6 +29,10 @@ import java.util.Set;
 import commons.utils.RandomUtils;
 
 /**
+ * This method does not deal with conflicts: when one occurs, it simply erases the whole row and begin generating it again.
+ *  For small orders (n<=20) it is very efficient, but for larger orders (n>=30) is very unlikely to finish. 
+ * 
+ * 
  * @author igallego
  *
  */

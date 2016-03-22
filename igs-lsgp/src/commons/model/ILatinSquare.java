@@ -29,6 +29,9 @@ import java.util.List;
 
 
 /**
+ *  All Latin square classes must know how to access and set its elements,
+ *  how to write to file, print to String and compare.
+ *  
  * @author Ignacio Gallego Sagastume
  * @email ignaciogallego@gmail.com
  * @tags Java Latin Square generation
@@ -46,7 +49,7 @@ public interface ILatinSquare {
 	public String toString();
 	
 	public int size();
-	
+	public boolean preservesLatinProperty();
 	
 	//equality
 	public boolean equals(ILatinSquare ls); 
