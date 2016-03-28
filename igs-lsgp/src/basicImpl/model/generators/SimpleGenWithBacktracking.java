@@ -48,11 +48,9 @@ public class SimpleGenWithBacktracking extends AbstractSimpleGenerator {
 
 	@SuppressWarnings("unchecked")
 	protected List<Integer> generateRow(int i_row) {
-	    HashSet<Integer> availableInRow = new HashSet<Integer>();//    = [ i for i in range(1,n+1) ]
+	    HashSet<Integer> availableInRow = new HashSet<Integer>(this.symbols);//initially all possible symbols
 	    
-	    availableInRow.addAll(symbols);
-	    
-	    //resultado del algoritmo
+	    //result of the algorithm
 	    List<Integer> row = new ArrayList<Integer>();
 	    int i_col = 0;
 	    
@@ -64,8 +62,7 @@ public class SimpleGenWithBacktracking extends AbstractSimpleGenerator {
 	    int failedInRowCount = 0;
 	    while (i_col < n) {//when i_col==n, row is complete
 	        //available is:
-	        Set<Integer> available = new HashSet<Integer>();
-	        available.addAll(availableInCol[i_col]);
+	        Set<Integer> available = new HashSet<Integer>(availableInCol[i_col]);
 	    	available.retainAll(availableInRow);
 	    	available.removeAll(failedAttemptsInCol[i_col]);
 	    	

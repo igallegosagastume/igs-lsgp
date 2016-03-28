@@ -49,15 +49,12 @@ public class SimpleGenWithReplGraph extends AbstractSimpleGenerator {
 	@SuppressWarnings("unchecked")
 	@Override
 	public ArrayList<Integer> generateRow(int i_row) {
-		Set<Integer> availableInRow = new HashSet<Integer>();
-	    
-		availableInRow.addAll(symbols);
+		Set<Integer> availableInRow = new HashSet<Integer>(this.symbols);
 	    
 	    Set<Integer>[] initialAvailableInCol = new HashSet[n];
 	    
 	    for (int j=0; j<n; j++) {
-	    	initialAvailableInCol[j] = new HashSet<Integer>();
-	    	initialAvailableInCol[j].addAll(availableInCol[j]);
+	    	initialAvailableInCol[j] = new HashSet<Integer>(availableInCol[j]);
 	    }
 	    
 	    //result of this method
@@ -66,12 +63,10 @@ public class SimpleGenWithReplGraph extends AbstractSimpleGenerator {
 	    
 	    while (i_col < n) {//when i_col is n, there are n chosen numbers
 	        //available is:
-	        HashSet<Integer> available = new HashSet<Integer>();
-	        available.addAll(availableInCol[i_col]);
+	        HashSet<Integer> available = new HashSet<Integer>(availableInCol[i_col]);
 	    	available.retainAll(availableInRow);
 	    	
-	    	/*List<Integer> available = new ArrayList<Integer>();
-	    	available.addAll(availableInCol[i_col]);
+	    	/*List<Integer> available = new ArrayList<Integer>(availableInCol[i_col]);
 	    	available.retainAll(availableInRow);*/
 
 	        if (!available.isEmpty()) { //if there are available
@@ -99,9 +94,7 @@ public class SimpleGenWithReplGraph extends AbstractSimpleGenerator {
 		HashMap<Integer, HashSet<Integer>> map = new HashMap<Integer, HashSet<Integer>>();
 		
 		for(int j=col; j>=0; j--) {
-
-			HashSet<Integer> set = new HashSet<Integer>();
-			set.addAll(initialAvailInCol[j]);
+			HashSet<Integer> set = new HashSet<Integer>(initialAvailInCol[j]);
 
 			if (set.size()>0)
 				map.put(j, set);//the element in position j could potentially be changed for one in the set
@@ -131,14 +124,12 @@ public class SimpleGenWithReplGraph extends AbstractSimpleGenerator {
 //				old = firstElem;
 //			}
 			
-			Set<Integer> avail = new HashSet<Integer>();
-			avail.addAll(map.get(idx_old));
+			Set<Integer> avail = new HashSet<Integer>(map.get(idx_old));
 			avail.removeAll(path);
 			
 			if (avail.isEmpty()) {
 				//Path no good, begin again
-				path = new HashSet<Integer>();
-				avail.addAll(map.get(idx_old));
+				path = new HashSet<Integer>(map.get(idx_old));
 			}
 			
 			Integer newElem = RandomUtils.randomChoice(avail);

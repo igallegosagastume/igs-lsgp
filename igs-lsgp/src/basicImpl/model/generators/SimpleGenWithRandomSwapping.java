@@ -48,10 +48,8 @@ public class SimpleGenWithRandomSwapping extends AbstractSimpleGenerator {
 	
 	@Override
 	protected ArrayList<Integer> generateRow(int i_row) {
-	    Set<Integer> availableInRow = new HashSet<Integer>();
+	    Set<Integer> availableInRow = new HashSet<Integer>(this.symbols);
 	    
-	    availableInRow.addAll(symbols);
-	    	    
 	    //resultado del algoritmo
 	    ArrayList<Integer> row = new ArrayList<Integer>();
 	    int i_col = 0;
@@ -60,8 +58,7 @@ public class SimpleGenWithRandomSwapping extends AbstractSimpleGenerator {
 	    
 	    while (i_col < n) {//cuando llega a n, elegi n numeros
 	        //conjunto de disponibles es:
-	        Set<Integer> available = new HashSet<Integer>();
-	        available.addAll(availableInCol[i_col]);
+	        Set<Integer> available = new HashSet<Integer>(availableInCol[i_col]);
 	    	available.retainAll(availableInRow);
 	    	
 	        if (!available.isEmpty()) { //si me quedan disponibles
@@ -97,7 +94,7 @@ public class SimpleGenWithRandomSwapping extends AbstractSimpleGenerator {
 	    return row;
 	}
 
-	public void fixRow(int i_row, List<Integer> row, Set<Integer> columnsWithRepetitions) {
+	private void fixRow(int i_row, List<Integer> row, Set<Integer> columnsWithRepetitions) {
 		int columnCountBeforeSwap, columnCountAfterSwap;
 		Integer lastCol1 = null, lastCol2 = null;
 		do {
@@ -106,8 +103,7 @@ public class SimpleGenWithRandomSwapping extends AbstractSimpleGenerator {
 			Integer anotherCol = 0;
 			
 			//create a bag with all symbols, except the column with repetitions
-			Set<Integer> bag = new HashSet<Integer>();
-			bag.addAll(symbols);
+			Set<Integer> bag = new HashSet<Integer>(this.symbols);
 			bag.remove(columnWRep);
 			
 			//if the last column was columnWRep, avoid trying the same path again

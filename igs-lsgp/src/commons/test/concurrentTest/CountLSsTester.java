@@ -47,8 +47,8 @@ public class CountLSsTester implements Runnable {
 	
 	
 //	private void printCounts(HashMap<Integer, Integer> counts) {
-//		ArrayList<Integer> lsi = new ArrayList<Integer>();
-//		lsi.addAll(counts.keySet());
+//		ArrayList<Integer> lsi = new ArrayList<Integer>(counts.keySet());
+//		
 //		Collections.sort(lsi);
 //		
 //		Iterator<Integer> idx = lsi.iterator();
@@ -125,8 +125,7 @@ public class CountLSsTester implements Runnable {
 
 
 	private void printMaxMin(HashMap<Integer, Integer> counts) {
-		ArrayList<Integer> cantidades = new ArrayList<Integer>();
-		cantidades.addAll(counts.keySet());
+		ArrayList<Integer> cantidades = new ArrayList<Integer>(counts.keySet());
 		Collections.sort(cantidades);
 
 		Iterator<Integer> idx = cantidades.iterator();

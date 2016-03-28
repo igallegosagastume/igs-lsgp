@@ -43,10 +43,13 @@ public class SimpleGenWithRestartRow extends AbstractSimpleGenerator {
 		super(n);
 	}
 	
+	
+	/**
+	 * Generates the row i. When a conflict is found, restart generating the row again.
+	 */
 	@Override
 	public ArrayList<Integer> generateRow(int i_row) {
-		HashSet<Integer> availableInRow = new HashSet<Integer>();
-		availableInRow.addAll(symbols);
+		HashSet<Integer> availableInRow = new HashSet<Integer>(this.symbols);//initially all symbols
 	    
 	    int colcount = 0;
 	    
@@ -56,8 +59,7 @@ public class SimpleGenWithRestartRow extends AbstractSimpleGenerator {
 	    
 	    while (i_col < n) {//when i_col is n, there are n chosen numbers
 	        //available is:
-	        Set<Integer> available = new HashSet<Integer>();
-	        available.addAll(availableInCol[i_col]);
+	        Set<Integer> available = new HashSet<Integer>(availableInCol[i_col]);
 	    	available.retainAll(availableInRow);
 	    	
 	        if (!available.isEmpty()) { //if there are available

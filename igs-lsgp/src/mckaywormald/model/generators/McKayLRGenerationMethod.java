@@ -93,8 +93,7 @@ public class McKayLRGenerationMethod implements IRandomLatinRectangleGenerator, 
 		    	int i2 = conflict.y;
 		    	int j1 = conflict.z;
 		    	
-		    	Set<Integer> nMinusj1 = new HashSet<Integer>();
-		    	nMinusj1.addAll(this.initiallyAvInRow);//can this be avoided? is O(n)??
+		    	Set<Integer> nMinusj1 = new HashSet<Integer>(this.initiallyAvInRow);//can this be avoided? is O(n)??
 		    	nMinusj1.remove(j1);
 		    	
 		    	int j2 = RandomUtils.randomChoice(nMinusj1);
@@ -157,8 +156,7 @@ public class McKayLRGenerationMethod implements IRandomLatinRectangleGenerator, 
 	}
 	        
 	private ArrayList<Integer> generateRow(int rowIndex, LatinRectangle lr) {
-	    List<Integer> availableInRow = new ArrayList<Integer>();
-	    availableInRow.addAll(this.initiallyAvInRow);
+	    List<Integer> availableInRow = new ArrayList<Integer>(this.initiallyAvInRow);
 	    
 	    ArrayList<Integer> row = new ArrayList<Integer>();
 	    int colIndex = 0;

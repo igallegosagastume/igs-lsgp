@@ -160,8 +160,7 @@ public class GeneratorLSsChiTest implements Runnable {
 	}
 	
 	private static void printMaxMin(HashMap<Integer, Integer> counts) {
-		ArrayList<Integer> cantidades = new ArrayList<Integer>();
-		cantidades.addAll(counts.keySet());
+		ArrayList<Integer> cantidades = new ArrayList<Integer>(counts.keySet());
 		Collections.sort(cantidades);
 		
 		Iterator<Integer> idx = cantidades.iterator();

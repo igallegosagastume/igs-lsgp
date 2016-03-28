@@ -26,19 +26,13 @@
 package commons.mainexecutable;
 
 import jacomatt.model.generators.JacobsonMatthewsLSGenerator;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
-
 import mckaywormald.model.generators.McKayLRGenerationMethod;
 import basicImpl.model.generators.KoscielnyProduct;
 import basicImpl.model.generators.SimpleGenWithBacktracking;
 import basicImpl.model.generators.SimpleGenWithRandomSwapping;
 import basicImpl.model.generators.SimpleGenWithReplGraph;
 import basicImpl.model.generators.SimpleGenWithRestartRow;
-import basicImpl.model.latinsquares.ArrayListLatinSquare;
+
 import commons.generators.IRandomLatinSquareGenerator;
 import commons.model.ILatinSquare;
 import commons.utils.FileUtils;
@@ -156,158 +150,158 @@ public class GeneratorJar {
 		System.out.println("Random structure generated in "+secs+" seconds. Generation method: "+generator.getMethodName());		
 	}
 	
-	@SuppressWarnings("unchecked")
-	public static void debugRandomSwapping() throws Exception {
-		ArrayListLatinSquare ls = new ArrayListLatinSquare(5);
-		SimpleGenWithRandomSwapping rs = new SimpleGenWithRandomSwapping(5);
-		
-		ls.setValueAt(0, 0, 0);
-		ls.setValueAt(0, 1, 1);
-		ls.setValueAt(0, 2, 2);
-		ls.setValueAt(0, 3, 3);
-		ls.setValueAt(0, 4, 4);
-		
-		ls.setValueAt(1, 0, 4);
-		ls.setValueAt(1, 1, 0);
-		ls.setValueAt(1, 2, 1);
-		ls.setValueAt(1, 3, 2);
-		ls.setValueAt(1, 4, 3);
-		
-		ls.setValueAt(2, 0, 1);
-		ls.setValueAt(2, 1, 2);
-		ls.setValueAt(2, 2, 3);
-		ls.setValueAt(2, 3, 4);
-		ls.setValueAt(2, 4, 0);
-		
-		ArrayList<Integer> row = new ArrayList<Integer>();
-		row.add(2);
-		row.add(3);
-		row.add(0);
-		row.add(1);
-		row.add(4);
-		
-		Set<Integer> columnsWithRepetitions = new HashSet<Integer>();
-		HashSet<Integer>[] availableInCol = new HashSet[5];
-		
-		columnsWithRepetitions.add(4);
-		availableInCol[0] = new HashSet<Integer>();
-		availableInCol[0].add(3);
-		
-		availableInCol[1] = new HashSet<Integer>();
-		availableInCol[1].add(4);
-		
-		availableInCol[2] = new HashSet<Integer>();
-		availableInCol[2].add(4);
-		
-		availableInCol[3] = new HashSet<Integer>();
-		availableInCol[3].add(0);
-		
-		availableInCol[4] = new HashSet<Integer>();
-		availableInCol[4].add(1);availableInCol[4].add(2);
-		
-		rs.fixRow(3, row, columnsWithRepetitions);
-		
-		System.out.println(ls);
-		System.out.println(row);
-	}
-	
-	
-	@SuppressWarnings("unchecked")
-	public static void debugReplGraph() throws Exception {
-		ArrayListLatinSquare ls = new ArrayListLatinSquare(6);
-		SimpleGenWithReplGraph rg = new SimpleGenWithReplGraph(6);
-		
-		ls.setValueAt(0, 0, 3);
-		ls.setValueAt(0, 1, 1);
-		ls.setValueAt(0, 2, 5);
-		ls.setValueAt(0, 3, 2);
-		ls.setValueAt(0, 4, 0);
-		ls.setValueAt(0, 5, 4);
-		
-		ls.setValueAt(1, 0, 2);
-		ls.setValueAt(1, 1, 3);
-		ls.setValueAt(1, 2, 4);
-		ls.setValueAt(1, 3, 1);
-		ls.setValueAt(1, 4, 5);
-		ls.setValueAt(1, 5, 0);
-
-		ArrayList<Integer> row = new ArrayList<Integer>();
-		row.add(4);
-		row.add(5);
-		row.add(2);
-		row.add(3);
-		row.add(1);
-		
-		HashSet<Integer>[] availableInCol = new HashSet[6];
-		
-		availableInCol[0] = new HashSet<Integer>();
-		availableInCol[0].add(0);
-		availableInCol[0].add(1);
-		availableInCol[0].add(5);
-		
-		availableInCol[1] = new HashSet<Integer>();
-		availableInCol[1].add(0);
-		availableInCol[1].add(2);
-		availableInCol[1].add(4);
-		
-		availableInCol[2] = new HashSet<Integer>();
-		availableInCol[2].add(0);
-		availableInCol[2].add(1);
-		availableInCol[2].add(3);
-		
-		availableInCol[3] = new HashSet<Integer>();
-		availableInCol[3].add(0);
-		availableInCol[3].add(4);
-		availableInCol[3].add(5);
-		
-		availableInCol[4] = new HashSet<Integer>();
-		availableInCol[4].add(2);
-		availableInCol[4].add(3);
-		availableInCol[4].add(4);
-		
-		availableInCol[5] = new HashSet<Integer>();
-		availableInCol[5].add(1);
-		availableInCol[5].add(2);
-		availableInCol[5].add(3);
-		availableInCol[5].add(5);
-		
-		HashSet<Integer>[] availInitial = new HashSet[6];
-		
-		availInitial[0] = new HashSet<Integer>();
-		availInitial[0].add(0);
-		availInitial[0].add(1);
-		availInitial[0].add(5);
-		
-		availInitial[1] = new HashSet<Integer>();
-		availInitial[1].add(0);
-		availInitial[1].add(2);
-		availInitial[1].add(4);
-		
-		availInitial[2] = new HashSet<Integer>();
-		availInitial[2].add(0);
-		availInitial[2].add(1);
-		availInitial[2].add(3);
-		
-		availInitial[3] = new HashSet<Integer>();
-		availInitial[3].add(0);
-		availInitial[3].add(4);
-		availInitial[3].add(5);
-		
-		availInitial[4] = new HashSet<Integer>();
-		availInitial[4].add(2);
-		availInitial[4].add(3);
-		availInitial[4].add(4);
-		
-		Integer col = 4;
-		HashMap<Integer, HashSet<Integer>> map = rg.constructReplGraph(row, col, availInitial);
-		
-		HashSet<Integer> availableInRow = new HashSet<Integer>();
-		availableInRow.add(0);
-		availableInRow.add(0);
-		int elem = 2;
-		rg.makeElemAvailable(elem, map, row, col, availableInRow);
-		System.out.println(row);
-		
-		System.exit(0);
-	}
+//	@SuppressWarnings("unchecked")
+//	public static void debugRandomSwapping() throws Exception {
+//		ArrayListLatinSquare ls = new ArrayListLatinSquare(5);
+//		SimpleGenWithRandomSwapping rs = new SimpleGenWithRandomSwapping(5);
+//		
+//		ls.setValueAt(0, 0, 0);
+//		ls.setValueAt(0, 1, 1);
+//		ls.setValueAt(0, 2, 2);
+//		ls.setValueAt(0, 3, 3);
+//		ls.setValueAt(0, 4, 4);
+//		
+//		ls.setValueAt(1, 0, 4);
+//		ls.setValueAt(1, 1, 0);
+//		ls.setValueAt(1, 2, 1);
+//		ls.setValueAt(1, 3, 2);
+//		ls.setValueAt(1, 4, 3);
+//		
+//		ls.setValueAt(2, 0, 1);
+//		ls.setValueAt(2, 1, 2);
+//		ls.setValueAt(2, 2, 3);
+//		ls.setValueAt(2, 3, 4);
+//		ls.setValueAt(2, 4, 0);
+//		
+//		ArrayList<Integer> row = new ArrayList<Integer>();
+//		row.add(2);
+//		row.add(3);
+//		row.add(0);
+//		row.add(1);
+//		row.add(4);
+//		
+//		Set<Integer> columnsWithRepetitions = new HashSet<Integer>();
+//		HashSet<Integer>[] availableInCol = new HashSet[5];
+//		
+//		columnsWithRepetitions.add(4);
+//		availableInCol[0] = new HashSet<Integer>();
+//		availableInCol[0].add(3);
+//		
+//		availableInCol[1] = new HashSet<Integer>();
+//		availableInCol[1].add(4);
+//		
+//		availableInCol[2] = new HashSet<Integer>();
+//		availableInCol[2].add(4);
+//		
+//		availableInCol[3] = new HashSet<Integer>();
+//		availableInCol[3].add(0);
+//		
+//		availableInCol[4] = new HashSet<Integer>();
+//		availableInCol[4].add(1);availableInCol[4].add(2);
+//		
+//		rs.fixRow(3, row, columnsWithRepetitions);
+//		
+//		System.out.println(ls);
+//		System.out.println(row);
+//	}
+//	
+//	
+//	@SuppressWarnings("unchecked")
+//	public static void debugReplGraph() throws Exception {
+//		ArrayListLatinSquare ls = new ArrayListLatinSquare(6);
+//		SimpleGenWithReplGraph rg = new SimpleGenWithReplGraph(6);
+//		
+//		ls.setValueAt(0, 0, 3);
+//		ls.setValueAt(0, 1, 1);
+//		ls.setValueAt(0, 2, 5);
+//		ls.setValueAt(0, 3, 2);
+//		ls.setValueAt(0, 4, 0);
+//		ls.setValueAt(0, 5, 4);
+//		
+//		ls.setValueAt(1, 0, 2);
+//		ls.setValueAt(1, 1, 3);
+//		ls.setValueAt(1, 2, 4);
+//		ls.setValueAt(1, 3, 1);
+//		ls.setValueAt(1, 4, 5);
+//		ls.setValueAt(1, 5, 0);
+//
+//		ArrayList<Integer> row = new ArrayList<Integer>();
+//		row.add(4);
+//		row.add(5);
+//		row.add(2);
+//		row.add(3);
+//		row.add(1);
+//		
+//		HashSet<Integer>[] availableInCol = new HashSet[6];
+//		
+//		availableInCol[0] = new HashSet<Integer>();
+//		availableInCol[0].add(0);
+//		availableInCol[0].add(1);
+//		availableInCol[0].add(5);
+//		
+//		availableInCol[1] = new HashSet<Integer>();
+//		availableInCol[1].add(0);
+//		availableInCol[1].add(2);
+//		availableInCol[1].add(4);
+//		
+//		availableInCol[2] = new HashSet<Integer>();
+//		availableInCol[2].add(0);
+//		availableInCol[2].add(1);
+//		availableInCol[2].add(3);
+//		
+//		availableInCol[3] = new HashSet<Integer>();
+//		availableInCol[3].add(0);
+//		availableInCol[3].add(4);
+//		availableInCol[3].add(5);
+//		
+//		availableInCol[4] = new HashSet<Integer>();
+//		availableInCol[4].add(2);
+//		availableInCol[4].add(3);
+//		availableInCol[4].add(4);
+//		
+//		availableInCol[5] = new HashSet<Integer>();
+//		availableInCol[5].add(1);
+//		availableInCol[5].add(2);
+//		availableInCol[5].add(3);
+//		availableInCol[5].add(5);
+//		
+//		HashSet<Integer>[] availInitial = new HashSet[6];
+//		
+//		availInitial[0] = new HashSet<Integer>();
+//		availInitial[0].add(0);
+//		availInitial[0].add(1);
+//		availInitial[0].add(5);
+//		
+//		availInitial[1] = new HashSet<Integer>();
+//		availInitial[1].add(0);
+//		availInitial[1].add(2);
+//		availInitial[1].add(4);
+//		
+//		availInitial[2] = new HashSet<Integer>();
+//		availInitial[2].add(0);
+//		availInitial[2].add(1);
+//		availInitial[2].add(3);
+//		
+//		availInitial[3] = new HashSet<Integer>();
+//		availInitial[3].add(0);
+//		availInitial[3].add(4);
+//		availInitial[3].add(5);
+//		
+//		availInitial[4] = new HashSet<Integer>();
+//		availInitial[4].add(2);
+//		availInitial[4].add(3);
+//		availInitial[4].add(4);
+//		
+//		Integer col = 4;
+//		HashMap<Integer, HashSet<Integer>> map = rg.constructReplGraph(row, col, availInitial);
+//		
+//		HashSet<Integer> availableInRow = new HashSet<Integer>();
+//		availableInRow.add(0);
+//		availableInRow.add(0);
+//		int elem = 2;
+//		rg.makeElemAvailable(elem, map, row, col, availableInRow);
+//		System.out.println(row);
+//		
+//		System.exit(0);
+//	}
 }
