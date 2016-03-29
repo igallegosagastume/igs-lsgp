@@ -42,10 +42,20 @@ import commons.utils.RandomUtils;
  */
 public class SimpleGenWithReplGraph extends AbstractSimpleGenerator {
 
+	/**
+	 * Constructs the instance that generates LSs of order n.
+	 * 
+	 * @param n
+	 */
 	public SimpleGenWithReplGraph(int n) {
 		super(n);
 	}
 
+	/**
+	 * Reimplements the method that generates row i_row. When a conflict is encountered, it construct a graph and makes replacements until a symbol is freed.
+	 *  This allows for the continuation of the generation (it saves the conflict).
+	 *    
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public ArrayList<Integer> generateRow(int i_row) {
@@ -86,8 +96,15 @@ public class SimpleGenWithReplGraph extends AbstractSimpleGenerator {
 	    return row;
 	}
 
-
-	public HashMap<Integer, HashSet<Integer>> constructReplGraph(ArrayList<Integer> row, 
+	/**
+	 *  It constructs the replacement graph.
+	 *  
+	 * @param row
+	 * @param col
+	 * @param initialAvailInCol
+	 * @return
+	 */
+	protected HashMap<Integer, HashSet<Integer>> constructReplGraph(ArrayList<Integer> row, 
 																 Integer col, 
 																 Set<Integer>[] initialAvailInCol) {
 		
@@ -103,7 +120,16 @@ public class SimpleGenWithReplGraph extends AbstractSimpleGenerator {
 		return map;
 	}
 	
-	public void makeElemAvailable(Integer old, HashMap<Integer, HashSet<Integer>> map, 
+	/**
+	 * It makes room to free the element "old".
+	 * 
+	 * @param old
+	 * @param map
+	 * @param row
+	 * @param col
+	 * @param availableInRow
+	 */
+	protected void makeElemAvailable(Integer old, HashMap<Integer, HashSet<Integer>> map, 
 								  ArrayList<Integer> row, Integer col, Set<Integer> availableInRow) {
 		boolean finished = false;
 		
@@ -129,7 +155,8 @@ public class SimpleGenWithReplGraph extends AbstractSimpleGenerator {
 			
 			if (avail.isEmpty()) {
 				//Path no good, begin again
-				path = new HashSet<Integer>(map.get(idx_old));
+				path = new HashSet<Integer>();
+				avail.addAll(map.get(idx_old));//cannot avoid addAll. "Magic", do not touch.
 			}
 			
 			Integer newElem = RandomUtils.randomChoice(avail);
@@ -168,12 +195,21 @@ public class SimpleGenWithReplGraph extends AbstractSimpleGenerator {
 		}
 	}
 
+	/**
+	 * Overrides to return the method's name.
+	 */
 	@Override
 	public String getMethodName() {
 		return "Generation row by row with replacement graph.";
 	}
 	
 
+	/**
+	 * Auxiliary method.
+	 * 
+	 * @param map
+	 * @param firstElem
+	 */
 	private void eraseFirstElemFromGraph(HashMap<Integer, HashSet<Integer>> map, Integer firstElem) {
 		Iterator<Integer> iter = map.keySet().iterator();
 		

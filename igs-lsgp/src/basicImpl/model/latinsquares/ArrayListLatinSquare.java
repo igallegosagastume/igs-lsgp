@@ -40,6 +40,11 @@ public class ArrayListLatinSquare extends AbstractLatinSquare {
 
 	protected ArrayList<Integer>[] ls;
 	
+	/**
+	 * Constructs and initializes the instance.
+	 * 
+	 * @param n
+	 */
 	@SuppressWarnings("unchecked")
 	public ArrayListLatinSquare(int n) {
 		super(n);
@@ -54,11 +59,17 @@ public class ArrayListLatinSquare extends AbstractLatinSquare {
 		}
 	}
 
+	/**
+	 * Gets the value at specified row and column indexes.
+	 */
 	@Override
 	public Integer getValueAt(int row, int col) {
 		return ls[row].get(col);
 	}
 
+	/**
+	 * Sets the value at specified row and column indexes.
+	 */
 	@Override
 	public void setValueAt(int row, int col, int value) {
 		ls[row].set(col, value);

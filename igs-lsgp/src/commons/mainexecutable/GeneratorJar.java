@@ -49,6 +49,10 @@ import commons.utils.FileUtils;
 public class GeneratorJar {
 
 	/**
+	 * 
+	 *  Construct a graph with the method passed as parameter, of any order, and writes to file if requested.
+	 *   
+	 * 
 	 * @param args
 	 */
 	public static void main(String[] args) throws Exception {
@@ -135,6 +139,12 @@ public class GeneratorJar {
 
 	}
 	
+	/**
+	 * Computes the time and generates the LS of requested order.
+	 * 
+	 * @param generator
+	 * @param path
+	 */
 	public static void computeTimeFor(IRandomLatinSquareGenerator generator, String path) {
 		long startTime = System.nanoTime();
 		ILatinSquare ls = generator.generateLS();

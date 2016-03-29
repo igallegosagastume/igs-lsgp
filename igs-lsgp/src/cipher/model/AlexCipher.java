@@ -75,11 +75,24 @@ public class AlexCipher {
 		input.close();
 	}
 	
+	/**
+	 * Constructs a cipher with the LS passed as parameter as the private key.
+	 * 
+	 * @param ls
+	 * @throws Exception
+	 */
 	public AlexCipher(ILatinSquare ls) throws Exception {
 		this.ls = ls;
 		this.n = ls.size();
 	}
 	
+	/**
+	 * Ciphers a plaintext using the private LS
+	 * 
+	 * @param plaintext
+	 * @return
+	 * @throws Exception
+	 */
 	public String crypt(String plaintext) throws Exception {
 		textPosition = 0;
 		
@@ -106,6 +119,13 @@ public class AlexCipher {
 		return cipheredText;
 	}
 	
+	/**
+	 * Decipher the ciphered text into a plain text
+	 * 
+	 * @param cipheredText
+	 * @return
+	 * @throws Exception
+	 */
 	public String decrypt(String cipheredText) throws Exception {
 		textPosition = cipheredText.length()-1;
 		
@@ -153,16 +173,25 @@ public class AlexCipher {
 		return;
 	}
 	
+	/**
+	 * Changes the direction for the next clockwise
+	 */
 	private void nextDirection() {
 		direction = (direction+1)%4;
 	}
 	
+	/**
+	 * Changes the direction for the next anti-clockwise
+	 */
 	private void prevDirection() {
 		direction = (direction-1);
 		if (direction==-1)
 			direction = UP; 
 	}
 	
+	/**
+	 * Turns 180 degrees
+	 */
 	private void invertDirection() {
 		switch (direction) {
 		case RIGHT:
@@ -182,6 +211,9 @@ public class AlexCipher {
 		}
 	}
 	
+	/**
+	 * Moves inside the LS one position
+	 */
 	private void move() {
 		switch (direction) {
 		case RIGHT:

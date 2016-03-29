@@ -37,6 +37,12 @@ public class McKayLRGenerationMethod implements IRandomLatinRectangleGenerator, 
 	private int k;
 	private int n;
 	
+	/**
+	 * Initializes the instance with the dimensions of the LR, available symbols and the random number generator.
+	 * 
+	 * @param k
+	 * @param n
+	 */
 	public McKayLRGenerationMethod(int k, int n) {
 		this.k = k;
 		this.n = n;
@@ -44,17 +50,23 @@ public class McKayLRGenerationMethod implements IRandomLatinRectangleGenerator, 
 		RandomUtils.initRand();
 	}
 	
+	/**
+	 * Implements the method of the interface {@link IRandomLatinSquareGenerator}.
+	 * 
+	 */
 	@Override
 	public ILatinSquare generateLS() {
-		
 		//if (this.k==this.n)
 			return this.generateLR();
 		//else
 			/*System.out.println("Could not generate a square of "+this.k+" rows by "+this.n+" columns.");
 		return null;*/
-			
 	}
 	
+	/**
+	 * Implements the method of the interface {@link IRandomLatinRectangleGenerator}.
+	 * 
+	 */	
 	@Override
 	public ILatinRectangle generateLR() {
 		
@@ -137,12 +149,15 @@ public class McKayLRGenerationMethod implements IRandomLatinRectangleGenerator, 
 	    return a;
 	}
 	
+	/**
+	 * Implementation of auxiliary method in McKay's algorithm.
+	 * 
+	 * @return
+	 */
 	private LatinRectangle randomMemberOfMkn() {
 		this.conflictsCount = 0;
 		this.hasOverlappingConflicts = false;
 		this.conflictList = new ArrayList<OrderedTriple>();
-		
-		//int[][] columnOfRowValue = new int[k][n];
 		this.timesSymbolOccursInColumn = new int[n][n]; //tells how many times a symbol occurs in the column
 	    
 		LatinRectangle lr = new LatinRectangle(k, n);
@@ -154,7 +169,14 @@ public class McKayLRGenerationMethod implements IRandomLatinRectangleGenerator, 
 	    }
 	    return lr;
 	}
-	        
+	
+	/**
+	 * Generates one row with no repetitions, but possibly with conflicts with previous columns. It counts and saves the conflicts.
+	 * 
+	 * @param rowIndex
+	 * @param lr
+	 * @return
+	 */
 	private ArrayList<Integer> generateRow(int rowIndex, LatinRectangle lr) {
 	    List<Integer> availableInRow = new ArrayList<Integer>(this.initiallyAvInRow);
 	    
@@ -176,8 +198,6 @@ public class McKayLRGenerationMethod implements IRandomLatinRectangleGenerator, 
             	}
             }
 
-            //columnOfRowValue[rowIndex][symbol] = colIndex;
-            
             //remove from available
             availableInRow.remove(symbol);
 
@@ -189,6 +209,7 @@ public class McKayLRGenerationMethod implements IRandomLatinRectangleGenerator, 
 	    
 	    return row;
 	}
+	
 	
 	private int lastRowIndexOf(int symbol, LatinRectangle lr, int row, int col) {
 		int result = -1;
@@ -203,6 +224,10 @@ public class McKayLRGenerationMethod implements IRandomLatinRectangleGenerator, 
 		return result;
 	}
 	
+	/**
+	 * Reimplement method name.
+	 * 
+	 */
 	@Override
 	public String getMethodName() {
 		return "McKay-Wormald generation of Latin rectangle.";

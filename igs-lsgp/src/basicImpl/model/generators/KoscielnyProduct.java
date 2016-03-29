@@ -44,12 +44,24 @@ public class KoscielnyProduct extends AbstractSimpleGenerator {
 
 	private int n = 0;
 	
-	
+	/**
+	 * Creates the instance that generates LS of order n
+	 * 
+	 * @param n
+	 */
 	public KoscielnyProduct(int n) {
 		super(n);
 		this.n = n;
 	}
 	
+	/**
+	 * Computes the Koscielny product of two LSs in order n^2.
+	 * 
+	 * @param ls1
+	 * @param ls2
+	 * @return
+	 * @throws Exception
+	 */
 	protected ILatinSquare product(ILatinSquare ls1, ILatinSquare ls2) throws Exception {
 		int n1 = ls1.size();
 		int n2 = ls2.size();
@@ -64,6 +76,12 @@ public class KoscielnyProduct extends AbstractSimpleGenerator {
 		return result;
 	}
 
+	/**
+	 * Computes the factors of n to split the LS of order n in two LSs. Returns the median of the list.
+	 * 
+	 * @param n
+	 * @return OrderedPair
+	 */
 	private OrderedPair factors(int n) {
 	    ArrayList<OrderedPair> list = new ArrayList<OrderedPair>();
 	    
@@ -75,6 +93,10 @@ public class KoscielnyProduct extends AbstractSimpleGenerator {
 	    return list.get(list.size()/2);//median
 	}
 
+	/**
+	 *  Returns the LS of order n that results from computing the product of a LS of order n1 and a LS of order n2.
+	 *  
+	 */
 	@Override
 	public ILatinSquare generateLS() {
 		OrderedPair pair = this.factors(n);
@@ -93,13 +115,14 @@ public class KoscielnyProduct extends AbstractSimpleGenerator {
 		try {
 			ls = this.product(ls1, ls2);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		//write.writeMatrixToFile(ls, 'producto.txt')
 		return ls;
 	}
 	
+	/**
+	 * Overrides the method name
+	 */
 	@Override
 	public String getMethodName() {
 		return "Koscielny product of two Latin Squares.";

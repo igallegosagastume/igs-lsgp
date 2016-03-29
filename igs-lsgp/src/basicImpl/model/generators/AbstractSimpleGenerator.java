@@ -29,12 +29,17 @@ public abstract class AbstractSimpleGenerator implements IRandomLatinSquareGener
 	//auxiliary structures
 	protected Set<Integer>[] availableInCol;
 	protected ILatinSquare ls;
-	protected Integer[] failedAttemptsPerRow;
+	protected int[] failedAttemptsPerRow;
 	protected int[][] collisions;
 	
 	//the set of all possible symbols
 	protected Set<Integer> symbols = null;
 
+	/**
+	 * Constructs the instance that generates LS of order n, with the auxiliary variables initialized to count conflicts and so.
+	 * 
+	 * @param n
+	 */
 	@SuppressWarnings("unchecked")
 	public AbstractSimpleGenerator(int n) {
 		this.n = n;
@@ -43,7 +48,7 @@ public abstract class AbstractSimpleGenerator implements IRandomLatinSquareGener
 		this.symbols = RandomUtils.oneToN(n);
 		
 		availableInCol = new HashSet[n];
-		failedAttemptsPerRow = new Integer[n];
+		failedAttemptsPerRow = new int[n];
 		collisions = new int[n][n];
 		
 		//initially available in each column
@@ -53,17 +58,20 @@ public abstract class AbstractSimpleGenerator implements IRandomLatinSquareGener
 	    
 	    ls = new ArrayListLatinSquare(n);//default implementation
 	    
-	    for (int i=0; i<n; i++) {
+	    /*for (int i=0; i<n; i++) {
 	    	failedAttemptsPerRow[i] = 0;
-	    }
+	    }*/
 	    
-	    for (int i=0; i<n; i++) 
+	    /*for (int i=0; i<n; i++) 
 	    	for (int j=0; j<n; j++) {
 	    		collisions[i][j]=0;
 	    	}
-
+		*/
 	}
 	
+	/**
+	 * Generates the LS row by row
+	 */
 	@Override
 	public ILatinSquare generateLS() { 
 	    for (int i=0; i<n; i++) {
@@ -98,7 +106,10 @@ public abstract class AbstractSimpleGenerator implements IRandomLatinSquareGener
 
 	    return row;
 	}
-	        
+	
+	/**
+	 * Returns the method name to print in the console.
+	 */
 	@Override
 	public String getMethodName() {
 		return "Generation row by row abstract.";

@@ -39,21 +39,71 @@ import java.util.List;
 
 public interface ILatinSquare {
 
-	//getters and setters
+	/**
+	 * Gets the value at specified row and column indexes.
+	 */
 	public Integer getValueAt(int row, int column);
+	
+	/**
+	 * Sets the value at specified row and column indexes.
+	 */
 	public void setValueAt(int row, int column, int value);
 
+	/**
+	 * Sets an entire row
+	 */
 	public void setRow(int i, List<Integer> row);
-	//utils
+	
+	/**
+	 * A LS implementation must know how to write to file.
+	 * 
+	 * @param fileName
+	 */
 	public void writeToFile(String fileName);
+	
+	/**
+	 * A LS implementation must know how to print an instance.
+	 * 
+	 */
 	public String toString();
 	
+	/**
+	 * The order of the LS.
+	 * 
+	 * @return
+	 */
 	public int size();
+	
+	/**
+	 *  Check if the structure has repetitions in some row or column.
+	 *  
+	 */
 	public boolean preservesLatinProperty();
 	
-	//equality
+	/**
+	 * A LS implementation must know how to compare with other LSs.
+	 * 
+	 */
 	public boolean equals(ILatinSquare ls); 
+	
+	/**
+	 *  Computes a hash of the LS.
+	 * 
+	 */
 	public byte[] hashCodeOfStructure();
+	
+	/**
+	 *  Prints the LS into a String without new line or space characters.
+	 * @return
+	 */
 	public String serializeStructure();
+	
+	/**
+	 *  Tells if two hashes are the same.
+	 *  
+	 * @param dig1
+	 * @param dig2
+	 * @return
+	 */
 	public boolean equalHash(byte[] dig1, byte[] dig2);
 }

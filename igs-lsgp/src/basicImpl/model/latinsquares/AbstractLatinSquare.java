@@ -24,6 +24,11 @@ public abstract class AbstractLatinSquare implements ILatinSquare {
 	protected int n = 0;
 	protected MessageDigest md = null;
 	
+	/**
+	 * Constructs the instance of an empty LS of order n.
+	 * 
+	 * @param n
+	 */
 	public AbstractLatinSquare(int n) {
 		this.n = n;
 		
@@ -35,11 +40,18 @@ public abstract class AbstractLatinSquare implements ILatinSquare {
 		}
 	}
 	
+	/**
+	 * Default behaviour of size().
+	 */
 	@Override
 	public int size() {
 		return n;
 	}
 	
+	/**
+	 * Writes the instance to a string to print the results in a system console. This method provides the default behaviour for different LS implementations.
+	 * 
+	 */
 	@Override
 	public String toString() {
 		StringBuffer sb = new StringBuffer();
@@ -61,6 +73,10 @@ public abstract class AbstractLatinSquare implements ILatinSquare {
 		return sb.toString();
 	}
 
+	/**
+	 * Writes the instance's representation to a file. This method provides the default behaviour for different LS implementations.
+	 * 
+	 */
 	@Override
 	public void writeToFile(String fileName) {
 		try {
@@ -80,6 +96,10 @@ public abstract class AbstractLatinSquare implements ILatinSquare {
 		}
 	}
 
+	/**
+	 * Default equality: every symbol must be the same.
+	 * 
+	 */
 	@Override
 	public boolean equals(ILatinSquare ls2) {
 		int n2 = ls2.size();
@@ -96,12 +116,20 @@ public abstract class AbstractLatinSquare implements ILatinSquare {
 		return eq;
 	}
 	
+	/**
+	 * Computes a hash of the structure.
+	 * 
+	 */
 	@Override
 	public byte[] hashCodeOfStructure() {
 		String str1 = this.serializeStructure();
 		return md.digest(str1.getBytes());
 	}
 	
+	/**
+	 *  Writes the LS into a string without spaces or new line symbols.
+	 *  
+	 */
 	@Override
 	public String serializeStructure() {
 		StringBuffer sb = new StringBuffer();
@@ -114,11 +142,18 @@ public abstract class AbstractLatinSquare implements ILatinSquare {
 		return sb.toString();
 	}
 	
+	/**
+	 * Compares two hashes.
+	 */
 	@Override
 	public boolean equalHash(byte[] dig1, byte[] dig2) {
 		return MessageDigest.isEqual(dig1, dig2);
 	}
 	
+	/**
+	 *  Returns true if the current array is a LS, and false if there are any repetitions in a row or column.
+	 *  
+	 */
 	@Override
 	public boolean preservesLatinProperty() {
 		boolean result = true;

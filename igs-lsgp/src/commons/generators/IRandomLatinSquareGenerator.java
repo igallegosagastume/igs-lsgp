@@ -14,6 +14,11 @@ import commons.model.ILatinSquare;
  */
 public interface IRandomLatinSquareGenerator extends IRandomStructureGenerator {
 
+	/**
+	 * The result of this method must be a random LS.
+	 * 
+	 * @return
+	 */
 	public ILatinSquare generateLS();
 	
 }

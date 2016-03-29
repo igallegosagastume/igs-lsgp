@@ -42,10 +42,20 @@ import commons.utils.RandomUtils;
  */
 public class SimpleGenWithBacktracking extends AbstractSimpleGenerator {
 
+	/**
+	 * Constructs the instance that generates LSs of order n.
+	 * 
+	 * @param n
+	 */
 	public SimpleGenWithBacktracking(int n) {
 		super(n);
 	}
 
+	/**
+	 *  Reimplements the method. When a conflict is found, the algorithm annotates the conflicting symbol and backtracks to try another possibility.
+	 *  
+	 */
+	@Override
 	@SuppressWarnings("unchecked")
 	protected List<Integer> generateRow(int i_row) {
 	    HashSet<Integer> availableInRow = new HashSet<Integer>(this.symbols);//initially all possible symbols
@@ -54,7 +64,7 @@ public class SimpleGenWithBacktracking extends AbstractSimpleGenerator {
 	    List<Integer> row = new ArrayList<Integer>();
 	    int i_col = 0;
 	    
-	    //intentos fallidos por cada columna en la row actual
+	    //failed attempts for every column in current row.
 	    HashSet<Integer>[] failedAttemptsInCol = new HashSet[n];// = [[] for i in range(1,n+1)]
 	    for (int i=0; i<n; i++) {
 	    	failedAttemptsInCol[i] = new HashSet<Integer>();
@@ -105,7 +115,11 @@ public class SimpleGenWithBacktracking extends AbstractSimpleGenerator {
 	    failedAttemptsPerRow[i_row] = failedInRowCount;
 	    return row;
 	}
-	        
+
+	/**
+	 * Reimplement method's name.
+	 *  
+	 */
 	@Override
 	public String getMethodName() {
 		return "Generation row by row with backtracking.";

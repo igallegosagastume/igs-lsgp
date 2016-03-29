@@ -38,6 +38,8 @@ import commons.model.ILatinRectangle;
 import commons.model.ILatinSquare;
 
 /**
+ *  The default implementation of ILatinRectangle interface: an array of int's.
+ * 
  * @author igallego
  *
  */
@@ -50,6 +52,11 @@ public class LatinRectangle implements ILatinRectangle {
 		
 		protected MessageDigest md = null;
 		
+		/**
+		 * Constructs a Latin Rectangle based on a Ls.
+		 * 
+		 * @param ls
+		 */
 		public LatinRectangle(ILatinSquare ls) {
 			int n = ls.size();
 			this.colSize = n;
@@ -70,6 +77,12 @@ public class LatinRectangle implements ILatinRectangle {
 			}
 		}
 		
+		/**
+		 *  Constructs an empty Latin Rectangle.
+		 *  
+		 * @param k
+		 * @param n
+		 */
 		public LatinRectangle(int k, int n) {
 			this.lr = new int[k][n];
 			this.rowSize = k;
@@ -83,14 +96,28 @@ public class LatinRectangle implements ILatinRectangle {
 			}
 		}
 
+		/**
+		 * Return the number of columns.
+		 * 
+		 */
+		@Override
 		public int colSize() {
 			return colSize;
 		}
 		
+		/**
+		 * Return the number of rows.
+		 * 
+		 */
+		@Override
 		public int rowSize() {
 			return rowSize;
 		}
 		
+		/**
+		 * Overrides the default implementation to print the LR into the console
+		 * 
+		 */
 		@Override
 		public String toString() {
 			StringBuffer sb = new StringBuffer();
@@ -117,16 +144,30 @@ public class LatinRectangle implements ILatinRectangle {
 			return sb.toString();
 		}
 
+		/**
+		 * Overrides the method of interface {@link ILatinSquare}
+		 * 
+		 * Gets the element in specified row and column.
+		 *  
+		 */
 		@Override
 		public Integer getValueAt(int row, int col) {
 			return lr[row][col];
 		}
 
+		/**
+		 * Overrides the method of interface {@link ILatinSquare}
+		 * Sets the element in specified row and column.
+		 * 
+		 */
 		@Override
 		public void setValueAt(int row, int col, int value) {
 			lr[row][col] = value;
 		}
 
+		/**
+		 * Provides an implementation to write LRs to files.
+		 */
 		@Override
 		public void writeToFile(String fileName) {
 			
@@ -147,6 +188,10 @@ public class LatinRectangle implements ILatinRectangle {
 			}
 		}
 
+		/**
+		 * Implementation of comparison.
+		 * 
+		 */
 		@Override
 		public boolean equals(ILatinRectangle lr2) {
 			int k2 = lr2.rowSize();
@@ -164,12 +209,20 @@ public class LatinRectangle implements ILatinRectangle {
 			return eq;
 		}
 
+		/**
+		 * Computes a hash code of the LR.
+		 * 
+		 */
 		@Override
 		public byte[] hashCodeOfStructure() {
 			String str1 = this.serializeStructure();
 			return md.digest(str1.getBytes());
 		}
 		
+		/**
+		 * Prints the instance in a String without new line and space characters.
+		 * 
+		 */
 		@Override
 		public String serializeStructure() {
 			StringBuffer sb = new StringBuffer();
@@ -182,11 +235,19 @@ public class LatinRectangle implements ILatinRectangle {
 			return sb.toString();
 		}
 		
+		/**
+		 * Compares two hashes
+		 * 
+		 */
 		@Override
 		public boolean equalHash(byte[] dig1, byte[] dig2) {
 			return MessageDigest.isEqual(dig1, dig2);
 		}
 
+		/**
+		 *  Returns the size if it is a LS, or 0 otherwise.
+		 *  
+		 */
 		@Override
 		public int size() {
 			if (this.isASquare())
@@ -195,6 +256,10 @@ public class LatinRectangle implements ILatinRectangle {
 			return 0;
 		}
 
+		/**
+		 * Comparison with Latin Squares.
+		 * 
+		 */
 		@Override
 		public boolean equals(ILatinSquare ls) {
 			if (this.isASquare() && this.size()==ls.size())
@@ -203,17 +268,29 @@ public class LatinRectangle implements ILatinRectangle {
 				return false;
 		}
 
+		/**
+		 * Returns true if the instance is a LS.
+		 * 
+		 */
 		@Override
 		public boolean isASquare() {
 			return (this.rowSize==this.colSize);
 		}
 
+		/**
+		 * Sets an entire row.
+		 * 
+		 */
 		@Override
 		public void setRow(int i, List<Integer> row) {
 			for (int j=0; j<this.colSize; j++)
 				lr[i][j] = row.get(j);
 		}
 		
+		/**
+		 * Returns if the instance has no repetitions in any row or column.
+		 * 
+		 */
 		@Override
 		public boolean preservesLatinProperty() {
 			boolean result = true;

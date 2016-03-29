@@ -14,6 +14,11 @@ import commons.model.ILatinRectangle;
  */
 public interface IRandomLatinRectangleGenerator extends IRandomStructureGenerator {
 
+	/**
+	 * The result of this method must be a random Latin Rectangle.
+	 * 
+	 * @return
+	 */
 	public ILatinRectangle generateLR();
 		
 }

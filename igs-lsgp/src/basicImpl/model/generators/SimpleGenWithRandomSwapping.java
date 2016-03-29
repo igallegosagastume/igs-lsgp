@@ -42,31 +42,38 @@ import commons.utils.RandomUtils;
 
 public class SimpleGenWithRandomSwapping extends AbstractSimpleGenerator {
 
+	/**
+	 * Constructs the generator of LSs of order n.
+	 * 
+	 * @param n
+	 */
 	public SimpleGenWithRandomSwapping(int n) {
 		super(n);
 	}
 	
+	/**
+	 * Overrides the method for the generation of one row. First, it generates the complete row, and then correct the conflicts.
+	 * 
+	 */
 	@Override
 	protected ArrayList<Integer> generateRow(int i_row) {
 	    Set<Integer> availableInRow = new HashSet<Integer>(this.symbols);
 	    
-	    //resultado del algoritmo
 	    ArrayList<Integer> row = new ArrayList<Integer>();
 	    int i_col = 0;
 	    
 	    Set<Integer> columnsWithRepetitions = new HashSet<Integer>();
 	    
-	    while (i_col < n) {//cuando llega a n, elegi n numeros
-	        //conjunto de disponibles es:
+	    while (i_col < n) {//when i_col==n, there are n chosen numbers
+	        //available set is:
 	        Set<Integer> available = new HashSet<Integer>(availableInCol[i_col]);
 	    	available.retainAll(availableInRow);
 	    	
-	        if (!available.isEmpty()) { //si me quedan disponibles
-	            //saco un simbolo al azar:
+	        if (!available.isEmpty()) { //if there are available
+	            //choose a symbol at random
 	            Integer symbol = RandomUtils.randomChoice(available);
-	            //System.out.print("Saco simbolo:"+repr(simbolo)+" de available: "+repr(available))
 	            
-	            //contabilizo el elegido
+	            //count the chosen symbol
 	            availableInCol[i_col].remove(symbol);
 	            availableInRow.remove(symbol);
 	            row.add(symbol);
@@ -78,7 +85,6 @@ public class SimpleGenWithRandomSwapping extends AbstractSimpleGenerator {
 	            availableInCol[i_col].remove(symbol);
 	            availableInRow.remove(symbol);
 	            row.add(symbol);
-//	            repetitionsInCol[i_col].add(symbol);
 
 	            columnsWithRepetitions.add(i_col);
 	            
@@ -89,12 +95,18 @@ public class SimpleGenWithRandomSwapping extends AbstractSimpleGenerator {
 	    if (columnsWithRepetitions.size()>0) {
 	    	this.fixRow(i_row, row, columnsWithRepetitions);
 	    } else {
-	    	//System.out.println("Row "+(i_row)+" generated...");
 	    }
 	    return row;
 	}
 
-	private void fixRow(int i_row, List<Integer> row, Set<Integer> columnsWithRepetitions) {
+	/**
+	 * Auxiliary method to fix the row with conflicts.
+	 * 
+	 * @param i_row
+	 * @param row
+	 * @param columnsWithRepetitions
+	 */
+	protected void fixRow(int i_row, List<Integer> row, Set<Integer> columnsWithRepetitions) {
 		int columnCountBeforeSwap, columnCountAfterSwap;
 		Integer lastCol1 = null, lastCol2 = null;
 		do {
@@ -133,8 +145,15 @@ public class SimpleGenWithRandomSwapping extends AbstractSimpleGenerator {
 	}
 	
 
-	//swap in constant time
-	private void swap(Integer columnWRep, Integer anotherCol, List<Integer> row, Set<Integer> columnsWithRepetitions) {
+	/**
+	 * Swap two elements in constant time.
+	 * 
+	 * @param columnWRep
+	 * @param anotherCol
+	 * @param row
+	 * @param columnsWithRepetitions
+	 */
+	protected void swap(Integer columnWRep, Integer anotherCol, List<Integer> row, Set<Integer> columnsWithRepetitions) {
 		Integer elem1 = row.get(columnWRep);
 		Integer elem2 = row.get(anotherCol);
 		
@@ -162,6 +181,10 @@ public class SimpleGenWithRandomSwapping extends AbstractSimpleGenerator {
 
 	}
 
+	/**
+	 * Overrides to get the method's name.
+	 * 
+	 */
 	@Override
 	public String getMethodName() {
 		return "Generation row by row with random swapping.";

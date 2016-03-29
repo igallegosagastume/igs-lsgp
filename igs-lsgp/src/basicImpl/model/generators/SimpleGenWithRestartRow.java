@@ -38,7 +38,11 @@ import commons.utils.RandomUtils;
  */
 public class SimpleGenWithRestartRow extends AbstractSimpleGenerator {
 	
-	
+	/**
+	 * Constructs the instance that generate LSs of order n.
+	 * 
+	 * @param n
+	 */
 	public SimpleGenWithRestartRow(int n) {
 		super(n);
 	}
@@ -93,6 +97,9 @@ public class SimpleGenWithRestartRow extends AbstractSimpleGenerator {
 	    return row;
 	}
 
+	/**
+	 * Overrides to get the method's name.
+	 */
 	@Override
 	public String getMethodName() {
 		return "Generation row by row with restarting row.";

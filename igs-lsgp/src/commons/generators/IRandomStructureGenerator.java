@@ -11,6 +11,10 @@ package commons.generators;
  */
 public interface IRandomStructureGenerator {
 
-	
+	/**
+	 * No matter which structure does the generator generates, the method must have a name (to print into the console).
+	 * 
+	 * @return
+	 */
 	public String getMethodName();
 }
