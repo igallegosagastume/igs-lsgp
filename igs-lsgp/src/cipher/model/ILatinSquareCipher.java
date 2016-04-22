@@ -12,5 +12,5 @@ public interface ILatinSquareCipher {
 
 	public String crypt(String plainText) throws Exception;
 	public String decrypt(String cihperText) throws Exception;
-	
+	public void showPrivateKey() throws Exception;
 }

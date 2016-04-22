@@ -56,13 +56,13 @@ public class GibsonCipher implements ILatinSquareCipher {
 		
 		GibsonCipher cipher = new GibsonCipher(ls);
 //		cipher.add(64);
-//		cipher.printConsole();
+		cipher.showPrivateKey();
 		
-        Scanner input = new Scanner(System.in);
-        System.out.print("Enter some plain text: ");
-        String inputString = input.nextLine();
-        
-        
+		Scanner input = new Scanner(System.in);
+		System.out.print("Enter some plain text: ");
+		String inputString = input.nextLine();
+
+		
 		String encrypted = cipher.crypt(inputString);
 		System.out.println(encrypted);
 		
@@ -243,14 +243,15 @@ public class GibsonCipher implements ILatinSquareCipher {
 		}
 	}
 	
-//	private void printConsole () throws Exception {
-//		for (int i=0; i<ls.size(); i++) {
-//			for(int j=0; j<ls.size(); j++) {
-//				System.out.print(Character.toString((char)(ls.getValueAt(i, j).intValue()))+" ");
-//			}
-//			System.out.println("");
-//		}
-//	}
+	@Override
+	public void showPrivateKey() throws Exception {
+		for (int i=0; i<ls.size(); i++) {
+			for(int j=0; j<ls.size(); j++) {
+				System.out.print(Character.toString((char)(ls.getValueAt(i, j).intValue()))+" ");
+			}
+			System.out.println("");
+		}
+	}
 //	
 //	private void add(int n) throws Exception {
 //		for (int i=0; i<ls.size(); i++) {

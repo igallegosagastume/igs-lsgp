@@ -37,9 +37,9 @@ public class AlexCipher implements ILatinSquareCipher {
 		
 		AlexCipher cipher = new AlexCipher(ls);
 		
-		cipher.printConsole();
+		cipher.showPrivateKey();
 		
-        Scanner input = new Scanner(System.in);
+		Scanner input = new Scanner(System.in);
         System.out.print("Enter some plain text: ");
         String inputString = input.nextLine();
         
@@ -207,7 +207,8 @@ public class AlexCipher implements ILatinSquareCipher {
 			this.mode = this.MODE_USE_SAME_ROW;
 	}
 	
-	private void printConsole() throws Exception {
+	@Override
+	public void showPrivateKey() throws Exception {
 		for (int i=0; i<ls.size(); i++) {
 			for(int j=0; j<ls.size(); j++) {
 				System.out.print(Character.toString((char)(ls.getValueAt(i, j).intValue()))+" ");
