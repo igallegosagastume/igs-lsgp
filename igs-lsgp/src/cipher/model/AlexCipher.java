@@ -1,23 +1,5 @@
 /**
- * Creation date: 18/05/2015
- * 
- */
-/**
- * © Copyright 2012-2015 Ignacio Gallego Sagastume
- * 
- * This file is part of IGS-ls-generation package.
- * IGS-ls-generation package is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or any later version.
- * 
- * IGS-ls-generation package is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- * 
- * You should have received a copy of the GNU General Public License
- * along with IGS-ls-generation package.  If not, see <http://www.gnu.org/licenses/>.
- * 
+ * Creation date: 22/04/2016
  * 
  */
 package cipher.model;
@@ -25,38 +7,37 @@ package cipher.model;
 import java.util.Scanner;
 
 import basicImpl.model.generators.SimpleGenWithReplGraph;
+
+import commons.generators.IRandomLatinSquareGenerator;
 import commons.model.ILatinSquare;
-import commons.model.OrderedPair;
 
 /**
- * This simple Cipher shows how a LS can be used to crypt and decrypt information.
- * 
- *  The mechanism is due to Gibson, and it's called "Off the Grid".
- * 
+ *  This is another LS-based cipher, created by IGS for Blue Montag Software.
  * 
  * @author igallego
  *
  */
-public class AlexCipher {
+public class AlexCipher implements ILatinSquareCipher {
 
-	private final int RIGHT = 0;
-	private final int DOWN  = 1;
-	private final int LEFT  = 2;
-	private final int UP    = 3;
-	
-	private OrderedPair lsPosition = new OrderedPair(0, 0);
+	private final int MODE_USE_SAME_ROW = 0;
+	private final int MODE_USE_SAME_COL = 1;
+
+	private int mode = MODE_USE_SAME_ROW;
+	private int current_row_col = 0;
 	private int textPosition = 0;
-	private int direction = RIGHT;//left to right
+	private int row = 0;
+	private int col = 0;
+	
 	private ILatinSquare ls = null;
 	private int n = 0;
 	
 	public static void main(String[] args) throws Exception {
-		SimpleGenWithReplGraph generator = new SimpleGenWithReplGraph(256);
+		IRandomLatinSquareGenerator generator = new SimpleGenWithReplGraph(256);
 		ILatinSquare ls = generator.generateLS();
 		
 		AlexCipher cipher = new AlexCipher(ls);
-//		cipher.add(64);
-//		cipher.printConsole();
+		
+		cipher.printConsole();
 		
         Scanner input = new Scanner(System.in);
         System.out.print("Enter some plain text: ");
@@ -93,28 +74,30 @@ public class AlexCipher {
 	 * @return
 	 * @throws Exception
 	 */
+	@Override
 	public String crypt(String plaintext) throws Exception {
-		textPosition = 0;
-		
-		char currChar = plaintext.charAt(textPosition); 
+		char currChar = plaintext.charAt(this.textPosition); 
 		String cipheredText = "";
 		
 		while ((int)currChar<256 && this.textPosition<plaintext.length()) {
-			this.searchForChar(new Character(currChar).toString());
+			this.searchForCharInSameRowOrColumn(new Character(currChar).toString());
 			
-			this.move();//take the next character
+			this.nextRowOrColumn();
 			
-			String cipherChar = Character.toString((char)(ls.getValueAt(lsPosition.x, lsPosition.y).intValue()));
+			String cipherChar;
 			
-			//change direction to the next 
-			this.nextDirection();
+			if (this.mode==this.MODE_USE_SAME_ROW)
+				cipherChar = Character.toString((char)(ls.getValueAt(this.current_row_col, this.col).intValue()));
+			else
+				cipherChar = Character.toString((char)(ls.getValueAt(this.row, this.current_row_col).intValue()));
 			
 			cipheredText += cipherChar;
+			
 			this.textPosition++;
+			
 			if (this.textPosition<plaintext.length())
-				currChar = plaintext.charAt(textPosition);
+				currChar = plaintext.charAt(this.textPosition);
 		}
-		this.prevDirection();//undo last change of direction
 	
 		return cipheredText;
 	}
@@ -126,136 +109,111 @@ public class AlexCipher {
 	 * @return
 	 * @throws Exception
 	 */
+	@Override
 	public String decrypt(String cipheredText) throws Exception {
-		textPosition = cipheredText.length()-1;
+		this.textPosition = cipheredText.length()-1;
 		
-		this.invertDirection();
-		
-		char currChar = cipheredText.charAt(textPosition); 
+		char curCipherChar = cipheredText.charAt(this.textPosition); 
 		String plainText = "";
 		
 		while (this.textPosition>=0) {
-			/**
-			 * mover
-			   carplano = tomar caracter en posicion actual
-			   tomar siguiente encriptado
-			   buscar car encriptado en misma direccion
-			   girar
-			 */
-			this.move();
-			String plainChar = Character.toString((char)(ls.getValueAt(lsPosition.x, lsPosition.y).intValue()));
+			this.searchForCharInSameRowOrColumn(new Character(curCipherChar).toString());
+			this.previousRowOrColumn();
+			
+			String plainChar;
+			if (this.mode==this.MODE_USE_SAME_ROW)
+				plainChar = Character.toString((char)(ls.getValueAt(this.current_row_col, this.col).intValue()));
+			else
+				plainChar = Character.toString((char)(ls.getValueAt(this.row, this.current_row_col).intValue()));
+			 
 			plainText = plainChar + plainText;
 			this.textPosition--;
 			if (this.textPosition>=0)
-				currChar = cipheredText.charAt(textPosition);
+				curCipherChar = cipheredText.charAt(textPosition);
 
-			this.searchForChar(new Character(currChar).toString());
-			
-			this.prevDirection();
-			
-			
 		}
+		
+		this.changeMode();
+		
 		return plainText;
 	}
 	
 	/**
 	 * 
-	 *  Searchs for the next character in the same direction
+	 *  Searchs for the next character in the same row / column
 	 *  
 	 **/
-	private void searchForChar(String car) throws Exception {
-		String lsCar = Character.toString((char)(ls.getValueAt(lsPosition.x, lsPosition.y).intValue()));
-		while (!car.equals(lsCar)) {
-			this.move();
-			lsCar = Character.toString((char)(ls.getValueAt(lsPosition.x, lsPosition.y).intValue()));
+	private void searchForCharInSameRowOrColumn(String car) throws Exception {
+		if (this.mode==this.MODE_USE_SAME_COL) {
+			String lsCar = Character.toString((char)(ls.getValueAt(this.row, this.current_row_col).intValue()));
+			while (!car.equals(lsCar)) {
+				this.move();
+				lsCar = Character.toString((char)(ls.getValueAt(this.row, this.current_row_col).intValue()));
+			}
+		} else {
+			String lsCar = Character.toString((char)(ls.getValueAt(this.current_row_col, this.col).intValue()));
+			while (!car.equals(lsCar)) {
+				this.move();
+				lsCar = Character.toString((char)(ls.getValueAt(this.current_row_col, this.col).intValue()));
+			}
 		}
-		
+
+		//now the position in the LS is in the same character that car
 		return;
 	}
 	
 	/**
-	 * Changes the direction for the next clockwise
+	 * Changes the row/column
 	 */
-	private void nextDirection() {
-		direction = (direction+1)%4;
-	}
-	
-	/**
-	 * Changes the direction for the next anti-clockwise
-	 */
-	private void prevDirection() {
-		direction = (direction-1);
-		if (direction==-1)
-			direction = UP; 
-	}
-	
-	/**
-	 * Turns 180 degrees
-	 */
-	private void invertDirection() {
-		switch (direction) {
-		case RIGHT:
-			direction = LEFT;
-			break;
-		case DOWN:
-			direction = UP;
-			break;
-		case LEFT:
-			direction = RIGHT;
-			break;
-		case UP:
-			direction = DOWN;
-			break;
-		default:
-			break;
+	private void nextRowOrColumn() {
+		this.current_row_col++;
+		if (this.current_row_col==n) {
+			this.current_row_col = 0;
 		}
 	}
 	
 	/**
-	 * Moves inside the LS one position
+	 * Changes the row/column
+	 */
+	private void previousRowOrColumn() {
+		this.current_row_col--;
+		if (this.current_row_col==-1) {
+			this.current_row_col = n-1;
+		}
+	}
+	
+	/**
+	 * Moves inside the same row column in LS one char
 	 */
 	private void move() {
-		switch (direction) {
-		case RIGHT:
-			lsPosition.y++;
-			if (lsPosition.y==n)
-				lsPosition.y = 0;
-			break;
-		case DOWN:
-			lsPosition.x++;
-			if (lsPosition.x==n)
-				lsPosition.x = 0;
-			break;
-		case LEFT:
-			lsPosition.y--;
-			if (lsPosition.y==-1)
-				lsPosition.y = n-1;
-			break;
-		case UP:
-			lsPosition.x--;
-			if (lsPosition.x==-1)
-				lsPosition.x = n-1;
-			break;
-		default:
-			break;
+		if (this.mode==this.MODE_USE_SAME_ROW) {
+			this.col++;
+			if (this.col==n)
+				this.col = 0;
+		} else { // MODE COL
+			this.row++;
+			if (this.row==n)
+				this.row = 0;
 		}
 	}
 	
-//	private void printConsole () throws Exception {
-//		for (int i=0; i<ls.size(); i++) {
-//			for(int j=0; j<ls.size(); j++) {
-//				System.out.print(Character.toString((char)(ls.getValueAt(i, j).intValue()))+" ");
-//			}
-//			System.out.println("");
-//		}
-//	}
-//	
-//	private void add(int n) throws Exception {
-//		for (int i=0; i<ls.size(); i++) {
-//			for(int j=0; j<ls.size(); j++) {
-//				int k = ls.getValueAt(i, j)+n;
-//				ls.setValueAt(i, j, k);
-//			}
-//		}
-//	}
+	/**
+	 * After decrypting a word, the mode is changed
+	 */
+	private void changeMode() {
+		if (this.mode==this.MODE_USE_SAME_ROW)
+			this.mode = this.MODE_USE_SAME_COL;
+		else
+			this.mode = this.MODE_USE_SAME_ROW;
+	}
+	
+	private void printConsole() throws Exception {
+		for (int i=0; i<ls.size(); i++) {
+			for(int j=0; j<ls.size(); j++) {
+				System.out.print(Character.toString((char)(ls.getValueAt(i, j).intValue()))+" ");
+			}
+			System.out.println("");
+		}
+	}
+
 }
