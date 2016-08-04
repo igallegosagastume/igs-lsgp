@@ -70,7 +70,7 @@ public class KoscielnyProduct extends AbstractSimpleGenerator {
     
 		for (int x=0; x < n1*n2; x++) {
 			for (int y=0; y < n1*n2; y++) {
-				result.setValueAt(x, y, (n2 * (ls1.getValueAt(x/n2,y/n2)) + ls2.getValueAt(x%n2,y%n2)));
+				result.setValueAt(x, y, (n2 * ls1.getValueAt(x/n2,y/n2)) + ls2.getValueAt(x%n2,y%n2));
 			}
 		}
 		return result;
