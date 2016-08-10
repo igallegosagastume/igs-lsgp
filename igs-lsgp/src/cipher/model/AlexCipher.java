@@ -4,10 +4,12 @@
  */
 package cipher.model;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.util.Scanner;
 
 import basicImpl.model.generators.SimpleGenWithReplGraph;
-
 import commons.generators.IRandomLatinSquareGenerator;
 import commons.model.ILatinSquare;
 
@@ -47,6 +49,8 @@ public class AlexCipher implements ILatinSquareCipher {
 		String encrypted = cipher.crypt(inputString);
 		System.out.println(encrypted);
 		
+		writeTextToFile("c:\\users\\igallego\\2016-08-10_Desafio\\2016-08-10_cipherText.txt", encrypted);
+		writeTextToFile("c:\\users\\igallego\\2016-08-10_Desafio\\2016-08-10_LS.txt", cipher.getPrivateKeyAsString());
 		String plain = cipher.decrypt(encrypted);
 		
 		System.out.println("Press a key to decrypt:");
@@ -54,6 +58,16 @@ public class AlexCipher implements ILatinSquareCipher {
 		
 		System.out.print(plain);
 		input.close();
+	}
+	
+	private static void writeTextToFile(String path, String text) throws Exception {
+		File logFile=new File(path);
+
+	    BufferedWriter writer = new BufferedWriter(new FileWriter(logFile));
+	    writer.write (text);
+
+	    //Close writer
+	    writer.close();
 	}
 	
 	/**
@@ -217,4 +231,19 @@ public class AlexCipher implements ILatinSquareCipher {
 		}
 	}
 
+	public String getPrivateKeyAsString() throws Exception {
+		String result = "";
+		for (int i=0; i<ls.size(); i++) {
+			for(int j=0; j<ls.size(); j++) {
+				/*if (ls.getValueAt(i, j).intValue()==10 ||
+					ls.getValueAt(i, j).intValue()==13)
+					result+=Character.SPACE_SEPARATOR;
+				else*/
+					result+=(Character.toString((char)(ls.getValueAt(i, j).intValue())));
+			}	
+			//result+=Character.toString((char)10);//+Character.toString((char)13);
+		}
+		
+		return result;
+	}
 }
