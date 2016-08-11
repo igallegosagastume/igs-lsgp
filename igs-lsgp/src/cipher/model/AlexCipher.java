@@ -9,6 +9,8 @@ import java.io.File;
 import java.io.FileWriter;
 import java.util.Scanner;
 
+import org.apache.commons.codec.binary.Base64;
+
 import basicImpl.model.generators.SimpleGenWithReplGraph;
 import commons.generators.IRandomLatinSquareGenerator;
 import commons.model.ILatinSquare;
@@ -39,7 +41,7 @@ public class AlexCipher implements ILatinSquareCipher {
 		
 		AlexCipher cipher = new AlexCipher(ls);
 		
-		cipher.showPrivateKey();
+		//cipher.showPrivateKey();
 		
 		Scanner input = new Scanner(System.in);
         System.out.print("Enter some plain text: ");
@@ -49,8 +51,9 @@ public class AlexCipher implements ILatinSquareCipher {
 		String encrypted = cipher.crypt(inputString);
 		System.out.println(encrypted);
 		
-		writeTextToFile("c:\\users\\igallego\\2016-08-10_Desafio\\2016-08-10_cipherText.txt", encrypted);
-		writeTextToFile("c:\\users\\igallego\\2016-08-10_Desafio\\2016-08-10_LS.txt", cipher.getPrivateKeyAsString());
+		writeTextToFile("c:\\users\\igallego\\Dropbox\\Blue Montag Software\\2016-08-10_Desafio\\2016-08-11_cipherText.txt", cipher.getBase64OfString(encrypted));
+		writeTextToFile("c:\\users\\igallego\\Dropbox\\Blue Montag Software\\2016-08-10_Desafio\\2016-08-11_LS.txt", cipher.getLSAsBase64String());
+		
 		String plain = cipher.decrypt(encrypted);
 		
 		System.out.println("Press a key to decrypt:");
@@ -231,19 +234,34 @@ public class AlexCipher implements ILatinSquareCipher {
 		}
 	}
 
-	public String getPrivateKeyAsString() throws Exception {
+	private String getLSAsBase64String() throws Exception {
 		String result = "";
+		byte[] byteArr = new byte[65536];//para guardar el LS de 256*256
+		char[] charArr  = new char[65536];//para guardar el LS de 256*256
+		int k = 0;
 		for (int i=0; i<ls.size(); i++) {
 			for(int j=0; j<ls.size(); j++) {
-				/*if (ls.getValueAt(i, j).intValue()==10 ||
-					ls.getValueAt(i, j).intValue()==13)
-					result+=Character.SPACE_SEPARATOR;
-				else*/
-					result+=(Character.toString((char)(ls.getValueAt(i, j).intValue())));
+				//result+=(Character.toString((char)(ls.getValueAt(i, j).intValue())));//this is to return a string
+				//byte signedByte = (byte)(ls.getValueAt(i, j).intValue());
+				//int unsignedByte = signedByte & (0xff);
+				char c = (char)(ls.getValueAt(i, j).intValue());
+				charArr[k] = c;
+				k++;
 			}	
-			//result+=Character.toString((char)10);//+Character.toString((char)13);
 		}
 		
+		//lo codifico base64
+		byteArr = new String(charArr).getBytes();
+		
+		Base64 base64 = new Base64();//esta clase esta en el Jar common-codec-1.6.jar
+		result = base64.encodeToString(byteArr);
 		return result;
 	}
+	
+	private String getBase64OfString(String str) throws Exception {
+		byte[] byteArr = str.getBytes();
+		Base64 base64 = new Base64();//esta clase esta en el Jar common-codec-1.6.jar
+		return base64.encodeToString(byteArr);
+	}
+
 }
