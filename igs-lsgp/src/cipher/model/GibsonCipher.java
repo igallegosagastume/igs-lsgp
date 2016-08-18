@@ -24,7 +24,7 @@ package cipher.model;
 
 import java.util.Scanner;
 
-import basicImpl.model.generators.SimpleGenWithReplGraph;
+import seqgen.model.generators.SeqGenWithReplGraph;
 import commons.model.ILatinSquare;
 import commons.model.OrderedPair;
 
@@ -51,7 +51,7 @@ public class GibsonCipher implements ILatinSquareCipher {
 	private int n = 0;
 	
 	public static void main(String[] args) throws Exception {
-		SimpleGenWithReplGraph generator = new SimpleGenWithReplGraph(256);
+		SeqGenWithReplGraph generator = new SeqGenWithReplGraph(256);
 		ILatinSquare ls = generator.generateLS();
 		
 		GibsonCipher cipher = new GibsonCipher(ls);

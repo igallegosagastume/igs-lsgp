@@ -11,7 +11,7 @@ import java.util.Scanner;
 
 import org.apache.commons.codec.binary.Base64;
 
-import basicImpl.model.generators.SimpleGenWithReplGraph;
+import seqgen.model.generators.SeqGenWithReplGraph;
 import commons.generators.IRandomLatinSquareGenerator;
 import commons.model.ILatinSquare;
 
@@ -36,7 +36,7 @@ public class AlexCipher implements ILatinSquareCipher {
 	private int n = 0;
 	
 	public static void main(String[] args) throws Exception {
-		IRandomLatinSquareGenerator generator = new SimpleGenWithReplGraph(256);
+		IRandomLatinSquareGenerator generator = new SeqGenWithReplGraph(256);
 		ILatinSquare ls = generator.generateLS();
 		
 		AlexCipher cipher = new AlexCipher(ls);
