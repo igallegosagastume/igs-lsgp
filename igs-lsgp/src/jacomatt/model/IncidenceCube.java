@@ -39,7 +39,7 @@ import java.util.List;
 import javax.media.opengl.awt.GLCanvas;
 import javax.swing.JFrame;
 
-import basicImpl.model.latinsquares.AbstractLatinSquare;
+import seqgen.model.latinsquares.AbstractLatinSquare;
 
 import com.jogamp.opengl.util.FPSAnimator;
 

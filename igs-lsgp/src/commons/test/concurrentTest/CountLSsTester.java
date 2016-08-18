@@ -31,8 +31,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 
-import basicImpl.model.generators.AbstractSimpleGenerator;
-import basicImpl.model.generators.SimpleGenWithReplGraph;
+import seqgen.model.generators.AbstractSequentialGenerator;
+import seqgen.model.generators.SeqGenWithReplGraph;
 import commons.model.ILatinSquare;
 
 public class CountLSsTester implements Runnable {
@@ -68,7 +68,7 @@ public class CountLSsTester implements Runnable {
 		long startTime = System.nanoTime();	
 		
 		//create the generator
-		AbstractSimpleGenerator generator = new SimpleGenWithReplGraph(this.order);
+		AbstractSequentialGenerator generator = new SeqGenWithReplGraph(this.order);
 			
 		ILatinSquare ls;
 
