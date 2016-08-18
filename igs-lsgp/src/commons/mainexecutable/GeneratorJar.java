@@ -25,14 +25,13 @@
  */
 package commons.mainexecutable;
 
+import seqgen.model.generators.SeqGenWithBacktracking;
+import seqgen.model.generators.SeqGenWithRandomSwapping;
+import seqgen.model.generators.SeqGenWithReplGraph;
+import seqgen.model.generators.SeqGenWithRestartRow;
 import jacomatt.model.generators.JacobsonMatthewsLSGenerator;
+import koscielny.model.KoscielnyProduct;
 import mckaywormald.model.generators.McKayLRGenerationMethod;
-import basicImpl.model.generators.KoscielnyProduct;
-import basicImpl.model.generators.SimpleGenWithBacktracking;
-import basicImpl.model.generators.SimpleGenWithRandomSwapping;
-import basicImpl.model.generators.SimpleGenWithReplGraph;
-import basicImpl.model.generators.SimpleGenWithRestartRow;
-
 import commons.generators.IRandomLatinSquareGenerator;
 import commons.model.ILatinSquare;
 import commons.utils.FileUtils;
@@ -87,7 +86,7 @@ public class GeneratorJar {
 		IRandomLatinSquareGenerator generator;
 		
 		if (args[0].equalsIgnoreCase("simple")) {
-			generator = new SimpleGenWithBacktracking(n);
+			generator = new SeqGenWithBacktracking(n);
 			computeTimeFor(generator, path);
 			return;
 		}
@@ -99,19 +98,19 @@ public class GeneratorJar {
 		}
 
 		if (args[0].equalsIgnoreCase("swapping")) {
-			generator = new SimpleGenWithRandomSwapping(n);
+			generator = new SeqGenWithRandomSwapping(n);
 			computeTimeFor(generator, path);  // the most acceptable simple method
 			return;
 		}
 		
 		if (args[0].equalsIgnoreCase("restart")) {
-			generator = new SimpleGenWithRestartRow(n);
+			generator = new SeqGenWithRestartRow(n);
 			computeTimeFor(generator, path);//improvements to simple method?
 			return;
 		}
 		
 		if (args[0].equalsIgnoreCase("graph")) {
-			generator = new SimpleGenWithReplGraph(n);
+			generator = new SeqGenWithReplGraph(n);
 			computeTimeFor(generator, path);
 			return;
 		}
@@ -163,7 +162,7 @@ public class GeneratorJar {
 //	@SuppressWarnings("unchecked")
 //	public static void debugRandomSwapping() throws Exception {
 //		ArrayListLatinSquare ls = new ArrayListLatinSquare(5);
-//		SimpleGenWithRandomSwapping rs = new SimpleGenWithRandomSwapping(5);
+//		SeqGenWithRandomSwapping rs = new SeqGenWithRandomSwapping(5);
 //		
 //		ls.setValueAt(0, 0, 0);
 //		ls.setValueAt(0, 1, 1);
@@ -219,7 +218,7 @@ public class GeneratorJar {
 //	@SuppressWarnings("unchecked")
 //	public static void debugReplGraph() throws Exception {
 //		ArrayListLatinSquare ls = new ArrayListLatinSquare(6);
-//		SimpleGenWithReplGraph rg = new SimpleGenWithReplGraph(6);
+//		SeqGenWithReplGraph rg = new SeqGenWithReplGraph(6);
 //		
 //		ls.setValueAt(0, 0, 3);
 //		ls.setValueAt(0, 1, 1);

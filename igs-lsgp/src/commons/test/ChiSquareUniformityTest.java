@@ -32,10 +32,10 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 
-import basicImpl.model.generators.AbstractSimpleGenerator;
-import basicImpl.model.generators.SimpleGenWithBacktracking;
-import basicImpl.model.generators.SimpleGenWithRandomSwapping;
-import basicImpl.model.generators.SimpleGenWithReplGraph;
+import seqgen.model.generators.AbstractSequentialGenerator;
+import seqgen.model.generators.SeqGenWithBacktracking;
+import seqgen.model.generators.SeqGenWithRandomSwapping;
+import seqgen.model.generators.SeqGenWithReplGraph;
 import commons.model.ILatinSquare;
 
 public class ChiSquareUniformityTest {
@@ -54,12 +54,12 @@ public class ChiSquareUniformityTest {
 		int cantExperim = new Integer(args[1]);//1000000;
 		int order = new Integer(args[2]);
 
-		AbstractSimpleGenerator generator = new SimpleGenWithBacktracking(4); //default
+		AbstractSequentialGenerator generator = new SeqGenWithBacktracking(4); //default
 		//creates the generator
 		if (option.equalsIgnoreCase("swapping")) 
-			generator = new SimpleGenWithRandomSwapping(order);
+			generator = new SeqGenWithRandomSwapping(order);
 		if (option.equalsIgnoreCase("graph"))
-			generator = new SimpleGenWithReplGraph(order);
+			generator = new SeqGenWithReplGraph(order);
 			
 		ILatinSquare ls;
 

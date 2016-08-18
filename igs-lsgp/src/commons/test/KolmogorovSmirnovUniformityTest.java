@@ -32,7 +32,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 
-import basicImpl.model.generators.SimpleGenWithRandomSwapping;
+import seqgen.model.generators.SeqGenWithRandomSwapping;
 import commons.model.ILatinSquare;
 
 public class KolmogorovSmirnovUniformityTest {
@@ -53,7 +53,7 @@ public class KolmogorovSmirnovUniformityTest {
 		int cantExperim = new Integer(args[1]);//1000000;
 		int order = new Integer(args[2]);
 		
-		SimpleGenWithRandomSwapping generator = new SimpleGenWithRandomSwapping(order);
+		SeqGenWithRandomSwapping generator = new SeqGenWithRandomSwapping(order);
 		
 		ILatinSquare ls ;
 		
