@@ -25,8 +25,10 @@ package cipher.model;
 import java.util.Scanner;
 
 import seqgen.model.generators.SeqGenWithReplGraph;
+
 import commons.model.ILatinSquare;
 import commons.model.OrderedPair;
+import commons.utils.Base64Utils;
 
 /**
  * This simple Cipher shows how a LS can be used to crypt and decrypt information.
@@ -56,7 +58,7 @@ public class GibsonCipher implements ILatinSquareCipher {
 		
 		GibsonCipher cipher = new GibsonCipher(ls);
 //		cipher.add(64);
-		cipher.showPrivateKey();
+//		cipher.showPrivateKey();
 		
 		Scanner input = new Scanner(System.in);
 		System.out.print("Enter some plain text: ");
@@ -64,7 +66,7 @@ public class GibsonCipher implements ILatinSquareCipher {
 
 		
 		String encrypted = cipher.crypt(inputString);
-		System.out.println(encrypted);
+		System.out.println(Base64Utils.getBase64OfString(encrypted));
 		
 		String plain = cipher.decrypt(encrypted);
 		

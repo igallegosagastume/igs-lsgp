@@ -4,16 +4,14 @@
  */
 package cipher.model;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
 import java.util.Scanner;
 
-import org.apache.commons.codec.binary.Base64;
-
 import seqgen.model.generators.SeqGenWithReplGraph;
+
 import commons.generators.IRandomLatinSquareGenerator;
 import commons.model.ILatinSquare;
+import commons.utils.Base64Utils;
+import commons.utils.FileUtils;
 
 /**
  *  This is another LS-based cipher, created by IGS for Blue Montag Software.
@@ -49,10 +47,10 @@ public class AlexCipher implements ILatinSquareCipher {
         
         
 		String encrypted = cipher.crypt(inputString);
-		System.out.println(encrypted);
+		System.out.println(Base64Utils.getBase64OfString(encrypted));
 		
-		writeTextToFile("c:\\users\\igallego\\Dropbox\\Blue Montag Software\\2016-08-10_Desafio\\2016-08-11_cipherText.txt", cipher.getBase64OfString(encrypted));
-		writeTextToFile("c:\\users\\igallego\\Dropbox\\Blue Montag Software\\2016-08-10_Desafio\\2016-08-11_LS.txt", cipher.getLSAsBase64String());
+		FileUtils.writeTextToFile("c:\\users\\igallego\\Dropbox\\Blue Montag Software\\2016-08-10_Desafio\\2016-08-31_cipherText.txt", Base64Utils.getBase64OfString(encrypted));
+		FileUtils.writeTextToFile("c:\\users\\igallego\\Dropbox\\Blue Montag Software\\2016-08-10_Desafio\\2016-08-31_LS.txt", Base64Utils.getLSAsBase64String(ls));
 		
 		String plain = cipher.decrypt(encrypted);
 		
@@ -61,16 +59,6 @@ public class AlexCipher implements ILatinSquareCipher {
 		
 		System.out.print(plain);
 		input.close();
-	}
-	
-	private static void writeTextToFile(String path, String text) throws Exception {
-		File logFile=new File(path);
-
-	    BufferedWriter writer = new BufferedWriter(new FileWriter(logFile));
-	    writer.write (text);
-
-	    //Close writer
-	    writer.close();
 	}
 	
 	/**
@@ -232,36 +220,6 @@ public class AlexCipher implements ILatinSquareCipher {
 			}
 			System.out.println("");
 		}
-	}
-
-	private String getLSAsBase64String() throws Exception {
-		String result = "";
-		byte[] byteArr = new byte[65536];//para guardar el LS de 256*256
-		char[] charArr  = new char[65536];//para guardar el LS de 256*256
-		int k = 0;
-		for (int i=0; i<ls.size(); i++) {
-			for(int j=0; j<ls.size(); j++) {
-				//result+=(Character.toString((char)(ls.getValueAt(i, j).intValue())));//this is to return a string
-				//byte signedByte = (byte)(ls.getValueAt(i, j).intValue());
-				//int unsignedByte = signedByte & (0xff);
-				char c = (char)(ls.getValueAt(i, j).intValue());
-				charArr[k] = c;
-				k++;
-			}	
-		}
-		
-		//lo codifico base64
-		byteArr = new String(charArr).getBytes();
-		
-		Base64 base64 = new Base64();//esta clase esta en el Jar common-codec-1.6.jar
-		result = base64.encodeToString(byteArr);
-		return result;
-	}
-	
-	private String getBase64OfString(String str) throws Exception {
-		byte[] byteArr = str.getBytes();
-		Base64 base64 = new Base64();//esta clase esta en el Jar common-codec-1.6.jar
-		return base64.encodeToString(byteArr);
 	}
 
 }

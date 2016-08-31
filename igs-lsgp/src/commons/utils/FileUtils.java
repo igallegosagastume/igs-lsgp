@@ -24,6 +24,10 @@
  */
 package commons.utils;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+
 import commons.model.ILatinSquare;
 
 /**
@@ -43,4 +47,16 @@ public class FileUtils {
 			}
 		}
 	}
+	
+	
+	public static void writeTextToFile(String path, String text) throws Exception {
+		File logFile=new File(path);
+
+	    BufferedWriter writer = new BufferedWriter(new FileWriter(logFile));
+	    writer.write (text);
+
+	    //Close writer
+	    writer.close();
+	}
+	
 }

@@ -63,7 +63,7 @@ public class GeneratorJar {
 			System.out.println("_____________________________________________________________________________");
 			System.out.println("");
 			System.out.println("Usage: <method> <order> [write <path>]");
-			System.out.println("Where <method> ::= simple | product | swapping | restart | graph | jm | mckay");
+			System.out.println("Where <method> ::= back | product | swapping | restart | graph | jm | mckay");
 			System.out.println("_____________________________________________________________________________");
 			return;
 		}
@@ -85,7 +85,7 @@ public class GeneratorJar {
 		}
 		IRandomLatinSquareGenerator generator;
 		
-		if (args[0].equalsIgnoreCase("simple")) {
+		if (args[0].equalsIgnoreCase("back")) {
 			generator = new SeqGenWithBacktracking(n);
 			computeTimeFor(generator, path);
 			return;
