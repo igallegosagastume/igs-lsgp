@@ -30,7 +30,7 @@ import seqgen.model.generators.SeqGenWithRandomSwapping;
 import seqgen.model.generators.SeqGenWithReplGraph;
 import seqgen.model.generators.SeqGenWithRestartRow;
 import jacomatt.model.generators.JacobsonMatthewsLSGenerator;
-import koscielny.model.KoscielnyProduct;
+import koscielny.model.generators.KoscielnyProductGenerator;
 import mckaywormald.model.generators.McKayLRGenerationMethod;
 import commons.generators.IRandomLatinSquareGenerator;
 import commons.model.ILatinSquare;
@@ -92,7 +92,7 @@ public class GeneratorJar {
 		}
 		
 		if (args[0].equalsIgnoreCase("product")) {
-			generator = new KoscielnyProduct(n);
+			generator = new KoscielnyProductGenerator(n);
 			computeTimeFor(generator, path);  //does not generate LS uniformly distributed
 			return;
 		}
