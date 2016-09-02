@@ -25,9 +25,8 @@ package cipher.model;
 import java.util.Scanner;
 
 import seqgen.model.generators.SeqGenWithReplGraph;
-
-import commons.model.ILatinSquare;
 import commons.model.OrderedPair;
+import commons.model.latinsquares.ILatinSquare;
 import commons.utils.Base64Utils;
 
 /**
