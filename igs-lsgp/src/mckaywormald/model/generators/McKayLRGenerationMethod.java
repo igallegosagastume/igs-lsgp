@@ -12,9 +12,9 @@ import java.util.Set;
 import mckaywormald.model.LatinRectangle;
 import commons.generators.IRandomLatinRectangleGenerator;
 import commons.generators.IRandomLatinSquareGenerator;
-import commons.model.ILatinRectangle;
-import commons.model.ILatinSquare;
 import commons.model.OrderedTriple;
+import commons.model.latinsquares.ILatinRectangle;
+import commons.model.latinsquares.ILatinSquare;
 import commons.utils.RandomUtils;
 
 /**

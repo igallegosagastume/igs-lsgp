@@ -8,7 +8,7 @@ import mckaywormald.model.generators.McKayLRGenerationMethod;
 
 import org.junit.Test;
 
-import commons.model.ILatinRectangle;
+import commons.model.latinsquares.ILatinRectangle;
 
 /**
  * @author igallego

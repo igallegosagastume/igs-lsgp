@@ -34,8 +34,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import commons.model.ILatinRectangle;
-import commons.model.ILatinSquare;
+import commons.model.latinsquares.ILatinRectangle;
+import commons.model.latinsquares.ILatinSquare;
 
 /**
  *  The default implementation of ILatinRectangle interface: an array of int's.

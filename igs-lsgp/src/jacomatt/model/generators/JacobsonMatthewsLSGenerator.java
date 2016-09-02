@@ -6,7 +6,7 @@ package jacomatt.model.generators;
 
 import jacomatt.model.EfficientIncidenceCube;
 import commons.generators.IRandomLatinSquareGenerator;
-import commons.model.ILatinSquare;
+import commons.model.latinsquares.ILatinSquare;
 
 /**
  * @author igallego

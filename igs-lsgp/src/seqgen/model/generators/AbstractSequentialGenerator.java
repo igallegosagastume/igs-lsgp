@@ -9,9 +9,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import seqgen.model.latinsquares.ArrayListLatinSquare;
+import commons.model.latinsquares.ArrayListLatinSquare;
+import commons.model.latinsquares.ILatinSquare;
 import commons.generators.IRandomLatinSquareGenerator;
-import commons.model.ILatinSquare;
 import commons.utils.RandomUtils;
 
 /**

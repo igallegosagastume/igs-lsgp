@@ -26,10 +26,9 @@ package koscielny.model.generators;
 import java.util.ArrayList;
 
 import seqgen.model.generators.SeqGenWithReplGraph;
-import seqgen.model.latinsquares.PrimitiveIntArrayLatinSquare;
-
+import commons.model.latinsquares.ILatinSquare;
+import commons.model.latinsquares.PrimitiveIntArrayLatinSquare;
 import commons.generators.IRandomLatinSquareGenerator;
-import commons.model.ILatinSquare;
 import commons.model.OrderedPair;
 
 /**
