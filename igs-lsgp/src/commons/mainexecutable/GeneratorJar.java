@@ -33,7 +33,7 @@ import jacomatt.model.generators.JacobsonMatthewsLSGenerator;
 import koscielny.model.generators.KoscielnyProductGenerator;
 import mckaywormald.model.generators.McKayLRGenerationMethod;
 import commons.generators.IRandomLatinSquareGenerator;
-import commons.model.ILatinSquare;
+import commons.model.latinsquares.ILatinSquare;
 import commons.utils.FileUtils;
 
 /**
