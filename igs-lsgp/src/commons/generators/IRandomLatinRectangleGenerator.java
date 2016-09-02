@@ -4,7 +4,7 @@
  */
 package commons.generators;
 
-import commons.model.ILatinRectangle;
+import commons.model.latinsquares.ILatinRectangle;
 
 /**
  *  This interface lists the methods that LR generators must implement.
