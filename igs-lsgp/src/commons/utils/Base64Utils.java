@@ -6,7 +6,7 @@ package commons.utils;
 
 import org.apache.commons.codec.binary.Base64;
 
-import commons.model.ILatinSquare;
+import commons.model.latinsquares.ILatinSquare;
 
 /**
  * @author igallego

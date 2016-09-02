@@ -39,11 +39,11 @@ import java.util.List;
 import javax.media.opengl.awt.GLCanvas;
 import javax.swing.JFrame;
 
-import seqgen.model.latinsquares.AbstractLatinSquare;
+import commons.model.latinsquares.AbstractLatinSquare;
+import commons.model.latinsquares.ILatinSquare;
 
 import com.jogamp.opengl.util.FPSAnimator;
 
-import commons.model.ILatinSquare;
 import commons.model.OrderedTriple;
 
 /**

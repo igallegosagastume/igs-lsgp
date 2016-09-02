@@ -36,7 +36,7 @@ import seqgen.model.generators.AbstractSequentialGenerator;
 import seqgen.model.generators.SeqGenWithBacktracking;
 import seqgen.model.generators.SeqGenWithRandomSwapping;
 import seqgen.model.generators.SeqGenWithReplGraph;
-import commons.model.ILatinSquare;
+import commons.model.latinsquares.ILatinSquare;
 
 public class ChiSquareUniformityTest {
 

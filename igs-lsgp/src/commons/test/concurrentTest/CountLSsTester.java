@@ -33,7 +33,7 @@ import java.util.Iterator;
 
 import seqgen.model.generators.AbstractSequentialGenerator;
 import seqgen.model.generators.SeqGenWithReplGraph;
-import commons.model.ILatinSquare;
+import commons.model.latinsquares.ILatinSquare;
 
 public class CountLSsTester implements Runnable {
 

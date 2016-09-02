@@ -28,7 +28,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 
-import commons.model.ILatinSquare;
+import commons.model.latinsquares.ILatinSquare;
 
 /**
  * @author Ignacio Gallego Sagastume
