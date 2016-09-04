@@ -17,4 +17,10 @@ public interface IRandomStructureGenerator {
 	 * @return
 	 */
 	public String getMethodName();
+	
+	/**
+	 *  If you like to see debug information while the generation is taking place
+	 *  
+	 */
+	public void setVerbose(boolean show);
 }

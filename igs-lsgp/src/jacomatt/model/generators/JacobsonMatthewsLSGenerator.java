@@ -36,4 +36,10 @@ public class JacobsonMatthewsLSGenerator implements IRandomLatinSquareGenerator 
 		return cube;
 	}
 
+
+	@Override
+	public void setVerbose(boolean show) {
+		//to be implemented soon...
+	}
+
 }

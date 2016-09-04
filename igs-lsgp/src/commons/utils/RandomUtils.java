@@ -51,8 +51,7 @@ public class RandomUtils {
 	public static Integer randomChoice(Set<Integer> set) {
 		int index = rand.nextInt(set.size());
 		int i = 0;
-		for(Integer obj : set)
-		{
+		for(Integer obj : set) {
 		    if (i == index)
 		        return obj;
 		    i = i + 1;
