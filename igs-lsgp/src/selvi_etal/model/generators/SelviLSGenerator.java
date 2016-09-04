@@ -4,17 +4,22 @@
  */
 package selvi_etal.model.generators;
 
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 import seqgen.model.generators.AbstractSequentialGenerator;
+import sun.audio.AudioPlayer;
+import sun.audio.AudioStream;
 
 import commons.generators.IRandomLatinSquareGenerator;
+import commons.model.latinsquares.ILatinSquare;
 import commons.utils.RandomUtils;
 
 /**
  * 
- * TODO: The method is not debugged... is in development 
+ * TODO: The method is beeing developed 
  * @author igallego
  *
  */
@@ -25,15 +30,23 @@ public class SelviLSGenerator extends AbstractSequentialGenerator implements IRa
 	}
 	
 	public static void main(String[] args) throws Exception {
-		SelviLSGenerator generator = new SelviLSGenerator(5);
-		
-		generator.generateLS();
+		SelviLSGenerator generator;
+		int i=1;
+		while (true) {
+			generator = new SelviLSGenerator(30);
+			ILatinSquare ls = generator.generateLS();
+			
+			System.out.println("Generation number "+i++);
+			System.out.println(ls);
+			
+	//		generator.playSound();
+		}
 	}
 	
 	
 	@Override
 	public String getMethodName() {
-		return "Selvi et.al. row by row generation.";
+		return "O'Carroll's row by row generation.";
 	}
 
 	@Override
@@ -45,7 +58,7 @@ public class SelviLSGenerator extends AbstractSequentialGenerator implements IRa
 	    List<Integer> a = new ArrayList<Integer>(2*n);//from 0 to n-1 is Avail Symbol Count at Column i
 	    											  //from n to (2*n)-1 is Possibilities Count for Symbol i
 	    @SuppressWarnings("unchecked")
-		List<Integer>[] availSymbolInCol = new ArrayList[n];
+		List<Integer>[] availSymbolsInColumn = new ArrayList[n];
 	    @SuppressWarnings("unchecked")
 		List<Integer>[] availColumnsForSymbol = new ArrayList[n];
 	    
@@ -58,11 +71,11 @@ public class SelviLSGenerator extends AbstractSequentialGenerator implements IRa
 	    for (int i=0; i<=n-1; i++) {//iterate columns
 	    	row.add(new Integer(-1));//this is to achieve the final length of the array (n)
 	    	a.add(this.availableInCol[i].size());
-	    	availSymbolInCol[i] = new ArrayList<Integer>();
-	    	availSymbolInCol[i].addAll(this.availableInCol[i]);
+	    	availSymbolsInColumn[i] = new ArrayList<Integer>();
+	    	availSymbolsInColumn[i].addAll(this.availableInCol[i]);
 	    	
 	    	for (int j=0; j<this.availableInCol[i].size(); j++) {//iterate through available in column i
-				Integer symbol = availSymbolInCol[i].get(j);//take a symbol not used in column i
+				Integer symbol = availSymbolsInColumn[i].get(j);//take a symbol not used in column i
 	    		availColumnsForSymbol[symbol.intValue()].add(new Integer(i));
 	    	}
 	    }
@@ -78,8 +91,16 @@ public class SelviLSGenerator extends AbstractSequentialGenerator implements IRa
 		    s = this.takeSmallestValueIndex(a);
 		    
 		    if (s==-1) {
-		    	System.out.println("O'Carroll algorithm fails... now I will try with backtracking!");
-		    	break;
+		    	System.out.println("O'Carroll algorithm fails... exiting.");
+		    	this.playSound();
+		    	
+		    	try {
+					Thread.sleep(2000);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+		    	
+		    	System.exit(0);
 		    }
 		    int position;
 		    int element; 
@@ -88,7 +109,7 @@ public class SelviLSGenerator extends AbstractSequentialGenerator implements IRa
 		    //       2) If S >  N, insert the (S - N)th letter of the alphabet in the Bth position among those still open to it in the Rth row
 		    if (s<=(n-1)) {
 		    	position = s;
-		    	element = RandomUtils.randomChoice(availSymbolInCol[position]);
+		    	element = RandomUtils.randomChoice(availSymbolsInColumn[position]);
 		    } else {
 		    	element = s-n;
 		    	position = RandomUtils.randomChoice(availColumnsForSymbol[element]);
@@ -96,31 +117,42 @@ public class SelviLSGenerator extends AbstractSequentialGenerator implements IRa
 		    //count the choice: update array "a" and availSymbolInCol
 	    	
 	    	//iterate through available symbols in the column before erasing the collection
-	    	for (int j=0; j<availSymbolInCol[position].size(); j++) {
-	    		Integer symbol = availSymbolInCol[position].get(j);
+	    	for (int j=0; j<availSymbolsInColumn[position].size(); j++) {
+	    		Integer symbol = availSymbolsInColumn[position].get(j);
 	    		
 		    	a.set(symbol+n, a.get(symbol+n)-1);
 		    	availColumnsForSymbol[symbol].remove(new Integer(position));//the column "position" is no longer available for the symbol "symbol"
 		    }
 	    	//as the column "position" is now used, there are no available symbols in it
-	    	availSymbolInCol[position].clear();
+	    	availSymbolsInColumn[position].clear();
 		    a.set(position, 0);
 		    //as the symbol "element" is now used, there are no posible columns for it
 		    availColumnsForSymbol[element].clear();
 		    a.set(element+n, 0);
 		    
 		    //last but not least: remove element "element" from available of all columns, as it is now used in the row
-		    for (int i=0; i<n-1; i++) {
+		    for (int i=0; i<n; i++) {
 		    	
-		    	if (availSymbolInCol[i].remove(new Integer(element))) {//if the element existed in the collection, decrement count
+		    	if (availSymbolsInColumn[i].remove(new Integer(element))) {//if the element existed in the collection, decrement count
 		    		a.set(i, a.get(i)-1);//decrement count	
 		    	}
 		    }
 		    
 		    row.set(position, element);
+		    this.availableInCol[position].remove(new Integer(element));
 		    rowLength++;
+		    /*System.out.println();
+		    System.out.println("-----------Iteration "+rowLength+" of "+i_row+"th row.");
+		    System.out.println("A:"+a);
+		    System.out.println("ROW:"+row);
+		    for (int i=0; i<n; i++)
+		    	System.out.print("CFS "+i+":"+availColumnsForSymbol[i]);
+		    System.out.println("");
+		    for (int i=0; i<n; i++)
+		    	System.out.print("SFC "+i+":"+availSymbolsInColumn[i]);
+		    */
 	    }
-	    System.out.println(a);
+	    
 	    
 	    return row;
 	}
@@ -140,4 +172,19 @@ public class SelviLSGenerator extends AbstractSequentialGenerator implements IRa
 		return index;
 	}
 
+	private void playSound() {
+		try {
+//			Clip clip = AudioSystem.getClip();
+			
+			InputStream in = new FileInputStream("c:\\users\\ignacio\\ding.wav");
+			AudioStream as = new AudioStream(in);
+	        //AudioInputStream inputStream = AudioSystem.getAudioInputStream();
+			// Use the static class member "player" from class AudioPlayer to play
+			// clip.
+			AudioPlayer.player.start(as);            
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 }
