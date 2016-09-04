@@ -128,4 +128,9 @@ public class KoscielnyProductGenerator implements IRandomLatinSquareGenerator {
 	public String getMethodName() {
 		return "Koscielny product of two Latin Squares.";
 	}
+
+	@Override
+	public void setVerbose(boolean show) {
+		//to be implemented soon...
+	}
 }

@@ -233,5 +233,10 @@ public class McKayLRGenerationMethod implements IRandomLatinRectangleGenerator, 
 		return "McKay-Wormald generation of Latin rectangle.";
 	}
 
+	@Override
+	public void setVerbose(boolean show) {
+		//to be implemented soon...
+	}
+
 }
 		        

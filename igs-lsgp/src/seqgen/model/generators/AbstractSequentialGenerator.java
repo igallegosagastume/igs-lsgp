@@ -115,5 +115,10 @@ public abstract class AbstractSequentialGenerator implements IRandomLatinSquareG
 		return "Generation row by row abstract.";
 	}
 
+	@Override
+	public void setVerbose(boolean show) {
+		//to be implemented soon...
+	}
+
 }
 	        
