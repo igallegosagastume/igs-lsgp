@@ -20,7 +20,7 @@ import commons.utils.RandomUtils;
  * @author igallego
  *
  */
-public class SelvisEtAlLSGenerator extends AbstractSequentialGenerator implements IRandomLatinSquareGenerator {
+public class SelviEtAlLSGenerator extends AbstractSequentialGenerator implements IRandomLatinSquareGenerator {
 	
 	boolean verbose = false;
 	
@@ -41,15 +41,15 @@ public class SelvisEtAlLSGenerator extends AbstractSequentialGenerator implement
 	int failedAttempts = 0;
 	
 	
-	public SelvisEtAlLSGenerator(int n) {
+	public SelviEtAlLSGenerator(int n) {
 		super(n);
 	}
 	
 	public static void main(String[] args) throws Exception {
-		SelvisEtAlLSGenerator generator;// = new SelvisEtAlLSGenerator(9);
+		SelviEtAlLSGenerator generator;// = new SelviEtAlLSGenerator(9);
 		int i=1;
 		while (i<100) {
-			generator = new SelvisEtAlLSGenerator(9);
+			generator = new SelviEtAlLSGenerator(9);
 			
 			generator.setVerbose(true);
 			ILatinSquare ls = generator.generateLS();

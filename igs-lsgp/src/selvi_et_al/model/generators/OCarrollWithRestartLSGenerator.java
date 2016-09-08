@@ -46,10 +46,10 @@ public class OCarrollWithRestartLSGenerator extends AbstractSequentialGenerator 
 	}
 	
 	public static void main(String[] args) throws Exception {
-		SelvisEtAlLSGenerator generator;// = new SelvisEtAlLSGenerator(9);
+		SelviEtAlLSGenerator generator;// = new SelviEtAlLSGenerator(9);
 		int i=1;
 		while (i<100) {
-			generator = new SelvisEtAlLSGenerator(9);
+			generator = new SelviEtAlLSGenerator(9);
 			
 			generator.setVerbose(true);
 			ILatinSquare ls = generator.generateLS();

@@ -23,19 +23,19 @@ import commons.utils.RandomUtils;
  * @author igallego
  *
  */
-public class OCarrollsLSGenerator extends AbstractSequentialGenerator implements IRandomLatinSquareGenerator {
+public class OCarrollLSGenerator extends AbstractSequentialGenerator implements IRandomLatinSquareGenerator {
 	
 	boolean verbose = false;
 	
-	public OCarrollsLSGenerator(int n) {
+	public OCarrollLSGenerator(int n) {
 		super(n);
 	}
 	
 	public static void main(String[] args) throws Exception {
-		OCarrollsLSGenerator generator;
+		OCarrollLSGenerator generator;
 		int i=1;
 		while (true) {
-			generator = new OCarrollsLSGenerator(9);
+			generator = new OCarrollLSGenerator(9);
 			
 			generator.setVerbose(true);
 			ILatinSquare ls = generator.generateLS();
