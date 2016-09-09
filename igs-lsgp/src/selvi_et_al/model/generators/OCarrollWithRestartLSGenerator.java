@@ -4,8 +4,10 @@
  */
 package selvi_et_al.model.generators;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 
 import seqgen.model.generators.AbstractSequentialGenerator;
@@ -97,20 +99,18 @@ public class OCarrollWithRestartLSGenerator extends AbstractSequentialGenerator 
 		    s = this.takeSmallestValueIndex(a);
 		    
 		    if (s==-1) {//O'Carroll's method has failed. Begin again or backtrack.
-		    	if (true) {
+		    	if (this.verbose) {
 		    		System.out.println();
 		    		System.out.println("O'Carroll's method failed. Begin again with row "+i_row+".");
 		    		System.out.println();
+		    		    	
+			    	try {
+						System.in.read();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
 		    	}
-		    	
-		    	//		    	try {
-//					System.in.read();
-//				} catch (IOException e) {
-//					e.printStackTrace();
-//				}
 		    	this.initializeAuxiliaryStructures(i_row);
-		    	
-//		    	this.printVariables(i_row, element, position);
 		    	
 		    	rowLength = 0;//begin the row again
 		    	
@@ -202,27 +202,32 @@ public class OCarrollWithRestartLSGenerator extends AbstractSequentialGenerator 
 	
 	private void countTheChosenMove(int element, int position) {
 		//iterate through available symbols in the column before erasing the collection
-    	for (int j=0; j<availSymbolsInColumn[position].size(); j++) {
-    		Integer symbol = availSymbolsInColumn[position].get(j);
-    		
-	    	a.set(symbol+n, a.get(symbol+n)-1);
+		Iterator<Integer> iter = availSymbolsInColumn[position].iterator();
+		while (iter.hasNext()) {
+			Integer symbol = iter.next();
+			a.set(symbol+n, a.get(symbol+n)-1);
 	    	availColumnsForSymbol[symbol].remove(new Integer(position));//the column "position" is no longer available for the symbol "symbol"
-	    }
-    	//as the column "position" is now used, there are no available symbols in it
-    	availSymbolsInColumn[position].clear();
-	    a.set(position, 0);
-	    //as the symbol "element" is now used, there are no posible columns for it
+		}   	
+	    //remove element "element" from available of all columns, as it is now used in the row
+	    iter = availColumnsForSymbol[element].iterator();
+	    while (iter.hasNext()) {
+			Integer column = iter.next();
+			//if (availSymbolsInColumn[column].remove(new Integer(element))) {//if the element existed in the collection, decrement count
+			
+			availSymbolsInColumn[column].remove(new Integer(element));
+	    	a.set(column, a.get(column)-1);//decrement count	
+	    	
+		}
+	    
+		//as the symbol "element" is now used, there are no posible columns for it
 	    availColumnsForSymbol[element].clear();
 	    a.set(element+n, 0);
 	    
-	    //last but not least: remove element "element" from available of all columns, as it is now used in the row
-	    for (int i=0; i<n; i++) {
-	    	
-	    	if (availSymbolsInColumn[i].remove(new Integer(element))) {//if the element existed in the collection, decrement count
-	    		a.set(i, a.get(i)-1);//decrement count	
-	    	}
-	    }
+	    //as the column "position" is now used, there are no available symbols in it
+    	availSymbolsInColumn[position].clear();
+	    a.set(position, 0);
 	    
+	    //finally, place the element in the row
 	    row.set(position, element);
 	    this.availableInCol[position].remove(new Integer(element));
 	    

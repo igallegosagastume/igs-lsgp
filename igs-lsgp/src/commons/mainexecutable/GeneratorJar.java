@@ -57,15 +57,15 @@ public class GeneratorJar {
 	 */
 	public static void main(String[] args) throws Exception {
 		if (args.length<2) {
-			System.out.println("________________________________________________________________________________________");
+			System.out.println("________________________________________________________________________________");
 			System.out.println("");
 			System.out.println("igs-lsgp (Ignacio Gallego Sagastume's Latin Square generation package).");
 			System.out.println("© 2014-2016 by Mg. Ignacio Gallego Sagastume.");
-			System.out.println("________________________________________________________________________________________");
+			System.out.println("________________________________________________________________________________");
 			System.out.println("");
 			System.out.println("Usage: <method> <order> [write <path>]");
 			System.out.println("Where <method> ::= back | product | swapping | restart | graph | jm | mckay | ocarroll ");
-			System.out.println("________________________________________________________________________________________");
+			System.out.println("________________________________________________________________________________");
 			return;
 		}
 		
@@ -164,7 +164,14 @@ public class GeneratorJar {
 		
 		FileUtils.writeLS(ls, path);
 		
-		System.out.println("Random structure generated in "+secs+" seconds. Generation method: "+generator.getMethodName());		
+		System.out.println("Random structure generated in "+secs+" seconds. Generation method: "+generator.getMethodName());
+		
+		if (!ls.preservesLatinProperty()) {
+			System.out.println();
+			System.out.println("ERROR: the generated structure does not preserve the Latin property.");
+		} else {
+			//System.out.println("The structure preserves the Latin property.");
+		}
 	}
 	
 //	@SuppressWarnings("unchecked")
