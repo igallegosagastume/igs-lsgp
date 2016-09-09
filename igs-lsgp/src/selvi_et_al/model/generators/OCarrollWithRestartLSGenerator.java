@@ -15,14 +15,14 @@ import commons.model.latinsquares.ILatinSquare;
 import commons.utils.RandomUtils;
 
 /**
- * TODO: This method is under development ...
+ * This method, is the O'Carroll method with a variation: when the method fails, it erases the row and begins again.
  *  
  * @author igallego
  *
  */
 public class OCarrollWithRestartLSGenerator extends AbstractSequentialGenerator implements IRandomLatinSquareGenerator {
 	
-	boolean verbose = false;
+	private boolean verbose = false;
 	
 	
 	private ArrayList<Integer> row;//the current row that is being generated in the method "generateRow"
@@ -37,8 +37,7 @@ public class OCarrollWithRestartLSGenerator extends AbstractSequentialGenerator 
 	
 	private List<Integer>[] initiallyAvailInColumn;
 	
-	int rowLength = 0;
-	int failedAttempts = 0;
+	private int rowLength = 0;
 	
 	
 	public OCarrollWithRestartLSGenerator(int n) {
@@ -49,7 +48,7 @@ public class OCarrollWithRestartLSGenerator extends AbstractSequentialGenerator 
 		SelviEtAlLSGenerator generator;// = new SelviEtAlLSGenerator(9);
 		int i=1;
 		while (i<100) {
-			generator = new SelviEtAlLSGenerator(9);
+			generator = new SelviEtAlLSGenerator(30);
 			
 			generator.setVerbose(true);
 			ILatinSquare ls = generator.generateLS();
@@ -72,7 +71,7 @@ public class OCarrollWithRestartLSGenerator extends AbstractSequentialGenerator 
 	
 	@Override
 	public String getMethodName() {
-		return "Selvi's (et.al.) row by row generation.";
+		return "OCarroll with restarting row generation.";
 	}
 
 	@SuppressWarnings("unchecked")
@@ -94,23 +93,24 @@ public class OCarrollWithRestartLSGenerator extends AbstractSequentialGenerator 
 	    //take the smallest non-zero value index S of A1 A2 ... A2n
 	    int s=0;
 	    rowLength = 0;
-	    failedAttempts = 0;
 	    while (rowLength<n) {
 		    s = this.takeSmallestValueIndex(a);
 		    
 		    if (s==-1) {//O'Carroll's method has failed. Begin again or backtrack.
-		    	System.out.println();
-		    	System.out.println("O'Carroll's method failed. Begin again with row "+i_row+". Press a key to continue.");
+		    	if (true) {
+		    		System.out.println();
+		    		System.out.println("O'Carroll's method failed. Begin again with row "+i_row+".");
+		    		System.out.println();
+		    	}
 		    	
-		    	failedAttempts++;
-//		    	try {
+		    	//		    	try {
 //					System.in.read();
 //				} catch (IOException e) {
 //					e.printStackTrace();
 //				}
 		    	this.initializeAuxiliaryStructures(i_row);
 		    	
-		    	this.printVariables(i_row, element, position);
+//		    	this.printVariables(i_row, element, position);
 		    	
 		    	rowLength = 0;//begin the row again
 		    	

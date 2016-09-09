@@ -25,6 +25,7 @@
  */
 package commons.mainexecutable;
 
+import selvi_et_al.model.generators.OCarrollWithRestartLSGenerator;
 import seqgen.model.generators.SeqGenWithBacktracking;
 import seqgen.model.generators.SeqGenWithRandomSwapping;
 import seqgen.model.generators.SeqGenWithReplGraph;
@@ -56,15 +57,15 @@ public class GeneratorJar {
 	 */
 	public static void main(String[] args) throws Exception {
 		if (args.length<2) {
-			System.out.println("_____________________________________________________________________________");
+			System.out.println("________________________________________________________________________________________");
 			System.out.println("");
 			System.out.println("igs-lsgp (Ignacio Gallego Sagastume's Latin Square generation package).");
 			System.out.println("© 2014-2016 by Mg. Ignacio Gallego Sagastume.");
-			System.out.println("_____________________________________________________________________________");
+			System.out.println("________________________________________________________________________________________");
 			System.out.println("");
 			System.out.println("Usage: <method> <order> [write <path>]");
-			System.out.println("Where <method> ::= back | product | swapping | restart | graph | jm | mckay");
-			System.out.println("_____________________________________________________________________________");
+			System.out.println("Where <method> ::= back | product | swapping | restart | graph | jm | mckay | ocarroll ");
+			System.out.println("________________________________________________________________________________________");
 			return;
 		}
 		
@@ -130,6 +131,13 @@ public class GeneratorJar {
 			int k = (int)cubicRoot+1;
 			
 			generator = new McKayLRGenerationMethod(k,n);
+			computeTimeFor(generator, path);
+			return;
+		}
+		
+		if (args[0].equalsIgnoreCase("ocarroll")) {
+			generator = new OCarrollWithRestartLSGenerator(n);
+			generator.setVerbose(false);
 			computeTimeFor(generator, path);
 			return;
 		}
