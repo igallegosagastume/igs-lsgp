@@ -199,8 +199,7 @@ public class OCarrollLSGenerator extends AbstractSequentialGenerator implements 
 			//if (availSymbolsInColumn[column].remove(new Integer(element))) {//if the element existed in the collection, decrement count
 			
 			availSymbolsInColumn[availColumn].remove(new Integer(symbol));
-	    	a.set(availColumn, a.get(availColumn)-1);//decrement count	
-	    	
+	    	a.set(availColumn, a.get(availColumn)-1);//decrement count
 		}
 	    
 		//as the symbol "element" is now used, there are no posible columns for it
@@ -214,35 +213,6 @@ public class OCarrollLSGenerator extends AbstractSequentialGenerator implements 
 	    //finally, place the element in the row
 	    row.set(column, symbol);
 	    this.availableInCol[column].remove(new Integer(symbol));
-	}
-	
-	protected void uncountOneMove(int symbol, int column) {
-		//inverse order of count move: first, erase element in the row
-		row.set(column, new Integer(-1));
-		this.availableInCol[column].add(symbol);
-		
-		//restore the collection availSymbolsInColumn that was erased: iterate all symbols
-		Iterator<Integer> allSymbs = this.symbols.iterator();
-		while(allSymbs.hasNext()) {
-			Integer aSymbol = allSymbs.next();
-			if (this.availableInCol[column].contains(aSymbol)) {
-				availSymbolsInColumn[column].add(aSymbol);
-			}
-		}
-		//after restoring previous collection, set a(column):
-		a.set(column, availSymbolsInColumn[column].size());
-
-		//iterate for all available symbols for column "column", to restore the collection "availColumnsForSymbol"
-		Iterator<Integer> newAvailSymbols = this.availSymbolsInColumn[column].iterator();
-		while(newAvailSymbols.hasNext()) {
-			Integer anAvailSymbol = newAvailSymbols.next();
-			
-			if (!row.contains(anAvailSymbol)) {
-				availColumnsForSymbol[anAvailSymbol].add(column);
-			}
-		}
-		//after restoring the previous collection, set a(symbol)
-		a.set(symbol+n, availColumnsForSymbol[symbol].size());
 	}
 	
 	@SuppressWarnings("unchecked")

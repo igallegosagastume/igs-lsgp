@@ -5,6 +5,7 @@
 package selvi_et_al.model.generators;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import commons.generators.IRandomLatinSquareGenerator;
@@ -27,7 +28,7 @@ public class SelviEtAlLSGenerator extends OCarrollLSGenerator implements IRandom
 	}
 	
 	public static void main(String[] args) throws Exception {
-		SelviEtAlLSGenerator generator;// = new SelviEtAlLSGenerator(9);
+		SelviEtAlLSGenerator generator;
 		
 		int i = 1;
 		while (i < 100) {
@@ -69,10 +70,10 @@ public class SelviEtAlLSGenerator extends OCarrollLSGenerator implements IRandom
 		    	System.out.println("O'Carroll's method failed. Backtracking is done.");
 		    
 		    	this.printVariables(i_row, element, position);
-		    	//Backtrack to previous move
-		    	OrderedPair p = this.path.remove(this.path.size()-1);//take last element in path (last movement)
 		    	
-		    	this.uncountOneMove(p.x, p.y);
+		    	
+		    	//Backtrack to previous move
+		    	this.uncountOneMove();
 		    	rowLength--;
 		    	
 		    	this.printVariables(i_row, element, position);
@@ -106,6 +107,34 @@ public class SelviEtAlLSGenerator extends OCarrollLSGenerator implements IRandom
 	protected void countTheChosenMove(int element, int position) {
 		super.countTheChosenMove(element, position);
 		path.add(new OrderedPair(element, position));//save (symbol, column) 
+	}
+	
+	protected void uncountOneMove() {
+		OrderedPair p = this.path.remove(this.path.size()-1);//take last element in path (last movement)
+		int symbol = p.x;
+		int column = p.y;
+		
+		//inverse order of count move: first, erase element in the row
+		row.set(column, new Integer(-1));
+		this.availableInCol[column].add(symbol);
+		
+		
+		Iterator<Integer> availAtColumn = this.availableInCol[column].iterator();
+		while(availAtColumn.hasNext()) {
+			Integer aSymbol = availAtColumn.next();
+			if (!row.contains(aSymbol)) {
+				//restore the collection availSymbolsInColumn that was erased
+				availSymbolsInColumn[column].add(aSymbol);
+				//after restoring the element, update "a"
+				a.set(column, a.get(column)+1);
+				
+				//restore the collection availColumnsForSymbol that was erased
+				availColumnsForSymbol[aSymbol].add(column);
+				//after restoring the previous collection, set a(symbol)
+				a.set(aSymbol+n, a.get(aSymbol+n)+1);		
+			}
+		}
+		//TODO: NOW IT IS NECESSARY TO SAVE THE BAD PATH NOT TO REPEAT IT
 	}
 	
 //	@Override
