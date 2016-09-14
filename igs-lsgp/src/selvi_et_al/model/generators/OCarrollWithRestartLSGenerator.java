@@ -5,12 +5,7 @@
 package selvi_et_al.model.generators;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
-
-import seqgen.model.generators.AbstractSequentialGenerator;
 
 import commons.generators.IRandomLatinSquareGenerator;
 import commons.model.latinsquares.ILatinSquare;
@@ -22,24 +17,7 @@ import commons.utils.RandomUtils;
  * @author igallego
  *
  */
-public class OCarrollWithRestartLSGenerator extends AbstractSequentialGenerator implements IRandomLatinSquareGenerator {
-	
-	private boolean verbose = false;
-	
-	
-	private ArrayList<Integer> row;//the current row that is being generated in the method "generateRow"
-    
-	private List<Integer> a;//from 0 to n-1 is Avail Symbol Count at Column i (SFC: "Symbols for Column" Count)
-							//from n to (2*n)-1 is Possibilities Count for Symbol i (CFS: "Columns for Symbol" Count)
-    
-	private List<Integer>[] availSymbolsInColumn;//SFC: "Symbols For Column"
-	private List<Integer>[] availColumnsForSymbol;//CFS: "Columns For Symbol"
-	
-	private List<Integer> path;
-	
-	private List<Integer>[] initiallyAvailInColumn;
-	
-	private int rowLength = 0;
+public class OCarrollWithRestartLSGenerator extends OCarrollLSGenerator implements IRandomLatinSquareGenerator {
 	
 	
 	public OCarrollWithRestartLSGenerator(int n) {
@@ -47,28 +25,23 @@ public class OCarrollWithRestartLSGenerator extends AbstractSequentialGenerator 
 	}
 	
 	public static void main(String[] args) throws Exception {
-		SelviEtAlLSGenerator generator;// = new SelviEtAlLSGenerator(9);
+		OCarrollWithRestartLSGenerator generator;
 		int i=1;
 		while (i<100) {
-			generator = new SelviEtAlLSGenerator(30);
+			generator = new OCarrollWithRestartLSGenerator(30);
 			
-			generator.setVerbose(true);
+			generator.setVerbose(false);
 			ILatinSquare ls = generator.generateLS();
 			
 			System.out.println();
 			System.out.println("Generation number "+i++);
 			System.out.println(ls);
 			
-//			try {
-//				System.in.read();
-//			} catch (IOException e) {
-//				e.printStackTrace();
-//			}
+			if (!ls.preservesLatinProperty()) {
+				System.out.println("ERROR: The latin square does not preserves the Latin property.");
+				System.exit(0);
+			}
 		}
-	}
-	
-	public void setVerbose(boolean show) {
-		this.verbose = show;
 	}
 	
 	@Override
@@ -76,16 +49,9 @@ public class OCarrollWithRestartLSGenerator extends AbstractSequentialGenerator 
 		return "OCarroll with restarting row generation.";
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	protected List<Integer> generateRow(int i_row) {
-		path = new ArrayList<Integer>();
-		initiallyAvailInColumn = new ArrayList[n];
-		
-		for (int i=0; i<n; i++) {
-			initiallyAvailInColumn[i] = new ArrayList<Integer>();
-			initiallyAvailInColumn[i].addAll(this.availableInCol[i]);
-		}
+		this.restoreInitiallyAvailable();
 
 		int position=0;
 	    int element=0;
@@ -137,115 +103,5 @@ public class OCarrollWithRestartLSGenerator extends AbstractSequentialGenerator 
 		    }
 	    }
 	    return row;
-	}
-
-	private int takeSmallestValueIndex(List<Integer> a) {
-		int index = -1;
-		int minor = Integer.MAX_VALUE;
-		List<Integer> posibleColumns = new ArrayList<Integer>();
-		
-		for (int i=0; i<=(2*n)-1; i++) {
-			if (a.get(i).intValue()==0)
-				continue;//if it is 0, discard
-			if (a.get(i).intValue() < minor) {
-				minor = a.get(i);
-				index = i;
-			}
-		}
-		if (index!=-1) {
-			for (int i=0; i<=(2*n)-1; i++) {
-				if (a.get(i).intValue() == minor) {
-					posibleColumns.add(new Integer(i));
-				}
-			}
-		
-			return RandomUtils.randomChoice(posibleColumns);
-		} else
-			return -1;
-	}
-
-	@SuppressWarnings("unchecked")
-	private void initializeAuxiliaryStructures(int i_row) {
-		row = new ArrayList<Integer>(this.n);
-	    
-	    a = new ArrayList<Integer>(2*n);//from 0 to n-1 is Avail Symbol Count at Column i
-	    											  //from n to (2*n)-1 is Possibilities Count for Symbol i
-		availSymbolsInColumn = new ArrayList[n];
-		availColumnsForSymbol = new ArrayList[n];
-	    
-	    //initialize the array of posibilities (available columns) for each symbol (CFS: "Columns For Symbol")
-	    for (int i=0; i<=n-1; i++) {
-	    	availColumnsForSymbol[i] = new ArrayList<Integer>();
-	    	
-	    	//initialize the working set
-	    	availableInCol[i] = new HashSet<Integer>();
-	    	availableInCol[i].addAll(initiallyAvailInColumn[i]);
-	    }
-	    
-	    //initialize a (SFC: "Symbols For Colum")
-	    for (int i=0; i<=n-1; i++) {//iterate columns
-	    	row.add(new Integer(-1));//this is to achieve the final length of the array (n)
-	    	a.add(this.availableInCol[i].size());
-	    	availSymbolsInColumn[i] = new ArrayList<Integer>();
-	    	availSymbolsInColumn[i].addAll(this.availableInCol[i]);
-	    	
-	    	for (int j=0; j<this.availableInCol[i].size(); j++) {//iterate through available in column i
-				Integer symbol = availSymbolsInColumn[i].get(j);//take a symbol not used in column i
-	    		availColumnsForSymbol[symbol.intValue()].add(new Integer(i));
-	    	}
-	    }
-	    //initialize "A" (CFS COUNT)
-	    for (int i=n; i<=(2*n)-1; i++) {
-	    	a.add(n-i_row);
-	    }
-	}
-	
-	private void countTheChosenMove(int element, int position) {
-		//iterate through available symbols in the column before erasing the collection
-		Iterator<Integer> iter = availSymbolsInColumn[position].iterator();
-		while (iter.hasNext()) {
-			Integer symbol = iter.next();
-			a.set(symbol+n, a.get(symbol+n)-1);
-	    	availColumnsForSymbol[symbol].remove(new Integer(position));//the column "position" is no longer available for the symbol "symbol"
-		}   	
-	    //remove element "element" from available of all columns, as it is now used in the row
-	    iter = availColumnsForSymbol[element].iterator();
-	    while (iter.hasNext()) {
-			Integer column = iter.next();
-			//if (availSymbolsInColumn[column].remove(new Integer(element))) {//if the element existed in the collection, decrement count
-			
-			availSymbolsInColumn[column].remove(new Integer(element));
-	    	a.set(column, a.get(column)-1);//decrement count	
-	    	
-		}
-	    
-		//as the symbol "element" is now used, there are no posible columns for it
-	    availColumnsForSymbol[element].clear();
-	    a.set(element+n, 0);
-	    
-	    //as the column "position" is now used, there are no available symbols in it
-    	availSymbolsInColumn[position].clear();
-	    a.set(position, 0);
-	    
-	    //finally, place the element in the row
-	    row.set(position, element);
-	    this.availableInCol[position].remove(new Integer(element));
-	    
-	    path.add(position);
-	}
-	
-	private void printVariables(int i_row, int element, int position) {
-		System.out.println();
-	    
-    	System.out.println("-----------Iteration "+rowLength+" of "+i_row+"th row.");
-    	System.out.println("The symbol "+element+" is selected for column "+position);
-	    System.out.println("A:"+a);
-	    System.out.println("ROW:"+row);
-	    for (int i=0; i<n; i++)
-	    	System.out.print("CFS "+i+":"+availColumnsForSymbol[i]);
-	    System.out.println("");
-	    for (int i=0; i<n; i++)
-	    	System.out.print("SFC "+i+":"+availSymbolsInColumn[i]);
-	    System.out.println("PATH:"+path);
 	}
 }

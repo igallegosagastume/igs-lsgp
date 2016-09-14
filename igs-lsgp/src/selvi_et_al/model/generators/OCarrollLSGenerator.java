@@ -7,6 +7,8 @@ package selvi_et_al.model.generators;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 
 import seqgen.model.generators.AbstractSequentialGenerator;
@@ -25,7 +27,17 @@ import commons.utils.RandomUtils;
  */
 public class OCarrollLSGenerator extends AbstractSequentialGenerator implements IRandomLatinSquareGenerator {
 	
-	boolean verbose = false;
+	protected boolean verbose = false;
+	protected ArrayList<Integer> row;//the current row that is being generated in the method "generateRow"
+    
+	protected List<Integer> a;//from 0 to n-1 is Avail Symbol Count at Column i (SFC: "Symbols for Column" Count)
+							  //from n to (2*n)-1 is Possibilities Count for Symbol i (CFS: "Columns for Symbol" Count)
+    
+	protected List<Integer>[] availSymbolsInColumn;//SFC: "Symbols For Column"
+	protected List<Integer>[] availColumnsForSymbol;//CFS: "Columns For Symbol"
+	protected List<Integer>[] initiallyAvailInColumn;
+	
+	protected int rowLength = 0;
 	
 	public OCarrollLSGenerator(int n) {
 		super(n);
@@ -43,7 +55,10 @@ public class OCarrollLSGenerator extends AbstractSequentialGenerator implements 
 			System.out.println("Generation number "+i++);
 			System.out.println(ls);
 			
-			
+			if (!ls.preservesLatinProperty()) {
+				System.out.println("ERROR: The latin square does not preserves the Latin property.");
+				System.exit(0);
+			}
 		}
 	}
 	
@@ -57,39 +72,15 @@ public class OCarrollLSGenerator extends AbstractSequentialGenerator implements 
 		return "O'Carroll's row by row generation.";
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	protected List<Integer> generateRow(int i_row) {
-		//HashSet<Integer> availableInRow = new HashSet<Integer>(this.symbols);//all symbols initially available in the row 
+		
+		this.restoreInitiallyAvailable();
+
+		int position=0;
+	    int element=0;
 	    
-	    ArrayList<Integer> row = new ArrayList<Integer>(this.n);
-	    
-	    List<Integer> a = new ArrayList<Integer>(2*n);//from 0 to n-1 is Avail Symbol Count at Column i
-	    											  //from n to (2*n)-1 is Possibilities Count for Symbol i
-		List<Integer>[] availSymbolsInColumn = new ArrayList[n];
-		List<Integer>[] availColumnsForSymbol = new ArrayList[n];
-	    
-	    //initialize the array "posibilities (available columns) for each symbol"
-	    for (int i=0; i<=n-1; i++) {
-	    	availColumnsForSymbol[i] = new ArrayList<Integer>();
-	    }
-	    
-	    //initialize a (ASCAI)
-	    for (int i=0; i<=n-1; i++) {//iterate columns
-	    	row.add(new Integer(-1));//this is to achieve the final length of the array (n)
-	    	a.add(this.availableInCol[i].size());
-	    	availSymbolsInColumn[i] = new ArrayList<Integer>();
-	    	availSymbolsInColumn[i].addAll(this.availableInCol[i]);
-	    	
-	    	for (int j=0; j<this.availableInCol[i].size(); j++) {//iterate through available in column i
-				Integer symbol = availSymbolsInColumn[i].get(j);//take a symbol not used in column i
-	    		availColumnsForSymbol[symbol.intValue()].add(new Integer(i));
-	    	}
-	    }
-	    //initialize a (PCSI)
-	    for (int i=n; i<=(2*n)-1; i++) {
-	    	a.add(n-i_row);
-	    }
+		this.initializeAuxiliaryStructures(i_row);
 	    
 	    //take the smallest non-zero value index S of A1 A2 ... A2n
 	    int s=0;
@@ -107,14 +98,13 @@ public class OCarrollLSGenerator extends AbstractSequentialGenerator implements 
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
-		    	
+		    	System.out.println(this.ls);
 		    	System.exit(0);
 		    }
-		    int position;
-		    int element; 
-		    
-		    //CHECK: 1) If S <= N, insert in the Sth position in the Rth row the Bth letter among those that can be entered in this position
-		    //       2) If S >  N, insert the (S - N)th letter of the alphabet in the Bth position among those still open to it in the Rth row
+		    //TAKE AN ELEMENT (SYMBOL) AND POSITION (COLUMN)
+		    //CHECK (From Selvi's PAPER):
+		    // 1) If S <= N, insert in the Sth position in the Rth row the Bth letter among those that can be entered in this position
+		    // 2) If S >  N, insert the (S - N)th letter of the alphabet in the Bth position among those still open to it in the Rth row
 		    if (s<=(n-1)) {
 		    	position = s;
 		    	element = RandomUtils.randomChoice(availSymbolsInColumn[position]);
@@ -123,52 +113,20 @@ public class OCarrollLSGenerator extends AbstractSequentialGenerator implements 
 		    	position = RandomUtils.randomChoice(availColumnsForSymbol[element]);
 		    }
 		    //count the choice: update array "a" and availSymbolInCol
+	    	this.countTheChosenMove(element, position);
 	    	
-	    	//iterate through available symbols in the column before erasing the collection
-	    	for (int j=0; j<availSymbolsInColumn[position].size(); j++) {
-	    		Integer symbol = availSymbolsInColumn[position].get(j);
-	    		
-		    	a.set(symbol+n, a.get(symbol+n)-1);
-		    	availColumnsForSymbol[symbol].remove(new Integer(position));//the column "position" is no longer available for the symbol "symbol"
-		    }
-	    	//as the column "position" is now used, there are no available symbols in it
-	    	availSymbolsInColumn[position].clear();
-		    a.set(position, 0);
-		    //as the symbol "element" is now used, there are no posible columns for it
-		    availColumnsForSymbol[element].clear();
-		    a.set(element+n, 0);
-		    
-		    //last but not least: remove element "element" from available of all columns, as it is now used in the row
-		    for (int i=0; i<n; i++) {
-		    	
-		    	if (availSymbolsInColumn[i].remove(new Integer(element))) {//if the element existed in the collection, decrement count
-		    		a.set(i, a.get(i)-1);//decrement count	
-		    	}
-		    }
-		    
-		    row.set(position, element);
-		    this.availableInCol[position].remove(new Integer(element));
-		    rowLength++;
+	    	rowLength++;
 		    if (this.verbose) {
-		    	System.out.println();
-		    
-		    	System.out.println("-----------Iteration "+rowLength+" of "+i_row+"th row.");
-		    	System.out.println("The symbol "+element+" is selected for column "+position);
-			    System.out.println("A:"+a);
-			    System.out.println("ROW:"+row);
-			    for (int i=0; i<n; i++)
-			    	System.out.print("CFS "+i+":"+availColumnsForSymbol[i]);
-			    System.out.println("");
-			    for (int i=0; i<n; i++)
-			    	System.out.print("SFC "+i+":"+availSymbolsInColumn[i]);
+		    	this.printVariables(i_row, element, position);
 		    }
 	    }
 	    return row;
 	}
 
-	private int takeSmallestValueIndex(List<Integer> a) {
+	protected int takeSmallestValueIndex(List<Integer> a) {
 		int index = -1;
 		int minor = Integer.MAX_VALUE;
+		List<Integer> posibleColumns = new ArrayList<Integer>();
 		
 		for (int i=0; i<=(2*n)-1; i++) {
 			if (a.get(i).intValue()==0)
@@ -178,10 +136,142 @@ public class OCarrollLSGenerator extends AbstractSequentialGenerator implements 
 				index = i;
 			}
 		}
-		return index;
+		if (index!=-1) {
+			for (int i=0; i<=(2*n)-1; i++) {
+				if (a.get(i).intValue() == minor) {
+					posibleColumns.add(new Integer(i));
+				}
+			}
+		
+			return RandomUtils.randomChoice(posibleColumns);
+		} else
+			return -1;
+	}
+	
+	@SuppressWarnings("unchecked")
+	protected void initializeAuxiliaryStructures(int i_row) {
+		row = new ArrayList<Integer>(this.n);
+	    
+	    a = new ArrayList<Integer>(2*n);//from 0 to n-1 is Avail Symbol Count at Column i
+	    								//from n to (2*n)-1 is Possibilities Count for Symbol i
+		availSymbolsInColumn = new ArrayList[n];
+		availColumnsForSymbol = new ArrayList[n];
+	    
+	    //initialize the array of posibilities (available columns) for each symbol (CFS: "Columns For Symbol")
+	    for (int i=0; i<=n-1; i++) {
+	    	availColumnsForSymbol[i] = new ArrayList<Integer>();
+	    	
+	    	//initialize the working set
+	    	availableInCol[i] = new HashSet<Integer>();
+	    	availableInCol[i].addAll(initiallyAvailInColumn[i]);
+	    }
+	    
+	    //initialize a (SFC: "Symbols For Colum")
+	    for (int i=0; i<=n-1; i++) {//iterate columns
+	    	row.add(new Integer(-1));//this is to achieve the final length of the array (n)
+	    	a.add(this.availableInCol[i].size());
+	    	availSymbolsInColumn[i] = new ArrayList<Integer>();
+	    	availSymbolsInColumn[i].addAll(this.availableInCol[i]);
+	    	
+	    	for (int j=0; j<this.availableInCol[i].size(); j++) {//iterate through available in column i
+				Integer symbol = availSymbolsInColumn[i].get(j);//take a symbol not used in column i
+	    		availColumnsForSymbol[symbol.intValue()].add(new Integer(i));
+	    	}
+	    }
+	    //initialize "A" (CFS COUNT)
+	    for (int i=n; i<=(2*n)-1; i++) {
+	    	a.add(n-i_row);
+	    }
+	}
+	
+	protected void countTheChosenMove(int symbol, int column) {
+		//iterate through available symbols in the column before erasing the collection
+		Iterator<Integer> iter = availSymbolsInColumn[column].iterator();
+		while (iter.hasNext()) {
+			Integer availSymbol = iter.next();
+			a.set(availSymbol+n, a.get(availSymbol+n)-1);
+	    	availColumnsForSymbol[availSymbol].remove(new Integer(column));//the column "position" is no longer available for the symbol "symbol"
+		}   	
+	    //remove element "element" from available of all columns, as it is now used in the row
+	    iter = availColumnsForSymbol[symbol].iterator();
+	    while (iter.hasNext()) {
+			Integer availColumn = iter.next();
+			//if (availSymbolsInColumn[column].remove(new Integer(element))) {//if the element existed in the collection, decrement count
+			
+			availSymbolsInColumn[availColumn].remove(new Integer(symbol));
+	    	a.set(availColumn, a.get(availColumn)-1);//decrement count	
+	    	
+		}
+	    
+		//as the symbol "element" is now used, there are no posible columns for it
+	    availColumnsForSymbol[symbol].clear();
+	    a.set(symbol+n, 0);
+	    
+	    //as the column "position" is now used, there are no available symbols in it
+    	availSymbolsInColumn[column].clear();
+	    a.set(column, 0);
+	    
+	    //finally, place the element in the row
+	    row.set(column, symbol);
+	    this.availableInCol[column].remove(new Integer(symbol));
+	}
+	
+	protected void uncountOneMove(int symbol, int column) {
+		//inverse order of count move: first, erase element in the row
+		row.set(column, new Integer(-1));
+		this.availableInCol[column].add(symbol);
+		
+		//restore the collection availSymbolsInColumn that was erased: iterate all symbols
+		Iterator<Integer> allSymbs = this.symbols.iterator();
+		while(allSymbs.hasNext()) {
+			Integer aSymbol = allSymbs.next();
+			if (this.availableInCol[column].contains(aSymbol)) {
+				availSymbolsInColumn[column].add(aSymbol);
+			}
+		}
+		//after restoring previous collection, set a(column):
+		a.set(column, availSymbolsInColumn[column].size());
+
+		//iterate for all available symbols for column "column", to restore the collection "availColumnsForSymbol"
+		Iterator<Integer> newAvailSymbols = this.availSymbolsInColumn[column].iterator();
+		while(newAvailSymbols.hasNext()) {
+			Integer anAvailSymbol = newAvailSymbols.next();
+			
+			if (!row.contains(anAvailSymbol)) {
+				availColumnsForSymbol[anAvailSymbol].add(column);
+			}
+		}
+		//after restoring the previous collection, set a(symbol)
+		a.set(symbol+n, availColumnsForSymbol[symbol].size());
+	}
+	
+	@SuppressWarnings("unchecked")
+	protected void restoreInitiallyAvailable() {
+		//restore this collection
+		initiallyAvailInColumn = new ArrayList[n];
+		
+		for (int i=0; i<n; i++) {
+			initiallyAvailInColumn[i] = new ArrayList<Integer>();
+			initiallyAvailInColumn[i].addAll(this.availableInCol[i]);
+		}
+	}
+	
+	protected void printVariables(int i_row, int element, int position) {
+		System.out.println();
+	    
+    	System.out.println("-----------Iteration "+rowLength+" of "+i_row+"th row.");
+    	System.out.println("The symbol "+element+" is selected for column "+position);
+	    System.out.println("A:"+a);
+	    System.out.println("ROW:"+row);
+	    for (int i=0; i<n; i++)
+	    	System.out.print("CFS "+i+":"+availColumnsForSymbol[i]);
+	    System.out.println("");
+	    for (int i=0; i<n; i++)
+	    	System.out.print("SFC "+i+":"+availSymbolsInColumn[i]);
+	    //System.out.println("PATH:"+path);
 	}
 
-	private void playSound() {
+	protected void playSound() {
 		try {
 			InputStream in = new FileInputStream("c:\\users\\ignacio\\ding.wav");
 			AudioStream as = new AudioStream(in);
