@@ -56,7 +56,7 @@ public class OCarrollLSGenerator extends AbstractSequentialGenerator implements 
 			System.out.println(ls);
 			
 			if (!ls.preservesLatinProperty()) {
-				System.out.println("ERROR: The latin square does not preserves the Latin property.");
+				System.out.println("ERROR: The square does not preserves the Latin property.");
 				System.exit(0);
 			}
 		}
@@ -81,11 +81,12 @@ public class OCarrollLSGenerator extends AbstractSequentialGenerator implements 
 	    int element=0;
 	    
 		this.initializeAuxiliaryStructures(i_row);
-	    
+	    int iteration=0;
 	    //take the smallest non-zero value index S of A1 A2 ... A2n
 	    int s=0;
 	    int rowLength = 0;
 	    while (s!=-1 && rowLength<n) {
+	    	iteration++;
 		    s = this.takeSmallestValueIndex(a);
 		    
 		    if (s==-1) {
@@ -117,7 +118,7 @@ public class OCarrollLSGenerator extends AbstractSequentialGenerator implements 
 	    	
 	    	rowLength++;
 		    if (this.verbose) {
-		    	this.printVariables(i_row, element, position);
+		    	this.printVariables(iteration, i_row, element, position);
 		    }
 	    }
 	    return row;
@@ -142,7 +143,7 @@ public class OCarrollLSGenerator extends AbstractSequentialGenerator implements 
 					posibleColumns.add(new Integer(i));
 				}
 			}
-		
+			
 			return RandomUtils.randomChoice(posibleColumns);
 		} else
 			return -1;
@@ -226,10 +227,10 @@ public class OCarrollLSGenerator extends AbstractSequentialGenerator implements 
 		}
 	}
 	
-	protected void printVariables(int i_row, int element, int position) {
+	protected void printVariables(int iteration, int i_row, Integer element, Integer position) {
 		System.out.println();
 	    
-    	System.out.println("-----------Iteration "+rowLength+" of "+i_row+"th row.");
+    	System.out.println("-----------Iteration "+iteration+" of "+i_row+"th row.");
     	System.out.println("The symbol "+element+" is selected for column "+position);
 	    System.out.println("A:"+a);
 	    System.out.println("ROW:"+row);
@@ -238,7 +239,6 @@ public class OCarrollLSGenerator extends AbstractSequentialGenerator implements 
 	    System.out.println("");
 	    for (int i=0; i<n; i++)
 	    	System.out.print("SFC "+i+":"+availSymbolsInColumn[i]);
-	    //System.out.println("PATH:"+path);
 	}
 
 	protected void playSound() {

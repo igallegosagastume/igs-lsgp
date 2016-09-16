@@ -46,4 +46,22 @@ public class OrderedPair {
 	public String toString() {
 		return "("+x+", "+y+")";
 	}
+	
+	@Override
+	public boolean equals(Object o) {
+		OrderedPair p;
+		try {
+			p = (OrderedPair)o;
+		} catch (Exception e) {
+			return false;
+		}
+		
+		return this.x.intValue()==p.x.intValue() && 
+			   this.y.intValue()==p.y.intValue();
+	}
+	
+	@Override
+	public int hashCode() {
+		return this.x.hashCode()+this.y.hashCode();
+	}
 }

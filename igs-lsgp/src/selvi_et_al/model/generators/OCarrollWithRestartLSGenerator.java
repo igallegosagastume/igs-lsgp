@@ -38,7 +38,7 @@ public class OCarrollWithRestartLSGenerator extends OCarrollLSGenerator implemen
 			System.out.println(ls);
 			
 			if (!ls.preservesLatinProperty()) {
-				System.out.println("ERROR: The latin square does not preserves the Latin property.");
+				System.out.println("ERROR: The square does not preserves the Latin property.");
 				System.exit(0);
 			}
 		}
@@ -60,8 +60,10 @@ public class OCarrollWithRestartLSGenerator extends OCarrollLSGenerator implemen
 	    
 	    //take the smallest non-zero value index S of A1 A2 ... A2n
 	    int s=0;
+	    int iteration=0;
 	    rowLength = 0;
 	    while (rowLength<n) {
+	    	iteration++;
 		    s = this.takeSmallestValueIndex(a);
 		    
 		    if (s==-1) {//O'Carroll's method has failed. Begin again or backtrack.
@@ -99,7 +101,7 @@ public class OCarrollWithRestartLSGenerator extends OCarrollLSGenerator implemen
 		    rowLength++;
 		    
 		    if (this.verbose) {
-		    	this.printVariables(i_row, element, position);
+		    	this.printVariables(iteration, i_row, element, position);
 		    }
 	    }
 	    return row;

@@ -5,8 +5,10 @@
 package selvi_et_al.model.generators;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import commons.generators.IRandomLatinSquareGenerator;
 import commons.model.OrderedPair;
@@ -23,6 +25,8 @@ public class SelviEtAlLSGenerator extends OCarrollLSGenerator implements IRandom
 	
 	protected List<OrderedPair> path;//save pairs of chosen (symbol, column) to do backtracking
 	
+	protected Set<Set<OrderedPair>> failedPaths = new HashSet<Set<OrderedPair>>(); 
+	
 	public SelviEtAlLSGenerator(int n) {
 		super(n);
 	}
@@ -30,16 +34,35 @@ public class SelviEtAlLSGenerator extends OCarrollLSGenerator implements IRandom
 	public static void main(String[] args) throws Exception {
 		SelviEtAlLSGenerator generator;
 		
+//		if (new OrderedPair(3,2).equals(new OrderedPair(3,2))) { 
+//			System.out.println("EQUALS");
+//			System.exit(0);
+//		}
+
+//		Set<OrderedPair> newPath = new HashSet<OrderedPair>();
+//		newPath.add(new OrderedPair(3,2));
+//		Set<OrderedPair> otherPath = new HashSet<OrderedPair>();
+//		otherPath.add(new OrderedPair(3,2));
+//		if (newPath.containsAll(otherPath)) {
+//			System.out.println("CONTAINS");
+//			System.exit(0);
+//		}
+		
 		int i = 1;
 		while (i < 100) {
 			generator = new SelviEtAlLSGenerator(9);
 
-			generator.setVerbose(false);
+			generator.setVerbose(true);
 			ILatinSquare ls = generator.generateLS();
 
 			System.out.println();
 			System.out.println("Generation number " + i++);
 			System.out.println(ls);
+			
+			if (!ls.preservesLatinProperty()) {
+				System.out.println("ERROR: The square does not preserves the Latin property.");
+				System.exit(0);
+			}
 		}
 	}
 	
@@ -52,52 +75,34 @@ public class SelviEtAlLSGenerator extends OCarrollLSGenerator implements IRandom
 	protected List<Integer> generateRow(int i_row) {
 		this.path = new ArrayList<OrderedPair>();
 		this.restoreInitiallyAvailable();
-
-		int position=0;
-	    int element=0;
 	    
 		this.initializeAuxiliaryStructures(i_row);
-	    
-	    //take the smallest non-zero value index S of A1 A2 ... A2n
-	    int s=0;
+	    int iteration=0;
 	    rowLength = 0;
-	    
+	    OrderedPair p = null;
 	    while (rowLength<n) {
-		    s = this.takeSmallestValueIndex(a);
+	    	iteration++;
+		    p = this.takeAnOrderedPair(a);
 		    
-		    if (s==-1) {//O'Carroll's method has failed. Begin again or backtrack.
+		    if (p==null) {//O'Carroll's method has failed. Begin again or backtrack.
 		    	System.out.println();
-		    	System.out.println("O'Carroll's method failed. Backtracking is done.");
-		    
-		    	this.printVariables(i_row, element, position);
-		    	
+		    	System.out.println("O'Carroll's method failed. Backtracking is needed.");
 		    	
 		    	//Backtrack to previous move
 		    	this.uncountOneMove();
 		    	rowLength--;
 		    	
-		    	this.printVariables(i_row, element, position);
-		    	
-		    	s = this.takeSmallestValueIndex(a);
-		    }
-		    //TAKE AN ELEMENT (SYMBOL) AND POSITION (COLUMN)
-		    //CHECK (From Selvi's PAPER):
-		    //  1) If S <= N, insert in the Sth position the Bth letter among those that can be entered in this position (0<B<S B RANDOM) 
-		    //  2) If S >  N, insert the (S - N)th letter of the alphabet in the Bth position among those still open to it in the Rth row (B RANDOM) 
-		    if (s<=(n-1)) {
-		    	position = s;
-		    	element = RandomUtils.randomChoice(availSymbolsInColumn[position]);
+		    	if (this.verbose) {
+			    	this.printVariables(iteration, i_row, null, null);
+			    }
 		    } else {
-		    	element = s-n;
-		    	position = RandomUtils.randomChoice(availColumnsForSymbol[element]);
-		    }
-		    //count the choice: update array "a" and auxiliary structures
-	    	this.countTheChosenMove(element, position);
-	    	
-		    rowLength++;
-		    
-		    if (this.verbose) {
-		    	this.printVariables(i_row, element, position);
+			    //count the choice: update array "a" and auxiliary structures
+		    	this.countTheChosenMove(p.x, p.y);
+			    rowLength++;
+			    
+			    if (this.verbose) {
+			    	this.printVariables(iteration, i_row, p.x, p.y);
+			    }
 		    }
 	    }
 	    return row;
@@ -110,6 +115,11 @@ public class SelviEtAlLSGenerator extends OCarrollLSGenerator implements IRandom
 	}
 	
 	protected void uncountOneMove() {
+		//save the bad path, not to repeated in any order:
+		Set<OrderedPair> newPath = new HashSet<OrderedPair>();
+		newPath.addAll(this.path);
+		this.failedPaths.add(newPath);
+				
 		OrderedPair p = this.path.remove(this.path.size()-1);//take last element in path (last movement)
 		int symbol = p.x;
 		int column = p.y;
@@ -118,7 +128,7 @@ public class SelviEtAlLSGenerator extends OCarrollLSGenerator implements IRandom
 		row.set(column, new Integer(-1));
 		this.availableInCol[column].add(symbol);
 		
-		
+		//restore the auxiliary collections:
 		Iterator<Integer> availAtColumn = this.availableInCol[column].iterator();
 		while(availAtColumn.hasNext()) {
 			Integer aSymbol = availAtColumn.next();
@@ -134,39 +144,79 @@ public class SelviEtAlLSGenerator extends OCarrollLSGenerator implements IRandom
 				a.set(aSymbol+n, a.get(aSymbol+n)+1);		
 			}
 		}
-		//TODO: NOW IT IS NECESSARY TO SAVE THE BAD PATH NOT TO REPEAT IT
 	}
 	
-//	@Override
-//	protected int takeSmallestValueIndex(List<Integer> a) {
-//		int index = -1;
-//		int minor = Integer.MAX_VALUE;
-////		List<Integer> posibleColumns = new ArrayList<Integer>();
-//		
-//		for (int i=0; i<=(2*n)-1; i++) {
-//			if (a.get(i).intValue()==0)
-//				continue;//if it is 0, discard
-//			if (a.get(i).intValue() < minor) {
-//				minor = a.get(i);
-//				index = i;
-//			}
-//		}
-////		if (index!=-1) {
-////			for (int i=0; i<=(2*n)-1; i++) {
-////				if (a.get(i).intValue() == minor) {
-////					posibleColumns.add(new Integer(i));
-////				}
-////			}
-////		
-////			return RandomUtils.randomChoice(posibleColumns);
-////		} else
-////			return -1;
-//		return index;
-//	}
+	protected OrderedPair takeAnOrderedPair(List<Integer> a) {
+		int index = -1;
+		int minor = Integer.MAX_VALUE;
+		
+		Set<Integer> possibleColumns = new HashSet<Integer>();
+		//first: search for the lowest non-zero value
+		for (int i=0; i<=(2*n)-1; i++) {
+			if (a.get(i).intValue()==0)
+				continue;//if it is 0, discard
+			if (a.get(i).intValue() < minor) {
+				minor = a.get(i);
+				index = i;
+			}
+		}
+		if (index!=-1) {
+			for (int i=0; i<=(2*n)-1; i++) {
+				if (a.get(i).intValue() == minor) {
+					possibleColumns.add(new Integer(i));
+				}
+			}
+			//take the smallest non-zero value index S of A1 A2 ... A2n
+			int s;
+			boolean found = false;
+			OrderedPair p = null;
+			while(!found) {
+				s = RandomUtils.randomChoice(possibleColumns);
+				int position;
+				int element;
+				//TAKE AN ELEMENT (SYMBOL) AND POSITION (COLUMN)
+			    //CHECK (From Selvi's PAPER):
+			    //  1) If S <= N, insert in the Sth position the Bth letter among those that can be entered in this position (0<B<S B RANDOM) 
+			    //  2) If S >  N, insert the (S - N)th letter of the alphabet in the Bth position among those still open to it in the Rth row (B RANDOM) 
+			    if (s<=(n-1)) {
+			    	position = s;
+			    	element = RandomUtils.randomChoice(availSymbolsInColumn[position]);
+			    } else {
+			    	element = s-n;
+			    	position = RandomUtils.randomChoice(availColumnsForSymbol[element]);
+			    }
+			    
+			    p = new OrderedPair(element, position);
+				Set<OrderedPair> newPath = new HashSet<OrderedPair>();
+				newPath.addAll(this.path);
+				newPath.add(p);
+				
+				//check if path is not in bad paths set
+				Iterator<Set<OrderedPair>> badPaths = this.failedPaths.iterator();
+				boolean itsAGoodPath = true;
+				while (badPaths.hasNext()) {
+					Set<OrderedPair> badPath = badPaths.next();
+					
+					if (newPath.containsAll(badPath)) {
+						//it is a bad path
+						possibleColumns.remove(new Integer(s));
+						if (possibleColumns.isEmpty()) //if there are no more chances, must backtrack
+							return null;
+						itsAGoodPath = false;
+						break;
+					}
+				}
+				//it is a good path:
+				found = itsAGoodPath;
+			}
+			return p;
+		} else
+			return null;
+	}
 
 	@Override
-	protected void printVariables(int i_row, int element, int position) {
-		super.printVariables(i_row, element, position);
+	protected void printVariables(int iteration, int i_row, Integer element, Integer position) {
+		super.printVariables(iteration, i_row, element, position);
 		System.out.println("");
 		System.out.println("PATH:"+path);
 	}
