@@ -235,10 +235,14 @@ public class OCarrollLSGenerator extends AbstractSequentialGenerator implements 
 	    System.out.println("A:"+a);
 	    System.out.println("ROW:"+row);
 	    for (int i=0; i<n; i++)
+	    	System.out.print("SFC "+i+":"+availSymbolsInColumn[i]);
+	    System.out.println("");
+	    for (int i=0; i<n; i++)
 	    	System.out.print("CFS "+i+":"+availColumnsForSymbol[i]);
 	    System.out.println("");
 	    for (int i=0; i<n; i++)
-	    	System.out.print("SFC "+i+":"+availSymbolsInColumn[i]);
+	    	System.out.print("AIC "+i+":"+availableInCol[i]);
+	    System.out.println("");
 	}
 
 	protected void playSound() {

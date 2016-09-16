@@ -83,7 +83,9 @@ public class SelviEtAlLSGenerator extends OCarrollLSGenerator implements IRandom
 	    while (rowLength<n) {
 	    	iteration++;
 		    p = this.takeAnOrderedPair(a);
-		    
+		    if (this.verbose) {
+		    	this.printVariables(iteration, i_row, p.x, p.y);
+		    }
 		    if (p==null) {//O'Carroll's method has failed. Begin again or backtrack.
 		    	System.out.println();
 		    	System.out.println("O'Carroll's method failed. Backtracking is needed.");
@@ -126,9 +128,12 @@ public class SelviEtAlLSGenerator extends OCarrollLSGenerator implements IRandom
 		
 		//inverse order of count move: first, erase element in the row
 		row.set(column, new Integer(-1));
-		this.availableInCol[column].add(symbol);
+		this.availableInCol[column].add(symbol);//the element symbol is available again in that column
 		
 		//restore the auxiliary collections:
+//		availSymbolsInColumn[column].addAll(this.availableInCol[column]);
+//		a.set(column, this.availableInCol[column].size());
+		
 		Iterator<Integer> availAtColumn = this.availableInCol[column].iterator();
 		while(availAtColumn.hasNext()) {
 			Integer aSymbol = availAtColumn.next();
@@ -137,11 +142,20 @@ public class SelviEtAlLSGenerator extends OCarrollLSGenerator implements IRandom
 				availSymbolsInColumn[column].add(aSymbol);
 				//after restoring the element, update "a"
 				a.set(column, a.get(column)+1);
-				
+
 				//restore the collection availColumnsForSymbol that was erased
 				availColumnsForSymbol[aSymbol].add(column);
 				//after restoring the previous collection, set a(symbol)
 				a.set(aSymbol+n, a.get(aSymbol+n)+1);		
+			}
+		}
+		//return "symbol" to available
+		for (int j=0; j<n; j++) {
+			if (this.availSymbolsInColumn[j].contains(new Integer(symbol)) &&
+				!row.contains(new Integer(symbol))	&&
+				!availColumnsForSymbol[symbol].contains(j)) {
+				availColumnsForSymbol[symbol].add(j);
+				a.set(symbol+n, a.get(symbol+n)+1);
 			}
 		}
 	}
@@ -171,6 +185,8 @@ public class SelviEtAlLSGenerator extends OCarrollLSGenerator implements IRandom
 			boolean found = false;
 			OrderedPair p = null;
 			while(!found) {
+				if (possibleColumns.isEmpty())
+					return null;
 				s = RandomUtils.randomChoice(possibleColumns);
 				int position;
 				int element;
@@ -217,7 +233,12 @@ public class SelviEtAlLSGenerator extends OCarrollLSGenerator implements IRandom
 	@Override
 	protected void printVariables(int iteration, int i_row, Integer element, Integer position) {
 		super.printVariables(iteration, i_row, element, position);
-		System.out.println("");
+		
 		System.out.println("PATH:"+path);
+//		Iterator<Set<OrderedPair>> iterator = this.failedPaths.iterator();
+//		while (iterator.hasNext()) {
+//			Set<OrderedPair> badPath = iterator.next();
+//			System.out.println("BAD PATH:"+badPath);
+//		}
 	}
 }
