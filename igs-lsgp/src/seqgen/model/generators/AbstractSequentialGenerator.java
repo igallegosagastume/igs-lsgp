@@ -9,9 +9,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import commons.generators.IRandomLatinSquareGenerator;
 import commons.model.latinsquares.ArrayListLatinSquare;
 import commons.model.latinsquares.ILatinSquare;
-import commons.generators.IRandomLatinSquareGenerator;
 import commons.utils.RandomUtils;
 
 /**
@@ -40,12 +40,18 @@ public abstract class AbstractSequentialGenerator implements IRandomLatinSquareG
 	 * 
 	 * @param n
 	 */
-	@SuppressWarnings("unchecked")
 	public AbstractSequentialGenerator(int n) {
 		this.n = n;
 		
 		RandomUtils.initRand();
 		this.symbols = RandomUtils.oneToN(n);
+	}
+	
+	/**
+	 * It prepares the generator for a new generation
+	 */
+	@SuppressWarnings("unchecked")
+	public void initialize() {
 		
 		availableInCol = new HashSet[n];
 		failedAttemptsPerRow = new int[n];
@@ -57,16 +63,6 @@ public abstract class AbstractSequentialGenerator implements IRandomLatinSquareG
 	    }
 	    
 	    ls = new ArrayListLatinSquare(n);//default implementation
-	    
-	    /*for (int i=0; i<n; i++) {
-	    	failedAttemptsPerRow[i] = 0;
-	    }*/
-	    
-	    /*for (int i=0; i<n; i++) 
-	    	for (int j=0; j<n; j++) {
-	    		collisions[i][j]=0;
-	    	}
-		*/
 	}
 	
 	/**
@@ -74,6 +70,8 @@ public abstract class AbstractSequentialGenerator implements IRandomLatinSquareG
 	 */
 	@Override
 	public ILatinSquare generateLS() { 
+		this.initialize();
+		
 	    for (int i=0; i<n; i++) {
 	    	List<Integer> row = this.generateRow(i);
 	    	ls.setRow(i, row);
@@ -112,7 +110,7 @@ public abstract class AbstractSequentialGenerator implements IRandomLatinSquareG
 	 */
 	@Override
 	public String getMethodName() {
-		return "Generation row by row abstract.";
+		return "Sequential generation abstract.";
 	}
 
 	@Override

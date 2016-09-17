@@ -25,14 +25,16 @@
  */
 package commons.mainexecutable;
 
+import jacomatt.model.generators.JacobsonMatthewsLSGenerator;
+import koscielny.model.generators.KoscielnyProductGenerator;
+import mckaywormald.model.generators.McKayLRGenerationMethod;
 import selvi_et_al.model.generators.OCarrollWithRestartLSGenerator;
+import selvi_et_al.model.generators.SelviEtAlLSGenerator;
 import seqgen.model.generators.SeqGenWithBacktracking;
 import seqgen.model.generators.SeqGenWithRandomSwapping;
 import seqgen.model.generators.SeqGenWithReplGraph;
 import seqgen.model.generators.SeqGenWithRestartRow;
-import jacomatt.model.generators.JacobsonMatthewsLSGenerator;
-import koscielny.model.generators.KoscielnyProductGenerator;
-import mckaywormald.model.generators.McKayLRGenerationMethod;
+
 import commons.generators.IRandomLatinSquareGenerator;
 import commons.model.latinsquares.ILatinSquare;
 import commons.utils.FileUtils;
@@ -63,87 +65,114 @@ public class GeneratorJar {
 			System.out.println("© 2014-2016 by Mg. Ignacio Gallego Sagastume.");
 			System.out.println("________________________________________________________________________________");
 			System.out.println("");
-			System.out.println("Usage: <method> <order> [write <path>]");
-			System.out.println("Where <method> ::= back | product | swapping | restart | graph | jm | mckay | ocarroll ");
+			System.out.println("Usage: <method> <order> [write <path> | repeat <times>]");
+			System.out.println("Where <method> ::= back       | ");
+			System.out.println("                   product    | ");
+			System.out.println("                   swapping   | ");
+			System.out.println("                   restart    | ");
+			System.out.println("                   graph      | ");
+			System.out.println("                   jm         | ");
+			System.out.println("                   mckay      | ");
+			System.out.println("                   ocarrollr  | ");
+			System.out.println("                   selvi");
 			System.out.println("________________________________________________________________________________");
 			return;
 		}
 		
 		int n = new Integer(args[1]);
+		int times = 1;
 		String path = null;
 		if (args.length>2) {
 			if (args[2]!=null && args[2].equalsIgnoreCase("write")) {
 				if (args.length==4)
 					path = args[3];
 				else {
-					System.out.println("Bad usage. The write option needs a path.");
+					System.out.println("Bad usage. The WRITE option needs a path.");
 					return;
 				}
-			} else {
-				System.out.println("Bad usage. Parameter 3 must be 'write'.");
-				return;
+			} else { 
+				if (args[2]!=null && args[2].equalsIgnoreCase("repeat")) {
+					
+					if (args.length==4)
+						times = new Integer(args[3]);
+					else {
+						System.out.println("Bad usage. The REPEAT option needs a number of repetitions.");
+						return;
+					}
+				}
 			}
 		}
 		IRandomLatinSquareGenerator generator;
 		
-		if (args[0].equalsIgnoreCase("back")) {
-			generator = new SeqGenWithBacktracking(n);
-			computeTimeFor(generator, path);
-			return;
+		String method = args[0];
+		
+		if (!method.equalsIgnoreCase("back") &&
+			!method.equalsIgnoreCase("product") &&
+			!method.equalsIgnoreCase("swapping") &&
+			!method.equalsIgnoreCase("restart") &&
+			!method.equalsIgnoreCase("graph") &&
+			!method.equalsIgnoreCase("jm") &&
+			!method.equalsIgnoreCase("mckay") &&
+			!method.equalsIgnoreCase("ocarrollr") &&
+			!method.equalsIgnoreCase("selvi") 
+			) {
+				System.out.println("Method not supported: "+method);
+				return;
 		}
 		
-		if (args[0].equalsIgnoreCase("product")) {
+		if (method.equalsIgnoreCase("back")) {
+			generator = new SeqGenWithBacktracking(n);
+			repeatGeneration(generator, path, times);
+		}
+		
+		if (method.equalsIgnoreCase("product")) {
 			generator = new KoscielnyProductGenerator(n);
-			computeTimeFor(generator, path);  //does not generate LS uniformly distributed
-			return;
+			repeatGeneration(generator, path, times);
 		}
 
-		if (args[0].equalsIgnoreCase("swapping")) {
+		if (method.equalsIgnoreCase("swapping")) {
 			generator = new SeqGenWithRandomSwapping(n);
-			computeTimeFor(generator, path);  // the most acceptable simple method
-			return;
+			repeatGeneration(generator, path, times);
 		}
 		
-		if (args[0].equalsIgnoreCase("restart")) {
+		if (method.equalsIgnoreCase("restart")) {
 			generator = new SeqGenWithRestartRow(n);
-			computeTimeFor(generator, path);//improvements to simple method?
-			return;
+			repeatGeneration(generator, path, times);
 		}
 		
-		if (args[0].equalsIgnoreCase("graph")) {
+		if (method.equalsIgnoreCase("graph")) {
 			generator = new SeqGenWithReplGraph(n);
-			computeTimeFor(generator, path);
-			return;
+			repeatGeneration(generator, path, times);
 		}
 		
-		if (args[0].equalsIgnoreCase("jm")) {
+		if (method.equalsIgnoreCase("jm")) {
 			generator = new JacobsonMatthewsLSGenerator(n);
-			computeTimeFor(generator, path);
-			return;
+			repeatGeneration(generator, path, times);
 		}
 		
-		if (args[0].equalsIgnoreCase("mckay")) {
+		if (method.equalsIgnoreCase("mckay")) {
 			if (n<=2) {
 				System.out.println("Could not generate structure");
 				return;
 			}
 			double cubicRoot = Math.pow(n, 1.0/3.0);
 			int k = (int)cubicRoot+1;
-			
 			generator = new McKayLRGenerationMethod(k,n);
-			computeTimeFor(generator, path);
-			return;
+			repeatGeneration(generator, path, times);
 		}
 		
-		if (args[0].equalsIgnoreCase("ocarroll")) {
+		if (method.equalsIgnoreCase("ocarrollr")) {//o'carroll with restart
 			generator = new OCarrollWithRestartLSGenerator(n);
 			generator.setVerbose(false);
-			computeTimeFor(generator, path);
-			return;
+			repeatGeneration(generator, path, times);
 		}
 		
-		System.out.println("Option not supported.");
-
+		if (method.equalsIgnoreCase("selvi")) {//selvi et.al. algorithm (variation of ocarroll with backtracking)
+			generator = new SelviEtAlLSGenerator(n);
+			generator.setVerbose(false);
+			repeatGeneration(generator, path, times);
+		}
+		
 	}
 	
 	/**
@@ -152,7 +181,7 @@ public class GeneratorJar {
 	 * @param generator
 	 * @param path
 	 */
-	public static void computeTimeFor(IRandomLatinSquareGenerator generator, String path) {
+	public static double computeTimeFor(IRandomLatinSquareGenerator generator, String path, boolean showFinalMessage) {
 		long startTime = System.nanoTime();
 		ILatinSquare ls = generator.generateLS();
 		long endTime = System.nanoTime();
@@ -164,16 +193,40 @@ public class GeneratorJar {
 		
 		FileUtils.writeLS(ls, path);
 		
-		System.out.println("Random structure generated in "+secs+" seconds. Generation method: "+generator.getMethodName());
+		if (showFinalMessage)
+			System.out.println("Random structure generated in "+secs+" seconds. Generation method: "+generator.getMethodName());
 		
 		if (!ls.preservesLatinProperty()) {
 			System.out.println();
 			System.out.println("ERROR: the generated structure does not preserve the Latin property.");
+			System.exit(0);
 		} else {
 			//System.out.println("The structure preserves the Latin property.");
 		}
+		return secs;
 	}
+
 	
+	
+	private static void repeatGeneration(IRandomLatinSquareGenerator generator, String path, int times) {
+		
+		if (times==1) {
+			computeTimeFor(generator, path, true);
+			return;
+		}
+		//List<Double> generationTimes = new ArrayList<Double>();
+		Double sum = 0.0;
+		for (int i=1; i<=times; i++) {
+			double secs = computeTimeFor(generator, path, false);
+//			generationTimes.add(secs);
+			sum +=secs;
+		}
+		
+		Double averageTime = sum / (double)times;
+		System.out.println("");
+		System.out.println("Finished "+times+" repetitions. Generation method: "+generator.getMethodName());
+		System.out.println("Average time of method is "+averageTime+" seconds.");
+	}
 //	@SuppressWarnings("unchecked")
 //	public static void debugRandomSwapping() throws Exception {
 //		ArrayListLatinSquare ls = new ArrayListLatinSquare(5);

@@ -200,7 +200,7 @@ public class SeqGenWithReplGraph extends AbstractSequentialGenerator {
 	 */
 	@Override
 	public String getMethodName() {
-		return "Generation row by row with replacement graph.";
+		return "Sequential generation with replacement graph.";
 	}
 	
 

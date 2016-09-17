@@ -16,7 +16,8 @@ import commons.model.latinsquares.ILatinSquare;
 import commons.utils.RandomUtils;
 
 /**
- * TODO: This method is under development ...
+ * This is Selvi (et.al.) methos. It's the O'Carroll's modification to do backtracking when the method fails.
+ * 
  *  
  * @author igallego
  *
@@ -32,27 +33,11 @@ public class SelviEtAlLSGenerator extends OCarrollLSGenerator implements IRandom
 	}
 	
 	public static void main(String[] args) throws Exception {
-		SelviEtAlLSGenerator generator;
-		
-//		if (new OrderedPair(3,2).equals(new OrderedPair(3,2))) { 
-//			System.out.println("EQUALS");
-//			System.exit(0);
-//		}
-
-//		Set<OrderedPair> newPath = new HashSet<OrderedPair>();
-//		newPath.add(new OrderedPair(3,2));
-//		Set<OrderedPair> otherPath = new HashSet<OrderedPair>();
-//		otherPath.add(new OrderedPair(3,2));
-//		if (newPath.containsAll(otherPath)) {
-//			System.out.println("CONTAINS");
-//			System.exit(0);
-//		}
+		SelviEtAlLSGenerator generator = new SelviEtAlLSGenerator(20);
 		
 		int i = 1;
 		while (i < 100) {
-			generator = new SelviEtAlLSGenerator(9);
-
-			generator.setVerbose(true);
+			generator.setVerbose(false);
 			ILatinSquare ls = generator.generateLS();
 
 			System.out.println();
@@ -68,7 +53,7 @@ public class SelviEtAlLSGenerator extends OCarrollLSGenerator implements IRandom
 	
 	@Override
 	public String getMethodName() {
-		return "Selvi's (et.al.) row by row generation.";
+		return "Selvi (et.al.) row by row generation.";
 	}
 
 	@Override
@@ -82,14 +67,22 @@ public class SelviEtAlLSGenerator extends OCarrollLSGenerator implements IRandom
 	    OrderedPair p = null;
 	    while (rowLength<n) {
 	    	iteration++;
-		    p = this.takeAnOrderedPair(a);
-		    if (this.verbose) {
-		    	this.printVariables(iteration, i_row, p.x, p.y);
-		    }
-		    if (p==null) {//O'Carroll's method has failed. Begin again or backtrack.
-		    	System.out.println();
-		    	System.out.println("O'Carroll's method failed. Backtracking is needed.");
+	    	if (iteration%1000==0)
+	    		System.out.println("Iteration nº "+iteration);
+	    	
+		    p = this.takeASymbolAndPosition(a);
+		    
+		    if (p==null) {
+		    	//O'Carroll's method failed. Backtracking is needed.
+		    	if (this.verbose) {
+		    		System.out.println("PATH LENGTH:"+this.path.size());
+		    	}
 		    	
+		    	//this.playSound();
+		    	
+		    	if (this.verbose) {
+			    	this.printVariables(iteration, i_row, null, null);
+			    }
 		    	//Backtrack to previous move
 		    	this.uncountOneMove();
 		    	rowLength--;
@@ -98,6 +91,10 @@ public class SelviEtAlLSGenerator extends OCarrollLSGenerator implements IRandom
 			    	this.printVariables(iteration, i_row, null, null);
 			    }
 		    } else {
+		    	if (this.verbose) {
+			    	this.printVariables(iteration, i_row, p.x, p.y);
+			    }
+		    	
 			    //count the choice: update array "a" and auxiliary structures
 		    	this.countTheChosenMove(p.x, p.y);
 			    rowLength++;
@@ -130,14 +127,25 @@ public class SelviEtAlLSGenerator extends OCarrollLSGenerator implements IRandom
 		row.set(column, new Integer(-1));
 		this.availableInCol[column].add(symbol);//the element symbol is available again in that column
 		
-		//restore the auxiliary collections:
-//		availSymbolsInColumn[column].addAll(this.availableInCol[column]);
-//		a.set(column, this.availableInCol[column].size());
+		//return "symbol" to available in all columns
+		for (int j=0; j<n; j++) {
+			if (this.availableInCol[j].contains(new Integer(symbol)) ) {//if symbol was initially available, return it
+				if (row.get(j).intValue()==-1) {//if the place is NOT used
+					availSymbolsInColumn[j].add(symbol);//return it to the available in each column
+					a.set(column, a.get(column)+1);
+				
+					//now "symbol" is also in column j
+					availColumnsForSymbol[symbol].add(j);
+					a.set(symbol+n, a.get(symbol+n)+1);
+				}
+			}
+		}
 		
+		//now iterate through available in column "column" != "symbol"
 		Iterator<Integer> availAtColumn = this.availableInCol[column].iterator();
 		while(availAtColumn.hasNext()) {
 			Integer aSymbol = availAtColumn.next();
-			if (!row.contains(aSymbol)) {
+			if (!row.contains(aSymbol) && aSymbol.intValue()!=symbol) {
 				//restore the collection availSymbolsInColumn that was erased
 				availSymbolsInColumn[column].add(aSymbol);
 				//after restoring the element, update "a"
@@ -149,18 +157,10 @@ public class SelviEtAlLSGenerator extends OCarrollLSGenerator implements IRandom
 				a.set(aSymbol+n, a.get(aSymbol+n)+1);		
 			}
 		}
-		//return "symbol" to available
-		for (int j=0; j<n; j++) {
-			if (this.availSymbolsInColumn[j].contains(new Integer(symbol)) &&
-				!row.contains(new Integer(symbol))	&&
-				!availColumnsForSymbol[symbol].contains(j)) {
-				availColumnsForSymbol[symbol].add(j);
-				a.set(symbol+n, a.get(symbol+n)+1);
-			}
-		}
+		
 	}
 	
-	protected OrderedPair takeAnOrderedPair(List<Integer> a) {
+	protected OrderedPair takeASymbolAndPosition(List<Integer> a) {
 		int index = -1;
 		int minor = Integer.MAX_VALUE;
 		
@@ -174,7 +174,7 @@ public class SelviEtAlLSGenerator extends OCarrollLSGenerator implements IRandom
 				index = i;
 			}
 		}
-		if (index!=-1) {
+		if (index!=-1) {//if an index is found, take all the columns with the same value
 			for (int i=0; i<=(2*n)-1; i++) {
 				if (a.get(i).intValue() == minor) {
 					possibleColumns.add(new Integer(i));
@@ -188,6 +188,7 @@ public class SelviEtAlLSGenerator extends OCarrollLSGenerator implements IRandom
 				if (possibleColumns.isEmpty())
 					return null;
 				s = RandomUtils.randomChoice(possibleColumns);
+				
 				int position;
 				int element;
 				//TAKE AN ELEMENT (SYMBOL) AND POSITION (COLUMN)
@@ -196,9 +197,15 @@ public class SelviEtAlLSGenerator extends OCarrollLSGenerator implements IRandom
 			    //  2) If S >  N, insert the (S - N)th letter of the alphabet in the Bth position among those still open to it in the Rth row (B RANDOM) 
 			    if (s<=(n-1)) {
 			    	position = s;
+			    	if (availSymbolsInColumn[position].isEmpty())
+			    		return null;
+			    	
 			    	element = RandomUtils.randomChoice(availSymbolsInColumn[position]);
 			    } else {
 			    	element = s-n;
+			    	if (availColumnsForSymbol[element].isEmpty())
+			    		return null;
+			    	
 			    	position = RandomUtils.randomChoice(availColumnsForSymbol[element]);
 			    }
 			    

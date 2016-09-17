@@ -25,11 +25,9 @@ public class OCarrollWithRestartLSGenerator extends OCarrollLSGenerator implemen
 	}
 	
 	public static void main(String[] args) throws Exception {
-		OCarrollWithRestartLSGenerator generator;
+		OCarrollWithRestartLSGenerator generator = new OCarrollWithRestartLSGenerator(30);
 		int i=1;
 		while (i<100) {
-			generator = new OCarrollWithRestartLSGenerator(30);
-			
 			generator.setVerbose(false);
 			ILatinSquare ls = generator.generateLS();
 			

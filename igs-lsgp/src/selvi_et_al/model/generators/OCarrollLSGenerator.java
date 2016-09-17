@@ -44,11 +44,9 @@ public class OCarrollLSGenerator extends AbstractSequentialGenerator implements 
 	}
 	
 	public static void main(String[] args) throws Exception {
-		OCarrollLSGenerator generator;
+		OCarrollLSGenerator generator = new OCarrollLSGenerator(9);
 		int i=1;
 		while (true) {
-			generator = new OCarrollLSGenerator(9);
-			
 			generator.setVerbose(true);
 			ILatinSquare ls = generator.generateLS();
 			

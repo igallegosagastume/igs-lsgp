@@ -187,7 +187,7 @@ public class SeqGenWithRandomSwapping extends AbstractSequentialGenerator {
 	 */
 	@Override
 	public String getMethodName() {
-		return "Generation row by row with random swapping.";
+		return "Sequential generation with random swapping.";
 	}
 	
 }
