@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import seqgen.model.generators.AbstractSequentialGenerator;
 import sun.audio.AudioPlayer;
@@ -33,9 +34,9 @@ public class OCarrollLSGenerator extends AbstractSequentialGenerator implements 
 	protected List<Integer> a;//from 0 to n-1 is Avail Symbol Count at Column i (SFC: "Symbols for Column" Count)
 							  //from n to (2*n)-1 is Possibilities Count for Symbol i (CFS: "Columns for Symbol" Count)
     
-	protected List<Integer>[] availSymbolsInColumn;//SFC: "Symbols For Column"
-	protected List<Integer>[] availColumnsForSymbol;//CFS: "Columns For Symbol"
-	protected List<Integer>[] initiallyAvailInColumn;
+	protected Set<Integer>[] availSymbolsInColumn;//SFC: "Symbols For Column"
+	protected Set<Integer>[] availColumnsForSymbol;//CFS: "Columns For Symbol"
+	protected Set<Integer>[] initiallyAvailInColumn;
 	
 	protected int rowLength = 0;
 	
@@ -153,12 +154,12 @@ public class OCarrollLSGenerator extends AbstractSequentialGenerator implements 
 	    
 	    a = new ArrayList<Integer>(2*n);//from 0 to n-1 is Avail Symbol Count at Column i
 	    								//from n to (2*n)-1 is Possibilities Count for Symbol i
-		availSymbolsInColumn = new ArrayList[n];
-		availColumnsForSymbol = new ArrayList[n];
+		availSymbolsInColumn = new HashSet[n];
+		availColumnsForSymbol = new HashSet[n];
 	    
 	    //initialize the array of posibilities (available columns) for each symbol (CFS: "Columns For Symbol")
 	    for (int i=0; i<=n-1; i++) {
-	    	availColumnsForSymbol[i] = new ArrayList<Integer>();
+	    	availColumnsForSymbol[i] = new HashSet<Integer>();
 	    	
 	    	//initialize the working set
 	    	availableInCol[i] = new HashSet<Integer>();
@@ -169,13 +170,19 @@ public class OCarrollLSGenerator extends AbstractSequentialGenerator implements 
 	    for (int i=0; i<=n-1; i++) {//iterate columns
 	    	row.add(new Integer(-1));//this is to achieve the final length of the array (n)
 	    	a.add(this.availableInCol[i].size());
-	    	availSymbolsInColumn[i] = new ArrayList<Integer>();
+	    	availSymbolsInColumn[i] = new HashSet<Integer>();
 	    	availSymbolsInColumn[i].addAll(this.availableInCol[i]);
 	    	
-	    	for (int j=0; j<this.availableInCol[i].size(); j++) {//iterate through available in column i
-				Integer symbol = availSymbolsInColumn[i].get(j);//take a symbol not used in column i
-	    		availColumnsForSymbol[symbol.intValue()].add(new Integer(i));
-	    	}
+	    	Iterator<Integer> availInColumn = availSymbolsInColumn[i].iterator(); 
+	    	while (availInColumn.hasNext()) {
+				Integer symbol = availInColumn.next();
+				availColumnsForSymbol[symbol.intValue()].add(new Integer(i));
+			}
+	    	
+//	    	for (int j=0; j<this.availableInCol[i].size(); j++) {//iterate through available in column i
+//				Integer symbol = availSymbolsInColumn[i].get(j);//take a symbol not used in column i
+//	    		availColumnsForSymbol[symbol.intValue()].add(new Integer(i));
+//	    	}
 	    }
 	    //initialize "A" (CFS COUNT)
 	    for (int i=n; i<=(2*n)-1; i++) {
@@ -217,10 +224,10 @@ public class OCarrollLSGenerator extends AbstractSequentialGenerator implements 
 	@SuppressWarnings("unchecked")
 	protected void restoreInitiallyAvailable() {
 		//restore this collection
-		initiallyAvailInColumn = new ArrayList[n];
+		initiallyAvailInColumn = new HashSet[n];
 		
 		for (int i=0; i<n; i++) {
-			initiallyAvailInColumn[i] = new ArrayList<Integer>();
+			initiallyAvailInColumn[i] = new HashSet<Integer>();
 			initiallyAvailInColumn[i].addAll(this.availableInCol[i]);
 		}
 	}

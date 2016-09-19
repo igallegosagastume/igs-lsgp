@@ -209,6 +209,9 @@ public class GeneratorJar {
 	
 	
 	private static void repeatGeneration(IRandomLatinSquareGenerator generator, String path, int times) {
+
+		long startTime = System.nanoTime();
+
 		
 		if (times==1) {
 			computeTimeFor(generator, path, true);
@@ -217,14 +220,27 @@ public class GeneratorJar {
 		//List<Double> generationTimes = new ArrayList<Double>();
 		Double sum = 0.0;
 		for (int i=1; i<=times; i++) {
-			double secs = computeTimeFor(generator, path, false);
+			double secsForAGen = computeTimeFor(generator, path, false);
 //			generationTimes.add(secs);
-			sum +=secs;
+			sum +=secsForAGen;
 		}
+		long endTime = System.nanoTime();
+
+		long duration = endTime - startTime;
+		double secs = duration/1000000000d;
+		double mins = secs / 60;
+		double hours = mins/60;
 		
 		Double averageTime = sum / (double)times;
 		System.out.println("");
-		System.out.println("Finished "+times+" repetitions. Generation method: "+generator.getMethodName());
+		if (hours>=1)
+			System.out.println("Finished "+times+" repetitions after "+hours+" hours.");
+		else 
+			if (mins>=1)
+				System.out.println("Finished "+times+" repetitions after "+mins+" minutes.");
+			else
+				System.out.println("Finished "+times+" repetitions after "+secs+" seconds.");
+		System.out.println("Generation method: "+generator.getMethodName());
 		System.out.println("Average time of method is "+averageTime+" seconds.");
 	}
 //	@SuppressWarnings("unchecked")
