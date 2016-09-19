@@ -65,7 +65,7 @@ public class GeneratorJar {
 			System.out.println("© 2014-2016 by Mg. Ignacio Gallego Sagastume.");
 			System.out.println("________________________________________________________________________________");
 			System.out.println("");
-			System.out.println("Usage: <method> <order> [write <path> | repeat <times>]");
+			System.out.println("Usage: <method> <order> [WRITE <path> | REPEAT <times>]");
 			System.out.println("Where <method> ::= back       | ");
 			System.out.println("                   product    | ");
 			System.out.println("                   swapping   | ");
@@ -163,13 +163,11 @@ public class GeneratorJar {
 		
 		if (method.equalsIgnoreCase("ocarrollr")) {//o'carroll with restart
 			generator = new OCarrollWithRestartLSGenerator(n);
-			generator.setVerbose(false);
 			repeatGeneration(generator, path, times);
 		}
 		
 		if (method.equalsIgnoreCase("selvi")) {//selvi et.al. algorithm (variation of ocarroll with backtracking)
 			generator = new SelviEtAlLSGenerator(n);
-			generator.setVerbose(false);
 			repeatGeneration(generator, path, times);
 		}
 		

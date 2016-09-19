@@ -30,6 +30,7 @@ public class SelviEtAlLSGenerator extends OCarrollLSGenerator implements IRandom
 	
 	public SelviEtAlLSGenerator(int n) {
 		super(n);
+		this.verbose = true;
 	}
 	
 	public static void main(String[] args) throws Exception {
@@ -77,11 +78,6 @@ public class SelviEtAlLSGenerator extends OCarrollLSGenerator implements IRandom
 		    	
 		    	if (this.verbose) {
 			    	this.printVariables(iteration, i_row, null, null);
-			    	if (!this.checkA()) {
-			    		System.out.println("Anomalia en actualizacion");
-			    		System.exit(0);
-			    	}
-			    	
 			    }
 		    	//Backtrack to previous move
 		    	this.uncountOneMove();
@@ -89,18 +85,10 @@ public class SelviEtAlLSGenerator extends OCarrollLSGenerator implements IRandom
 		    	
 		    	if (this.verbose) {
 			    	this.printVariables(iteration, i_row, null, null);
-			    	if (!this.checkA()) {
-			    		System.out.println("Anomalia en actualizacion");
-			    		System.exit(0);
-			    	}
 			    }
 		    } else {
 		    	if (this.verbose) {
 			    	this.printVariables(iteration, i_row, p.x, p.y);
-			    	if (!this.checkA()) {
-			    		System.out.println("Anomalia en actualizacion");
-			    		System.exit(0);
-			    	}
 			    }
 		    	
 			    //count the choice: update array "a" and auxiliary structures
@@ -109,10 +97,6 @@ public class SelviEtAlLSGenerator extends OCarrollLSGenerator implements IRandom
 			    
 			    if (this.verbose) {
 			    	this.printVariables(iteration, i_row, p.x, p.y);
-			    	if (!this.checkA()) {
-			    		System.out.println("Anomalia en actualizacion");
-			    		System.exit(0);
-			    	}
 			    }
 		    }
 	    }
@@ -262,6 +246,10 @@ public class SelviEtAlLSGenerator extends OCarrollLSGenerator implements IRandom
 //			Set<OrderedPair> badPath = iterator.next();
 //			System.out.println("BAD PATH:"+badPath);
 //		}
+		if (!this.checkA()) {
+    		System.out.println("Anomalia en actualizacion");
+    		System.exit(0);
+    	}
 	}
 	
 	private boolean itsABadPath(List<OrderedPair> newPath, List<OrderedPair> badPath) {

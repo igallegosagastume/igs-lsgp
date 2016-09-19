@@ -54,7 +54,7 @@ public class ArrayListLatinSquare extends AbstractLatinSquare {
 		for (int i=0; i<n; i++) {
 			ls[i] = new ArrayList<Integer>(n);
 			for (int j=0; j<n; j++) {
-				ls[i].add(0); //add initial n 0s
+				ls[i].add(0); //add initial value -1
 			}
 		}
 	}
