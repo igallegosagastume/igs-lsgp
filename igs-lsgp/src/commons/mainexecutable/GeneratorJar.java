@@ -65,7 +65,7 @@ public class GeneratorJar {
 			System.out.println("© 2014-2016 by Mg. Ignacio Gallego Sagastume.");
 			System.out.println("________________________________________________________________________________");
 			System.out.println("");
-			System.out.println("Usage: <method> <order> [WRITE <path> | REPEAT <times>]");
+			System.out.println("Usage: <method> <order> [WRITE <path> | REPEAT <times> [VERBOSE <TRUE|FALSE> ] ]");
 			System.out.println("Where <method> ::= back       | ");
 			System.out.println("                   product    | ");
 			System.out.println("                   swapping   | ");
@@ -82,6 +82,8 @@ public class GeneratorJar {
 		int n = new Integer(args[1]);
 		int times = 1;
 		String path = null;
+		boolean verbose = false;
+		
 		if (args.length>2) {
 			if (args[2]!=null && args[2].equalsIgnoreCase("write")) {
 				if (args.length==4)
@@ -93,9 +95,17 @@ public class GeneratorJar {
 			} else { 
 				if (args[2]!=null && args[2].equalsIgnoreCase("repeat")) {
 					
-					if (args.length==4)
+					if (args.length>=4) {//repeat present
 						times = new Integer(args[3]);
-					else {
+						
+						if (args.length>4 && args[4].equalsIgnoreCase("verbose")) {//verbose present
+							if (args[5]!=null && args[5].equalsIgnoreCase("true"))
+								verbose = true;
+							else
+								verbose = false;
+						}
+						
+					} else {
 						System.out.println("Bad usage. The REPEAT option needs a number of repetitions.");
 						return;
 					}
@@ -122,32 +132,32 @@ public class GeneratorJar {
 		
 		if (method.equalsIgnoreCase("back")) {
 			generator = new SeqGenWithBacktracking(n);
-			repeatGeneration(generator, path, times);
+			repeatGeneration(generator, path, times, verbose);
 		}
 		
 		if (method.equalsIgnoreCase("product")) {
 			generator = new KoscielnyProductGenerator(n);
-			repeatGeneration(generator, path, times);
+			repeatGeneration(generator, path, times, verbose);
 		}
 
 		if (method.equalsIgnoreCase("swapping")) {
 			generator = new SeqGenWithRandomSwapping(n);
-			repeatGeneration(generator, path, times);
+			repeatGeneration(generator, path, times, verbose);
 		}
 		
 		if (method.equalsIgnoreCase("restart")) {
 			generator = new SeqGenWithRestartRow(n);
-			repeatGeneration(generator, path, times);
+			repeatGeneration(generator, path, times, verbose);
 		}
 		
 		if (method.equalsIgnoreCase("graph")) {
 			generator = new SeqGenWithReplGraph(n);
-			repeatGeneration(generator, path, times);
+			repeatGeneration(generator, path, times, verbose);
 		}
 		
 		if (method.equalsIgnoreCase("jm")) {
 			generator = new JacobsonMatthewsLSGenerator(n);
-			repeatGeneration(generator, path, times);
+			repeatGeneration(generator, path, times, verbose);
 		}
 		
 		if (method.equalsIgnoreCase("mckay")) {
@@ -158,17 +168,17 @@ public class GeneratorJar {
 			double cubicRoot = Math.pow(n, 1.0/3.0);
 			int k = (int)cubicRoot+1;
 			generator = new McKayLRGenerationMethod(k,n);
-			repeatGeneration(generator, path, times);
+			repeatGeneration(generator, path, times, verbose);
 		}
 		
 		if (method.equalsIgnoreCase("ocarrollr")) {//o'carroll with restart
 			generator = new OCarrollWithRestartLSGenerator(n);
-			repeatGeneration(generator, path, times);
+			repeatGeneration(generator, path, times, verbose);
 		}
 		
 		if (method.equalsIgnoreCase("selvi")) {//selvi et.al. algorithm (variation of ocarroll with backtracking)
 			generator = new SelviEtAlLSGenerator(n);
-			repeatGeneration(generator, path, times);
+			repeatGeneration(generator, path, times, verbose);
 		}
 		
 	}
@@ -179,7 +189,7 @@ public class GeneratorJar {
 	 * @param generator
 	 * @param path
 	 */
-	public static double computeTimeFor(IRandomLatinSquareGenerator generator, String path, boolean showFinalMessage) {
+	public static double computeTimeFor(IRandomLatinSquareGenerator generator, String path, int iteration, int percetage, boolean showFinalMessage, boolean verbose) {
 		long startTime = System.nanoTime();
 		ILatinSquare ls = generator.generateLS();
 		long endTime = System.nanoTime();
@@ -187,7 +197,11 @@ public class GeneratorJar {
 		long duration = endTime - startTime;
 		double secs = duration/1000000000d;
 		
-		System.out.println(ls);
+		if (verbose)
+			System.out.println(ls);
+		else
+			if (iteration%percetage==0)
+				System.out.println("Iteration "+iteration);
 		
 		FileUtils.writeLS(ls, path);
 		
@@ -206,20 +220,22 @@ public class GeneratorJar {
 
 	
 	
-	private static void repeatGeneration(IRandomLatinSquareGenerator generator, String path, int times) {
-
+	private static void repeatGeneration(IRandomLatinSquareGenerator generator, String path, int times, boolean verbose) {
+		generator.setVerbose(verbose);
 		long startTime = System.nanoTime();
 
 		
 		if (times==1) {
-			computeTimeFor(generator, path, true);
+			computeTimeFor(generator, path, 1, 1, true, true);
 			return;
 		}
 		//List<Double> generationTimes = new ArrayList<Double>();
 		Double sum = 0.0;
+		int percetage = times/10;
 		for (int i=1; i<=times; i++) {
-			double secsForAGen = computeTimeFor(generator, path, false);
+			double secsForAGen = computeTimeFor(generator, path, i, percetage, false, verbose);
 //			generationTimes.add(secs);
+			System.out.print(".");
 			sum +=secsForAGen;
 		}
 		long endTime = System.nanoTime();
