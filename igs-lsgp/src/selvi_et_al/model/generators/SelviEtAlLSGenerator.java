@@ -30,7 +30,7 @@ public class SelviEtAlLSGenerator extends OCarrollLSGenerator implements IRandom
 	
 	public SelviEtAlLSGenerator(int n) {
 		super(n);
-		this.verbose = true;
+		this.verbose = false;//default
 	}
 	
 	public static void main(String[] args) throws Exception {
@@ -68,7 +68,8 @@ public class SelviEtAlLSGenerator extends OCarrollLSGenerator implements IRandom
 	    OrderedPair p = null;
 	    while (rowLength<n) {
 	    	iteration++;
-	    	if (iteration%1000==0)
+	    	
+	    	if (this.verbose && iteration%1000==0)
 	    		System.out.println("Iteration nº "+iteration);
 	    	
 		    p = this.takeASymbolAndPosition();
@@ -81,7 +82,6 @@ public class SelviEtAlLSGenerator extends OCarrollLSGenerator implements IRandom
 			    }
 		    	//Backtrack to previous move
 		    	this.uncountOneMove();
-		    	rowLength--;
 		    	
 		    	if (this.verbose) {
 			    	this.printVariables(iteration, i_row, null, null);
@@ -93,7 +93,6 @@ public class SelviEtAlLSGenerator extends OCarrollLSGenerator implements IRandom
 		    	
 			    //count the choice: update array "a" and auxiliary structures
 		    	this.countTheChosenMove(p.x, p.y);
-			    rowLength++;
 			    
 			    if (this.verbose) {
 			    	this.printVariables(iteration, i_row, p.x, p.y);
@@ -110,7 +109,6 @@ public class SelviEtAlLSGenerator extends OCarrollLSGenerator implements IRandom
 	}
 	
 	private boolean checkA() {
-//		boolean res = true;
 		for (int i=0; i<n; i++) {
 			if (this.availSymbolsInColumn[i].size()!=a.get(i) ||
 				this.availColumnsForSymbol[i].size()!=a.get(i+n)) {
@@ -122,15 +120,14 @@ public class SelviEtAlLSGenerator extends OCarrollLSGenerator implements IRandom
 	@Override
 	protected void countTheChosenMove(int element, int position) {
 		super.countTheChosenMove(element, position);
-		path.add(new OrderedPair(element, position));//save (symbol, column) 
+		path.add(new OrderedPair(element, position));//save (symbol, column)
+		rowLength++;
 	}
 	
 	protected void uncountOneMove() {
 		//save the bad path, not to be repeated 
 		List<OrderedPair> newPath = new ArrayList<OrderedPair>();
 		newPath.addAll(this.path);
-//		if (this.path.size()==0)
-//			System.out.println(ls);
 		
 		this.failedPaths.add(newPath);
 		
@@ -168,6 +165,7 @@ public class SelviEtAlLSGenerator extends OCarrollLSGenerator implements IRandom
 				}
 			}
 		}
+		rowLength--;
 	}
 	
 	protected OrderedPair takeASymbolAndPosition() {
@@ -185,7 +183,8 @@ public class SelviEtAlLSGenerator extends OCarrollLSGenerator implements IRandom
 			}
 		}
 		if(index==-1) {//if no non-zero value is found, return null to backtrack
-			System.out.println("No non-zero value is found... backtracking.");
+			if (this.verbose)
+				System.out.println("No non-zero value is found... backtracking.");
 			return null;
 		}
 
@@ -195,9 +194,9 @@ public class SelviEtAlLSGenerator extends OCarrollLSGenerator implements IRandom
 				possibleColumns.add(new Integer(i));
 			}
 		}
-		if (possibleColumns.size()>=(2*n) && minor==1) {
-			System.out.println("Veamos...");
-		}
+//		if (possibleColumns.size()>=(2*n) && minor==1) {
+//			System.out.println("Veamos...");
+//		}
 		//take the smallest non-zero value index S of A1 A2 ... A2n
 		int s;
 		boolean found = false;
@@ -212,7 +211,7 @@ public class SelviEtAlLSGenerator extends OCarrollLSGenerator implements IRandom
 		    //  1) If S <= N, insert in the Sth position the Bth letter among those that can be entered in this position (0<B<S B RANDOM) 
 		    //  2) If S >  N, insert the (S - N)th letter of the alphabet in the Bth position among those still open to it in the Rth row (B RANDOM)
 			
-				System.out.println("S:"+s);
+//				System.out.println("S:"+s);
 //				System.out.println("minor:"+minor);
 //				System.out.println("index:"+index);
 		    if (s<=(n-1)) {
@@ -238,7 +237,8 @@ public class SelviEtAlLSGenerator extends OCarrollLSGenerator implements IRandom
 					//it is a bad path
 					possibleColumns.remove(new Integer(s));
 					if (possibleColumns.isEmpty()) {//if there are no more chances, must backtrack
-						System.out.println("There are no more possible columns... backtracking.");
+						if (this.verbose)
+							System.out.println("There are no more possible columns... backtracking.");
 						return null;
 					}
 					itsAGoodPath = false;
@@ -248,7 +248,8 @@ public class SelviEtAlLSGenerator extends OCarrollLSGenerator implements IRandom
 			//it is a good path:
 			found = itsAGoodPath;
 		}
-		System.out.println("Chosen move is: "+p.toString());
+		if (this.verbose)
+			System.out.println("Chosen move is: "+p.toString());
 		return p;
 	}
 
