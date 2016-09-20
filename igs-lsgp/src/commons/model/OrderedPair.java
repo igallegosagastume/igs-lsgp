@@ -49,12 +49,10 @@ public class OrderedPair {
 	
 	@Override
 	public boolean equals(Object o) {
-		OrderedPair p;
-		try {
-			p = (OrderedPair)o;
-		} catch (Exception e) {
+		if (!(o instanceof OrderedPair)) 
 			return false;
-		}
+		
+		OrderedPair p = (OrderedPair)o;
 		
 		return this.x.intValue()==p.x.intValue() && 
 			   this.y.intValue()==p.y.intValue();

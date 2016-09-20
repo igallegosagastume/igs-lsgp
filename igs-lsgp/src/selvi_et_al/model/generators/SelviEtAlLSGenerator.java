@@ -35,10 +35,10 @@ public class SelviEtAlLSGenerator extends OCarrollLSGenerator implements IRandom
 	
 	public static void main(String[] args) throws Exception {
 		SelviEtAlLSGenerator generator = new SelviEtAlLSGenerator(7);
-		
+		generator.setVerbose(true);
 		int i = 1;
-		while (i < 100) {
-			generator.setVerbose(true);
+		while (i < 100000) {
+			
 			ILatinSquare ls = generator.generateLS();
 
 			System.out.println();
@@ -71,7 +71,7 @@ public class SelviEtAlLSGenerator extends OCarrollLSGenerator implements IRandom
 	    	if (iteration%1000==0)
 	    		System.out.println("Iteration nº "+iteration);
 	    	
-		    p = this.takeASymbolAndPosition(a);
+		    p = this.takeASymbolAndPosition();
 		    
 		    if (p==null) {
 		    	//O'Carroll's method failed. Backtracking is needed.
@@ -103,10 +103,17 @@ public class SelviEtAlLSGenerator extends OCarrollLSGenerator implements IRandom
 	    return row;
 	}
 
+	@Override
+	protected void initializeAuxiliaryStructures(int i_row) {
+		super.initializeAuxiliaryStructures(i_row);
+		this.failedPaths = new ArrayList<List<OrderedPair>>();//when starting a new row, all the bad paths are no longer valid. Begin again.
+	}
+	
 	private boolean checkA() {
 //		boolean res = true;
 		for (int i=0; i<n; i++) {
-			if (this.availSymbolsInColumn[i].size()!=a.get(i)) {
+			if (this.availSymbolsInColumn[i].size()!=a.get(i) ||
+				this.availColumnsForSymbol[i].size()!=a.get(i+n)) {
 				return false;
 			}
 		}
@@ -122,8 +129,8 @@ public class SelviEtAlLSGenerator extends OCarrollLSGenerator implements IRandom
 		//save the bad path, not to be repeated 
 		List<OrderedPair> newPath = new ArrayList<OrderedPair>();
 		newPath.addAll(this.path);
-		if (this.path.size()==0)
-			System.out.println(ls);
+//		if (this.path.size()==0)
+//			System.out.println(ls);
 		
 		this.failedPaths.add(newPath);
 		
@@ -163,7 +170,7 @@ public class SelviEtAlLSGenerator extends OCarrollLSGenerator implements IRandom
 		}
 	}
 	
-	protected OrderedPair takeASymbolAndPosition(List<Integer> a) {
+	protected OrderedPair takeASymbolAndPosition() {
 		int index = -1;
 		int minor = Integer.MAX_VALUE;
 		
@@ -173,67 +180,76 @@ public class SelviEtAlLSGenerator extends OCarrollLSGenerator implements IRandom
 			if (a.get(i).intValue()==0)
 				continue;//if it is 0, discard
 			if (a.get(i).intValue() < minor) {
-				minor = a.get(i);
+				minor = a.get(i).intValue();
 				index = i;
 			}
 		}
-		if (index!=-1) {//if an index is found, take all the columns with the same value
-			for (int i=0; i<=(2*n)-1; i++) {
-				if (a.get(i).intValue() == minor) {
-					possibleColumns.add(new Integer(i));
-				}
+		if(index==-1) {//if no non-zero value is found, return null to backtrack
+			System.out.println("No non-zero value is found... backtracking.");
+			return null;
+		}
+
+		//if an index is found, take all the columns with the same value
+		for (int i=0; i<=(2*n)-1; i++) {
+			if (a.get(i).intValue() == minor) {
+				possibleColumns.add(new Integer(i));
 			}
-			//take the smallest non-zero value index S of A1 A2 ... A2n
-			int s;
-			boolean found = false;
-			OrderedPair p = null;
-			int position;
-			int element;
-			while(!found) {
-				s = RandomUtils.randomChoice(possibleColumns);
-				
-				//TAKE AN ELEMENT (SYMBOL) AND POSITION (COLUMN)
-			    //CHECK (From Selvi's PAPER):
-			    //  1) If S <= N, insert in the Sth position the Bth letter among those that can be entered in this position (0<B<S B RANDOM) 
-			    //  2) If S >  N, insert the (S - N)th letter of the alphabet in the Bth position among those still open to it in the Rth row (B RANDOM)
-				
-//				System.out.println("S:"+s);
+		}
+		if (possibleColumns.size()>=(2*n) && minor==1) {
+			System.out.println("Veamos...");
+		}
+		//take the smallest non-zero value index S of A1 A2 ... A2n
+		int s;
+		boolean found = false;
+		OrderedPair p = null;
+		int position;
+		int element;
+		while(!found) {
+			s = RandomUtils.randomChoice(possibleColumns);
+			
+			//TAKE AN ELEMENT (SYMBOL) AND POSITION (COLUMN)
+		    //CHECK (From Selvi's PAPER):
+		    //  1) If S <= N, insert in the Sth position the Bth letter among those that can be entered in this position (0<B<S B RANDOM) 
+		    //  2) If S >  N, insert the (S - N)th letter of the alphabet in the Bth position among those still open to it in the Rth row (B RANDOM)
+			
+				System.out.println("S:"+s);
 //				System.out.println("minor:"+minor);
 //				System.out.println("index:"+index);
-			    if (s<=(n-1)) {
-			    	position = s;
-			    	element = RandomUtils.randomChoice(availSymbolsInColumn[position]);
-			    } else {
-			    	element = s-n;
-			    	position = RandomUtils.randomChoice(availColumnsForSymbol[element]);
-			    }
+		    if (s<=(n-1)) {
+		    	position = s;
+		    	element = RandomUtils.randomChoice(availSymbolsInColumn[position]);
+		    } else {
+		    	element = s-n;
+		    	position = RandomUtils.randomChoice(availColumnsForSymbol[element]);
+		    }
+			
+		    p = new OrderedPair(element, position);
+			List<OrderedPair> newPath = new ArrayList<OrderedPair>();
+			newPath.addAll(this.path);
+			newPath.add(p);
+			
+			//check if path is not in bad paths set
+			Iterator<List<OrderedPair>> badPaths = this.failedPaths.iterator();
+			boolean itsAGoodPath = true;
+			while (badPaths.hasNext()) {
+				List<OrderedPair> badPath = badPaths.next();
 				
-			    p = new OrderedPair(element, position);
-				List<OrderedPair> newPath = new ArrayList<OrderedPair>();
-				newPath.addAll(this.path);
-				newPath.add(p);
-				
-				//check if path is not in bad paths set
-				Iterator<List<OrderedPair>> badPaths = this.failedPaths.iterator();
-				boolean itsAGoodPath = true;
-				while (badPaths.hasNext()) {
-					List<OrderedPair> badPath = badPaths.next();
-					
-					if (this.itsABadPath(newPath,badPath)) {
-						//it is a bad path
-						possibleColumns.remove(new Integer(s));
-						if (possibleColumns.isEmpty()) //if there are no more chances, must backtrack
-							return null;
-						itsAGoodPath = false;
-						break;
+				if (this.pathsExactlyEqual(newPath, badPath)) {
+					//it is a bad path
+					possibleColumns.remove(new Integer(s));
+					if (possibleColumns.isEmpty()) {//if there are no more chances, must backtrack
+						System.out.println("There are no more possible columns... backtracking.");
+						return null;
 					}
+					itsAGoodPath = false;
+					break;
 				}
-				//it is a good path:
-				found = itsAGoodPath;
 			}
-			return p;
-		} else
-			return null;
+			//it is a good path:
+			found = itsAGoodPath;
+		}
+		System.out.println("Chosen move is: "+p.toString());
+		return p;
 	}
 
 	@Override
@@ -249,10 +265,16 @@ public class SelviEtAlLSGenerator extends OCarrollLSGenerator implements IRandom
 		if (!this.checkA()) {
     		System.out.println("Anomalia en actualizacion");
     		System.exit(0);
-    	}
+    	} /*else 
+    		System.out.println("CheckA OK!");*/
 	}
 	
-	private boolean itsABadPath(List<OrderedPair> newPath, List<OrderedPair> badPath) {
+	private boolean pathsExactlyEqual(List<OrderedPair> newPath, List<OrderedPair> badPath) {
+		//Compare paths exactly equal in size and order.
+		
+		if (newPath.size()!=badPath.size())
+			return false;
+		
 		for (int i=0; i<newPath.size(); i++) {
 			if (!newPath.get(i).equals(badPath.get(i))) {
 				return false;

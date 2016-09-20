@@ -188,6 +188,7 @@ public class OCarrollLSGenerator extends AbstractSequentialGenerator implements 
 	    for (int i=n; i<=(2*n)-1; i++) {
 	    	a.add(n-i_row);
 	    }
+	    
 	}
 	
 	protected void countTheChosenMove(int symbol, int column) {
@@ -236,7 +237,7 @@ public class OCarrollLSGenerator extends AbstractSequentialGenerator implements 
 		System.out.println();
 	    
     	System.out.println("-----------Iteration "+iteration+" of "+i_row+"th row.");
-    	System.out.println("The symbol "+element+" is selected for column "+position);
+//    	System.out.println("The symbol "+element+" is selected for column "+position);
 	    System.out.println("A:"+a);
 	    System.out.println("ROW:"+row);
 	    for (int i=0; i<n; i++)
