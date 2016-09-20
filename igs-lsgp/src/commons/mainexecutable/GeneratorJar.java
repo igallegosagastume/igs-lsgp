@@ -189,7 +189,7 @@ public class GeneratorJar {
 	 * @param generator
 	 * @param path
 	 */
-	public static double computeTimeFor(IRandomLatinSquareGenerator generator, String path, int iteration, int percetage, boolean showFinalMessage, boolean verbose) {
+	public static double computeTimeFor(IRandomLatinSquareGenerator generator, String path, int progress, boolean showProgress, boolean showFinalMessage, boolean verbose) {
 		long startTime = System.nanoTime();
 		ILatinSquare ls = generator.generateLS();
 		long endTime = System.nanoTime();
@@ -200,8 +200,9 @@ public class GeneratorJar {
 		if (verbose)
 			System.out.println(ls);
 		else
-			if (iteration%percetage==0)
-				System.out.println("Iteration "+iteration);
+			if (showProgress) {
+				System.out.println("Progress: "+progress+"%");
+			}
 		
 		FileUtils.writeLS(ls, path);
 		
@@ -224,18 +225,30 @@ public class GeneratorJar {
 		generator.setVerbose(verbose);
 		long startTime = System.nanoTime();
 
-		
+		boolean showProgress = false;
+		boolean showFinalMessage = true; 
 		if (times==1) {
-			computeTimeFor(generator, path, 1, 1, true, true);
+			verbose = true;
+			computeTimeFor(generator, path, 100, showProgress, showFinalMessage, verbose);
 			return;
 		}
 		//List<Double> generationTimes = new ArrayList<Double>();
 		Double sum = 0.0;
+		int progress = 0;
 		int percetage = times/10;
-		for (int i=1; i<=times; i++) {
-			double secsForAGen = computeTimeFor(generator, path, i, percetage, false, verbose);
+		showFinalMessage = false;
+		showProgress = false;
+		for (int i=0; i<times; i++) {
+			double secsForAGen = computeTimeFor(generator, path, progress, showProgress, showFinalMessage, verbose);
 //			generationTimes.add(secs);
-			System.out.print(".");
+
+			if (i%percetage==0) {
+				if (i!=0)
+					progress += 10;
+				showProgress = true; 
+			} else {
+				showProgress = false; 
+			}
 			sum +=secsForAGen;
 		}
 		long endTime = System.nanoTime();
