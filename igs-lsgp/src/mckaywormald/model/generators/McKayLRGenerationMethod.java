@@ -9,13 +9,13 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import mckaywormald.model.LatinRectangle;
 import commons.generators.IRandomLatinRectangleGenerator;
 import commons.generators.IRandomLatinSquareGenerator;
 import commons.model.OrderedTriple;
 import commons.model.latinsquares.ILatinRectangle;
 import commons.model.latinsquares.ILatinSquare;
 import commons.utils.RandomUtils;
+import mckaywormald.model.LatinRectangle;
 
 /**
  * 
@@ -85,7 +85,7 @@ public class McKayLRGenerationMethod implements IRandomLatinRectangleGenerator, 
 			do {
 		    	a = randomMemberOfMkn();
 //		    	matrixCount++;
-//		    	System.out.println("Generated matrix A N°"+matrixCount+" with conflicts count:"+this.conflictsCount+" (>"+pow+"?) Overlapping:"+this.hasOverlappingConflicts);
+//		    	System.out.println("Generated matrix A Nï¿½"+matrixCount+" with conflicts count:"+this.conflictsCount+" (>"+pow+"?) Overlapping:"+this.hasOverlappingConflicts);
 		    } while (this.conflictsCount>pow || this.hasOverlappingConflicts); //replaced "repeat-until(p)" by "do-while(!p)"
 	
 		    rejected = false;

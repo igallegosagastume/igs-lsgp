@@ -7,7 +7,7 @@ package commons.test.concurrentTest;
  */
 
 /**
- * © Copyright 2012-2015 Ignacio Gallego Sagastume
+ * ï¿½ Copyright 2012-2015 Ignacio Gallego Sagastume
  * 
  * This file is part of IGS-ls-generation package.
  * IGS-ls-generation package is free software: you can redistribute it and/or modify
@@ -31,9 +31,9 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import commons.model.latinsquares.ILatinSquare;
 import seqgen.model.generators.AbstractSequentialGenerator;
 import seqgen.model.generators.SeqGenWithReplGraph;
-import commons.model.latinsquares.ILatinSquare;
 
 public class CountLSsTester implements Runnable {
 

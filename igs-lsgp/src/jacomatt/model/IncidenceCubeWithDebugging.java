@@ -7,7 +7,7 @@
  */
 
 /**
- * © Copyright 2012-2015 Ignacio Gallego Sagastume
+ * ï¿½ Copyright 2012-2015 Ignacio Gallego Sagastume
  * 
  * This file is part of IGS-ls-generation package.
  * IGS-ls-generation package is free software: you can redistribute it and/or modify
@@ -26,10 +26,6 @@
  */
 package jacomatt.model;
 
-import jacomatt.opengl.DrawIncidenceCube;
-import jacomatt.opengl.DrawIncidenceCubeWithDebugging;
-import jacomatt.utils.DrawingOptions;
-
 import java.awt.Frame;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -42,6 +38,9 @@ import javax.swing.JFrame;
 import com.jogamp.opengl.util.FPSAnimator;
 
 import commons.model.OrderedTriple;
+import jacomatt.opengl.DrawIncidenceCube;
+import jacomatt.opengl.DrawIncidenceCubeWithDebugging;
+import jacomatt.utils.DrawingOptions;
 
 /**
  * @author Ignacio Gallego Sagastume

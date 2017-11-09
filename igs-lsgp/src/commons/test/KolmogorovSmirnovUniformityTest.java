@@ -6,7 +6,7 @@
  */
 
 /**
- * © Copyright 2012-2015 Ignacio Gallego Sagastume
+ * ï¿½ Copyright 2012-2015 Ignacio Gallego Sagastume
  * 
  * This file is part of IGS-ls-generation package.
  * IGS-ls-generation package is free software: you can redistribute it and/or modify
@@ -25,15 +25,14 @@
  */
 
 package commons.test;
-import jacomatt.model.EfficientIncidenceCube;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 
-import seqgen.model.generators.SeqGenWithRandomSwapping;
 import commons.model.latinsquares.ILatinSquare;
+import jacomatt.model.EfficientIncidenceCube;
+import seqgen.model.generators.SeqGenWithRandomSwapping;
 
 public class KolmogorovSmirnovUniformityTest {
 

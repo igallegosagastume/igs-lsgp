@@ -6,7 +6,7 @@
  */
 
 /**
- * © Copyright 2012-2015 Ignacio Gallego Sagastume
+ * ï¿½ Copyright 2012-2015 Ignacio Gallego Sagastume
  * 
  * This file is part of IGS-ls-generation package.
  * IGS-ls-generation package is free software: you can redistribute it and/or modify
@@ -25,6 +25,9 @@
  */
 package commons.mainexecutable;
 
+import commons.generators.IRandomLatinSquareGenerator;
+import commons.model.latinsquares.ILatinSquare;
+import commons.utils.FileUtils;
 import jacomatt.model.generators.JacobsonMatthewsLSGenerator;
 import koscielny.model.generators.KoscielnyProductGenerator;
 import mckaywormald.model.generators.McKayLRGenerationMethod;
@@ -34,10 +37,6 @@ import seqgen.model.generators.SeqGenWithBacktracking;
 import seqgen.model.generators.SeqGenWithRandomSwapping;
 import seqgen.model.generators.SeqGenWithReplGraph;
 import seqgen.model.generators.SeqGenWithRestartRow;
-
-import commons.generators.IRandomLatinSquareGenerator;
-import commons.model.latinsquares.ILatinSquare;
-import commons.utils.FileUtils;
 
 /**
  * 
@@ -62,7 +61,7 @@ public class GeneratorJar {
 			System.out.println("________________________________________________________________________________");
 			System.out.println("");
 			System.out.println("igs-lsgp (Ignacio Gallego Sagastume's Latin Square generation package).");
-			System.out.println("© 2014-2016 by Mg. Ignacio Gallego Sagastume.");
+			System.out.println("ï¿½ 2014-2016 by Mg. Ignacio Gallego Sagastume.");
 			System.out.println("________________________________________________________________________________");
 			System.out.println("");
 			System.out.println("Usage: <method> <order> [WRITE <path> | REPEAT <times> [VERBOSE <TRUE|FALSE> ] ]");

@@ -4,9 +4,9 @@
  */
 package jacomatt.model.generators;
 
-import jacomatt.model.EfficientIncidenceCube;
 import commons.generators.IRandomLatinSquareGenerator;
 import commons.model.latinsquares.ILatinSquare;
+import jacomatt.model.EfficientIncidenceCube;
 
 /**
  * @author igallego

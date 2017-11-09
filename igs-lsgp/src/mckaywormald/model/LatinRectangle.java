@@ -7,7 +7,7 @@ package mckaywormald.model;
 
 
 /**
- * © Copyright 2012-2015 Ignacio Gallego Sagastume
+ * ï¿½ Copyright 2012-2015 Ignacio Gallego Sagastume
  * 
  * This file is part of IGS-ls-generation package.
  * IGS-ls-generation package is free software: you can redistribute it and/or modify
@@ -118,6 +118,7 @@ public class LatinRectangle implements ILatinRectangle {
 		 * Overrides the default implementation to print the LR into the console
 		 * 
 		 */
+		@SuppressWarnings("unused")
 		@Override
 		public String toString() {
 			StringBuffer sb = new StringBuffer();

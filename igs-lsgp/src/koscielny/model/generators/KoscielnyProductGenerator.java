@@ -4,7 +4,7 @@
  */
 
 /**
- * © Copyright 2012-2016 Ignacio Gallego Sagastume
+ * ï¿½ Copyright 2012-2016 Ignacio Gallego Sagastume
  * 
  * This file is part of IGS-ls-generation package.
  * IGS-ls-generation package is free software: you can redistribute it and/or modify
@@ -25,11 +25,11 @@ package koscielny.model.generators;
 
 import java.util.ArrayList;
 
-import seqgen.model.generators.SeqGenWithReplGraph;
-import commons.model.latinsquares.ILatinSquare;
-import commons.model.latinsquares.PrimitiveIntArrayLatinSquare;
 import commons.generators.IRandomLatinSquareGenerator;
 import commons.model.OrderedPair;
+import commons.model.latinsquares.ILatinSquare;
+import commons.model.latinsquares.PrimitiveIntArrayLatinSquare;
+import seqgen.model.generators.SeqGenWithReplGraph;
 
 /**
  *  This class implements a generator based in the concept of product by Koscielny of two LSs.

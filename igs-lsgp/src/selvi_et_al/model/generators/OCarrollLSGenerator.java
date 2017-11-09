@@ -12,13 +12,12 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-import seqgen.model.generators.AbstractSequentialGenerator;
-import sun.audio.AudioPlayer;
-import sun.audio.AudioStream;
-
 import commons.generators.IRandomLatinSquareGenerator;
 import commons.model.latinsquares.ILatinSquare;
 import commons.utils.RandomUtils;
+import seqgen.model.generators.AbstractSequentialGenerator;
+import sun.audio.AudioPlayer;
+import sun.audio.AudioStream;
 
 /**
  *  This method was developed by O'Carroll in 1963. It occasionally fails (very often). When it fails, it plays a sound and prints a message in the console.

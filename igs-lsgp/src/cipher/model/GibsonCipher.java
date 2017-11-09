@@ -3,7 +3,7 @@
  * 
  */
 /**
- * © Copyright 2012-2015 Ignacio Gallego Sagastume
+ * ï¿½ Copyright 2012-2015 Ignacio Gallego Sagastume
  * 
  * This file is part of IGS-ls-generation package.
  * IGS-ls-generation package is free software: you can redistribute it and/or modify
@@ -24,10 +24,10 @@ package cipher.model;
 
 import java.util.Scanner;
 
-import seqgen.model.generators.SeqGenWithReplGraph;
 import commons.model.OrderedPair;
 import commons.model.latinsquares.ILatinSquare;
 import commons.utils.Base64Utils;
+import seqgen.model.generators.SeqGenWithReplGraph;
 
 /**
  * This simple Cipher shows how a LS can be used to crypt and decrypt information.

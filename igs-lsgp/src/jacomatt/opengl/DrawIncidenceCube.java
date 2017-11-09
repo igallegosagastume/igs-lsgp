@@ -6,7 +6,7 @@
  */
 
 /**
- * © Copyright 2012-2015 Ignacio Gallego Sagastume
+ * ï¿½ Copyright 2012-2015 Ignacio Gallego Sagastume
  * 
  * This file is part of IGS-ls-generation package.
  * IGS-ls-generation package is free software: you can redistribute it and/or modify
@@ -50,8 +50,6 @@ import static javax.media.opengl.fixedfunc.GLLightingFunc.GL_POSITION;
 import static javax.media.opengl.fixedfunc.GLLightingFunc.GL_SMOOTH;
 import static javax.media.opengl.fixedfunc.GLMatrixFunc.GL_MODELVIEW;
 import static javax.media.opengl.fixedfunc.GLMatrixFunc.GL_PROJECTION;
-import jacomatt.model.IncidenceCube;
-import jacomatt.utils.DrawingOptions;
 
 import java.awt.Font;
 import java.awt.event.KeyEvent;
@@ -65,6 +63,9 @@ import javax.media.opengl.glu.GLUquadric;
 
 import com.jogamp.opengl.util.awt.TextRenderer;
 // GL2 constants
+
+import jacomatt.model.IncidenceCube;
+import jacomatt.utils.DrawingOptions;
 
 /**
  * Draws a Latin Square as an Incidence Cube of 0's and 1's.

@@ -4,11 +4,10 @@
  */
 package mckaywormald.test;
 
-import mckaywormald.model.generators.McKayLRGenerationMethod;
-
 import org.junit.Test;
 
 import commons.model.latinsquares.ILatinRectangle;
+import mckaywormald.model.generators.McKayLRGenerationMethod;
 
 /**
  * @author igallego

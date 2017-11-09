@@ -6,7 +6,7 @@
  */
 
 /**
- * © Copyright 2012-2015 Ignacio Gallego Sagastume
+ * ï¿½ Copyright 2012-2015 Ignacio Gallego Sagastume
  * 
  * This file is part of IGS-ls-generation package.
  * IGS-ls-generation package is free software: you can redistribute it and/or modify
@@ -34,8 +34,6 @@ import static java.awt.event.KeyEvent.VK_PAGE_UP;
 import static java.awt.event.KeyEvent.VK_RIGHT;
 import static java.awt.event.KeyEvent.VK_SPACE;
 import static java.awt.event.KeyEvent.VK_UP;
-import jacomatt.model.IncidenceCubeWithDebugging;
-import jacomatt.utils.DrawingOptions;
 
 import java.awt.event.KeyEvent;
 import java.util.Iterator;
@@ -43,6 +41,8 @@ import java.util.Iterator;
 import javax.media.opengl.GL2;
 
 import commons.model.OrderedTriple;
+import jacomatt.model.IncidenceCubeWithDebugging;
+import jacomatt.utils.DrawingOptions;
 
 /**
  * @author Ignacio Gallego Sagastume

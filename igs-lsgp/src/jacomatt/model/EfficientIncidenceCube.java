@@ -6,7 +6,7 @@
  */
 
 /**
- * © Copyright 2012-2015 Ignacio Gallego Sagastume
+ * ï¿½ Copyright 2012-2015 Ignacio Gallego Sagastume
  * 
  * This file is part of IGS-ls-generation package.
  * IGS-ls-generation package is free software: you can redistribute it and/or modify
@@ -25,13 +25,12 @@
  */
 package jacomatt.model;
 
-import jacomatt.utils.ArrayUtils;
-import jacomatt.utils.DrawingOptions;
-
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 import commons.model.OrderedTriple;
+import jacomatt.utils.ArrayUtils;
+import jacomatt.utils.DrawingOptions;
 
 /**
  * @author Ignacio Gallego Sagastume

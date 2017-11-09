@@ -6,11 +6,11 @@ package cipher.model;
 
 import java.util.Scanner;
 
-import seqgen.model.generators.SeqGenWithReplGraph;
 import commons.generators.IRandomLatinSquareGenerator;
 import commons.model.latinsquares.ILatinSquare;
 import commons.utils.Base64Utils;
 import commons.utils.FileUtils;
+import seqgen.model.generators.SeqGenWithReplGraph;
 
 /**
  *  This is another LS-based cipher, created by IGS for Blue Montag Software.

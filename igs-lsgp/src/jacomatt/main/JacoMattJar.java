@@ -6,7 +6,7 @@
  */
 
 /**
- * © Copyright 2012-2015 Ignacio Gallego Sagastume
+ * ï¿½ Copyright 2012-2015 Ignacio Gallego Sagastume
  * 
  * This file is part of IGS-ls-generation package.
  * IGS-ls-generation package is free software: you can redistribute it and/or modify
@@ -26,13 +26,12 @@
 
 package jacomatt.main;
 
-import jacomatt.model.EfficientIncidenceCube;
-import jacomatt.model.IncidenceCube;
-import jacomatt.model.IncidenceCubeWithDebugging;
-
 import java.security.SecureRandom;
 
 import commons.utils.FileUtils;
+import jacomatt.model.EfficientIncidenceCube;
+import jacomatt.model.IncidenceCube;
+import jacomatt.model.IncidenceCubeWithDebugging;
 
 /**
  *  This class is prepared to be called from a runnable jar.
