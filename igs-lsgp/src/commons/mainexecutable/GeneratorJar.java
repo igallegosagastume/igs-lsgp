@@ -61,7 +61,7 @@ public class GeneratorJar {
 			System.out.println("________________________________________________________________________________");
 			System.out.println("");
 			System.out.println("igs-lsgp (Ignacio Gallego Sagastume's Latin Square generation package).");
-			System.out.println("ï¿½ 2014-2016 by Mg. Ignacio Gallego Sagastume.");
+			System.out.println("© 2014-2016 by Mg. Ignacio Gallego Sagastume.");
 			System.out.println("________________________________________________________________________________");
 			System.out.println("");
 			System.out.println("Usage: <method> <order> [WRITE <path> | REPEAT <times> [VERBOSE <TRUE|FALSE> ] ]");
@@ -131,32 +131,32 @@ public class GeneratorJar {
 		
 		if (method.equalsIgnoreCase("back")) {
 			generator = new SeqGenWithBacktracking(n);
-			repeatGeneration(generator, path, times, verbose);
+			repeatGeneration(generator, n, path, times, verbose);
 		}
 		
 		if (method.equalsIgnoreCase("product")) {
 			generator = new KoscielnyProductGenerator(n);
-			repeatGeneration(generator, path, times, verbose);
+			repeatGeneration(generator, n, path, times, verbose);
 		}
 
 		if (method.equalsIgnoreCase("swapping")) {
 			generator = new SeqGenWithRandomSwapping(n);
-			repeatGeneration(generator, path, times, verbose);
+			repeatGeneration(generator, n, path, times, verbose);
 		}
 		
 		if (method.equalsIgnoreCase("restart")) {
 			generator = new SeqGenWithRestartRow(n);
-			repeatGeneration(generator, path, times, verbose);
+			repeatGeneration(generator, n, path, times, verbose);
 		}
 		
 		if (method.equalsIgnoreCase("graph")) {
 			generator = new SeqGenWithReplGraph(n);
-			repeatGeneration(generator, path, times, verbose);
+			repeatGeneration(generator, n, path, times, verbose);
 		}
 		
 		if (method.equalsIgnoreCase("jm")) {
 			generator = new JacobsonMatthewsLSGenerator(n);
-			repeatGeneration(generator, path, times, verbose);
+			repeatGeneration(generator, n, path, times, verbose);
 		}
 		
 		if (method.equalsIgnoreCase("mckay")) {
@@ -167,17 +167,17 @@ public class GeneratorJar {
 			double cubicRoot = Math.pow(n, 1.0/3.0);
 			int k = (int)cubicRoot+1;
 			generator = new McKayLRGenerationMethod(k,n);
-			repeatGeneration(generator, path, times, verbose);
+			repeatGeneration(generator, n, path, times, verbose);
 		}
 		
 		if (method.equalsIgnoreCase("ocarrollr")) {//o'carroll with restart
 			generator = new OCarrollWithRestartLSGenerator(n);
-			repeatGeneration(generator, path, times, verbose);
+			repeatGeneration(generator, n, path, times, verbose);
 		}
 		
 		if (method.equalsIgnoreCase("selvi")) {//selvi et.al. algorithm (variation of ocarroll with backtracking)
 			generator = new SelviEtAlLSGenerator(n);
-			repeatGeneration(generator, path, times, verbose);
+			repeatGeneration(generator, n, path, times, verbose);
 		}
 		
 	}
@@ -220,7 +220,7 @@ public class GeneratorJar {
 
 	
 	
-	private static void repeatGeneration(IRandomLatinSquareGenerator generator, String path, int times, boolean verbose) {
+	private static void repeatGeneration(IRandomLatinSquareGenerator generator, int order, String path, int times, boolean verbose) {
 		generator.setVerbose(verbose);
 		long startTime = System.nanoTime();
 
@@ -236,19 +236,23 @@ public class GeneratorJar {
 		int progress = 0;
 		int percetage = times/10;
 		showFinalMessage = false;
-		showProgress = false;
-		for (int i=0; i<times; i++) {
+		showProgress = true;
+		for (int i=1; i<=times; i++) {
 			double secsForAGen = computeTimeFor(generator, path, progress, showProgress, showFinalMessage, verbose);
-//			generationTimes.add(secs);
 
 			if (i%percetage==0) {
-				if (i!=0)
-					progress += 10;
+				progress += 10;
 				showProgress = true; 
 			} else {
 				showProgress = false; 
 			}
 			sum +=secsForAGen;
+			
+
+			System.out.print("-");
+			if (i % 100 == 0)
+				System.out.println("");
+			
 		}
 		long endTime = System.nanoTime();
 
@@ -260,13 +264,13 @@ public class GeneratorJar {
 		Double averageTime = sum / (double)times;
 		System.out.println("");
 		if (hours>=1)
-			System.out.println("Finished "+times+" repetitions after "+hours+" hours.");
+			System.out.println("Finished "+times+" generations of LSs of order "+order+" after "+hours+" hours.");
 		else 
 			if (mins>=1)
-				System.out.println("Finished "+times+" repetitions after "+mins+" minutes.");
+				System.out.println("Finished "+times+" generations of LSs of order "+order+" after "+mins+" minutes.");
 			else
-				System.out.println("Finished "+times+" repetitions after "+secs+" seconds.");
-		System.out.println("Generation method: "+generator.getMethodName());
+				System.out.println("Finished "+times+" generations of LSs of order "+order+" after "+secs+" seconds.");
+		System.out.println("Generation method: "+generator.getMethodName()+" in igs-lsgp.");
 		System.out.println("Average time of method is "+averageTime+" seconds.");
 	}
 //	@SuppressWarnings("unchecked")
