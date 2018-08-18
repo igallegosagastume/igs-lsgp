@@ -76,9 +76,6 @@ public class SeqGenWithReplGraph extends AbstractSequentialGenerator {
 	        HashSet<Integer> available = new HashSet<Integer>(availableInCol[i_col]);
 	    	available.retainAll(availableInRow);
 	    	
-	    	/*List<Integer> available = new ArrayList<Integer>(availableInCol[i_col]);
-	    	available.retainAll(availableInRow);*/
-
 	        if (!available.isEmpty()) { //if there are available
 	            //choose a symbol at random
 	            Integer symbol = RandomUtils.randomChoice(available);
