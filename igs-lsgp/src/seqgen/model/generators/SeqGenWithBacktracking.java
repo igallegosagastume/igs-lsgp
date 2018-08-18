@@ -122,7 +122,7 @@ public class SeqGenWithBacktracking extends AbstractSequentialGenerator {
 	 */
 	@Override
 	public String getMethodName() {
-		return "Sequential generation with backtracking.";
+		return "Sequential generation with backtracking";
 	}
 
 }

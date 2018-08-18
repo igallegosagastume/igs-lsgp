@@ -102,7 +102,7 @@ public class SeqGenWithRestartRow extends AbstractSequentialGenerator {
 	 */
 	@Override
 	public String getMethodName() {
-		return "Sequential generation with restarting row.";
+		return "Sequential generation with restarting row";
 	}
 
 }
